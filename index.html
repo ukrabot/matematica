@@ -1,0 +1,1157 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>PreuOnline Matemáticas</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: full-width sections, math-centric palette — deep navy + electric indigo accent */
+:root {
+  --bg: #fafbfe;
+  --bg-alt: #f0f1f8;
+  --bg-dark: #0b0e2a;
+  --bg-card: #ffffff;
+  --fg: #141838;
+  --fg-muted: #5a5f88;
+  --fg-on-dark: #e6e8f4;
+  --fg-on-dark-muted: #9298c0;
+  --accent: #4f46e5;
+  --accent-hover: #4338ca;
+  --accent-soft: rgba(79,70,229,0.08);
+  --coral: #e84530;
+  --coral-soft: rgba(232,69,48,0.08);
+  --teal: #0a9e8a;
+  --teal-soft: rgba(10,158,138,0.08);
+  --gold: #d4a017;
+  --gold-soft: rgba(212,160,23,0.08);
+  --border: #e0e2ee;
+  --shadow: 0 2px 12px rgba(11,14,42,0.06);
+  --shadow-lg: 0 8px 32px rgba(11,14,42,0.10);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #08091a;
+    --bg-alt: #0f1128;
+    --bg-dark: #050618;
+    --bg-card: #13153a;
+    --fg: #e2e4f2;
+    --fg-muted: #8a90b8;
+    --fg-on-dark: #e6e8f4;
+    --fg-on-dark-muted: #7880a8;
+    --accent: #7c73fa;
+    --accent-hover: #9a94ff;
+    --accent-soft: rgba(124,115,250,0.12);
+    --coral: #f06050;
+    --coral-soft: rgba(240,96,80,0.12);
+    --teal: #20c8b0;
+    --teal-soft: rgba(32,200,176,0.10);
+    --gold: #f0c040;
+    --gold-soft: rgba(240,192,64,0.10);
+    --border: #1e2148;
+    --shadow: 0 2px 12px rgba(0,0,0,0.24);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.35);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #08091a;
+  --bg-alt: #0f1128;
+  --bg-dark: #050618;
+  --bg-card: #13153a;
+  --fg: #e2e4f2;
+  --fg-muted: #8a90b8;
+  --fg-on-dark: #e6e8f4;
+  --fg-on-dark-muted: #7880a8;
+  --accent: #7c73fa;
+  --accent-hover: #9a94ff;
+  --accent-soft: rgba(124,115,250,0.12);
+  --coral: #f06050;
+  --coral-soft: rgba(240,96,80,0.12);
+  --teal: #20c8b0;
+  --teal-soft: rgba(32,200,176,0.10);
+  --gold: #f0c040;
+  --gold-soft: rgba(240,192,64,0.10);
+  --border: #1e2148;
+  --shadow: 0 2px 12px rgba(0,0,0,0.24);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.35);
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  padding-inline: 0;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+*, *::before, *::after { box-sizing: border-box; }
+h1,h2,h3,h4,h5 { font-family: var(--font-display); line-height: 1.15; text-wrap: balance; }
+a { color: inherit; text-decoration: none; }
+
+.container { max-width: 1160px; margin: 0 auto; padding-inline: 20px; }
+
+/* ── NAV ── */
+.nav {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 100;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  transition: box-shadow .3s;
+}
+.nav.scrolled { box-shadow: var(--shadow); }
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px; gap: 12px;
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-display); font-weight: 700; font-size: 1.25rem;
+  color: var(--fg); flex-shrink: 0;
+}
+.logo-icon {
+  width: 36px; height: 36px;
+  background: var(--accent); border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 700; font-size: .95rem;
+}
+.logo-math {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+.nav-links {
+  display: flex; align-items: center; gap: 24px;
+  list-style: none; margin: 0; padding: 0;
+}
+.nav-links a { font-size: .87rem; font-weight: 500; color: var(--fg-muted); transition: color .2s; }
+.nav-links a:hover { color: var(--accent); }
+.nav-cta {
+  background: var(--accent); color: #fff !important;
+  padding: 9px 20px; border-radius: var(--radius-sm);
+  font-weight: 600; font-size: .85rem;
+  transition: background .2s, transform .15s; white-space: nowrap;
+}
+.nav-cta:hover { background: var(--accent-hover); transform: translateY(-1px); }
+.hamburger {
+  display: none; background: none; border: none;
+  cursor: pointer; padding: 4px; color: var(--fg);
+}
+.hamburger svg { display: block; }
+
+/* ── HERO ── */
+.hero {
+  background: var(--bg-dark);
+  padding: 72px 0 80px;
+  position: relative; overflow: hidden;
+}
+.hero-grid-bg {
+  position: absolute; inset: 0; opacity: .06; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(79,70,229,.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79,70,229,.5) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.hero::after {
+  content: '';
+  position: absolute; top: -20%; right: -8%;
+  width: 560px; height: 560px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(79,70,229,.14) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-inner {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 48px; align-items: center; position: relative; z-index: 1;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(79,70,229,.18); color: #a5a0ff;
+  padding: 5px 14px; border-radius: 20px;
+  font-size: .78rem; font-weight: 600;
+  letter-spacing: .04em; text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.hero-badge .dot { width: 7px; height: 7px; background: #a5a0ff; border-radius: 50%; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.5)} }
+.hero h1 {
+  font-size: clamp(2rem, 4.2vw, 3.2rem);
+  color: #fff; margin: 0 0 18px; font-weight: 700; letter-spacing: -.025em;
+}
+.hero h1 em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--accent), #a5a0ff);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-sub {
+  color: var(--fg-on-dark-muted);
+  font-size: 1.05rem; margin: 0 0 30px;
+  max-width: 480px; line-height: 1.7;
+}
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--accent); color: #fff;
+  padding: 13px 30px; border-radius: var(--radius-sm);
+  font-weight: 700; font-size: .95rem; border: none;
+  cursor: pointer; transition: background .2s, transform .15s;
+  font-family: var(--font-display);
+}
+.btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: #fff;
+  padding: 13px 24px; border-radius: var(--radius-sm);
+  font-weight: 600; font-size: .9rem;
+  border: 1.5px solid rgba(255,255,255,.2);
+  cursor: pointer; transition: border-color .2s, background .2s;
+  font-family: var(--font-display);
+}
+.btn-ghost:hover { border-color: rgba(255,255,255,.45); background: rgba(255,255,255,.04); }
+.hero-trust {
+  display: flex; align-items: center; gap: 16px;
+  margin-top: 24px; color: var(--fg-on-dark-muted); font-size: .82rem;
+}
+.hero-trust-avatars {
+  display: flex;
+}
+.hero-trust-avatars span {
+  width: 30px; height: 30px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .65rem; font-weight: 700; color: #fff;
+  border: 2px solid var(--bg-dark);
+  margin-left: -8px;
+}
+.hero-trust-avatars span:first-child { margin-left: 0; }
+
+/* Hero visual: math blackboard card */
+.hero-visual { display: flex; justify-content: center; align-items: center; }
+.math-board {
+  width: 100%; max-width: 400px;
+  background: rgba(255,255,255,.04);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 18px; padding: 28px;
+  position: relative;
+}
+.math-board-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 20px;
+}
+.math-board-header h3 { color: #fff; font-size: .95rem; margin: 0; font-weight: 600; }
+.math-live-tag {
+  background: var(--teal); color: #fff;
+  font-size: .65rem; padding: 3px 10px; border-radius: 10px;
+  font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+}
+.math-eq {
+  font-family: var(--font-mono); font-size: 1.5rem; color: #fff;
+  margin-bottom: 6px; line-height: 1.4; letter-spacing: -.01em;
+}
+.math-eq .hl-accent { color: var(--accent); }
+.math-eq .hl-teal { color: var(--teal); }
+.math-eq .hl-gold { color: var(--gold); }
+.math-eq-label {
+  font-size: .78rem; color: var(--fg-on-dark-muted);
+  margin-bottom: 22px; font-family: var(--font-body);
+}
+.math-topics { display: flex; flex-direction: column; gap: 10px; }
+.math-topic-row {
+  display: grid; grid-template-columns: 110px 1fr 44px;
+  align-items: center; gap: 12px;
+}
+.math-topic-name { color: var(--fg-on-dark-muted); font-size: .78rem; }
+.math-topic-bar {
+  height: 7px; background: rgba(255,255,255,.06); border-radius: 4px; overflow: hidden;
+}
+.math-topic-fill {
+  height: 100%; border-radius: 4px;
+  transition: width 1.6s cubic-bezier(.22,1,.36,1);
+}
+.math-topic-pct {
+  color: #fff; font-size: .8rem; font-weight: 600;
+  text-align: right; font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono);
+}
+
+.math-floating {
+  position: absolute; bottom: -18px; left: -24px;
+  background: var(--bg-card); border-radius: 12px;
+  padding: 14px 18px; box-shadow: var(--shadow-lg);
+  display: flex; align-items: center; gap: 10px;
+  animation: floatY 5s ease-in-out infinite;
+}
+@keyframes floatY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+.math-floating-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--accent-soft); color: var(--accent);
+  font-family: var(--font-mono); font-weight: 700; font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.math-floating-text strong { display: block; font-size: .88rem; color: var(--fg); }
+.math-floating-text span { font-size: .75rem; color: var(--fg-muted); }
+
+/* ── STATS ── */
+.stats-bar { background: var(--bg-alt); padding: 36px 0; border-bottom: 1px solid var(--border); }
+.stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; }
+.stat-item { text-align: center; }
+.stat-number {
+  font-family: var(--font-display); font-size: 2.2rem; font-weight: 700;
+  color: var(--accent); font-variant-numeric: tabular-nums; line-height: 1.1;
+}
+.stat-label { font-size: .82rem; color: var(--fg-muted); margin-top: 4px; line-height: 1.4; }
+
+/* ── SECTION SHARED ── */
+.section-eyebrow {
+  font-size: .75rem; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 10px;
+  font-family: var(--font-mono);
+}
+.section-title {
+  font-size: clamp(1.7rem,2.8vw,2.3rem);
+  margin: 0 0 12px; font-weight: 700; letter-spacing: -.015em;
+}
+.section-desc {
+  color: var(--fg-muted); font-size: 1rem;
+  max-width: 580px; margin-bottom: 44px; line-height: 1.65;
+}
+
+/* ── PROGRAMS ── */
+.programs { padding: 76px 0; }
+.programs-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
+.prog-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 30px 26px;
+  transition: transform .25s, box-shadow .25s; position: relative; overflow: hidden;
+}
+.prog-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.prog-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.prog-card:nth-child(1)::before { background: var(--accent); }
+.prog-card:nth-child(2)::before { background: var(--coral); }
+.prog-card:nth-child(3)::before { background: var(--teal); }
+.prog-tag {
+  display: inline-block; font-size: .68rem; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: 3px 10px; border-radius: 4px; margin-bottom: 16px;
+  font-family: var(--font-mono);
+}
+.prog-card:nth-child(1) .prog-tag { background: var(--accent-soft); color: var(--accent); }
+.prog-card:nth-child(2) .prog-tag { background: var(--coral-soft); color: var(--coral); }
+.prog-card:nth-child(3) .prog-tag { background: var(--teal-soft); color: var(--teal); }
+.prog-card h3 { font-size: 1.15rem; margin: 0 0 10px; font-weight: 700; }
+.prog-card > p { font-size: .88rem; color: var(--fg-muted); margin: 0 0 18px; line-height: 1.6; }
+.prog-features {
+  list-style: none; padding: 0; margin: 0 0 22px;
+  display: flex; flex-direction: column; gap: 7px;
+}
+.prog-features li {
+  font-size: .82rem; color: var(--fg-muted);
+  display: flex; align-items: flex-start; gap: 8px;
+}
+.prog-features li::before { content: '✓'; color: var(--teal); font-weight: 700; flex-shrink: 0; }
+.prog-link {
+  font-size: .85rem; font-weight: 600; color: var(--accent);
+  display: inline-flex; align-items: center; gap: 5px; transition: gap .2s;
+}
+.prog-link:hover { gap: 9px; }
+
+/* ── TOPICS ── */
+.topics { background: var(--bg-alt); padding: 76px 0; }
+.topics-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 20px; }
+.topic-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 26px;
+  display: flex; align-items: flex-start; gap: 18px;
+  transition: transform .2s;
+}
+.topic-card:hover { transform: translateY(-2px); }
+.topic-icon {
+  width: 50px; height: 50px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-weight: 700; font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.topic-card:nth-child(1) .topic-icon { background: var(--accent-soft); color: var(--accent); }
+.topic-card:nth-child(2) .topic-icon { background: var(--coral-soft); color: var(--coral); }
+.topic-card:nth-child(3) .topic-icon { background: var(--teal-soft); color: var(--teal); }
+.topic-card:nth-child(4) .topic-icon { background: var(--gold-soft); color: var(--gold); }
+.topic-card:nth-child(5) .topic-icon { background: rgba(100,120,240,.08); color: #6478f0; }
+.topic-card:nth-child(6) .topic-icon { background: rgba(180,80,200,.08); color: #b450c8; }
+.topic-body h4 { font-size: .98rem; margin: 0 0 5px; font-weight: 700; }
+.topic-body p { font-size: .82rem; color: var(--fg-muted); margin: 0; line-height: 1.55; }
+.topic-body { min-width: 0; }
+
+/* ── METHOD ── */
+.method { padding: 76px 0; }
+.method-header { text-align: center; margin-bottom: 44px; }
+.method-header .section-desc { margin-inline: auto; }
+.method-steps {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 22px; position: relative;
+}
+.method-steps::before {
+  content: ''; position: absolute; top: 30px;
+  left: 56px; right: 56px; height: 2px;
+  background: var(--border);
+}
+.method-step { text-align: center; position: relative; }
+.method-num {
+  width: 60px; height: 60px; border-radius: 50%;
+  background: var(--bg-card); border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px; font-family: var(--font-mono);
+  font-weight: 700; font-size: 1.15rem; color: var(--accent);
+  position: relative; z-index: 1;
+  transition: background .3s, border-color .3s, color .3s;
+}
+.method-step:hover .method-num { background: var(--accent); border-color: var(--accent); color: #fff; }
+.method-step h4 { font-size: .95rem; margin: 0 0 6px; font-weight: 700; }
+.method-step p { font-size: .8rem; color: var(--fg-muted); margin: 0; line-height: 1.5; }
+
+/* ── PAES BANNER ── */
+.paes-banner { padding: 76px 0; background: var(--bg-alt); }
+.paes-box {
+  background: var(--bg-dark); border-radius: 20px;
+  padding: 52px 44px; display: grid;
+  grid-template-columns: 1fr 1fr; gap: 44px;
+  align-items: center; position: relative; overflow: hidden;
+}
+.paes-box::before {
+  content: ''; position: absolute; top: -20%; right: -5%;
+  width: 400px; height: 400px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(79,70,229,.12), transparent 70%);
+  pointer-events: none;
+}
+.paes-content { position: relative; z-index: 1; }
+.paes-content .section-eyebrow { color: var(--gold); }
+.paes-content h2 { font-size: clamp(1.5rem,2.4vw,2rem); color: #fff; margin: 0 0 14px; }
+.paes-content > p { color: var(--fg-on-dark-muted); font-size: .92rem; margin: 0 0 26px; line-height: 1.7; }
+.paes-checklist { display: flex; flex-direction: column; gap: 12px; }
+.paes-check {
+  display: flex; align-items: center; gap: 12px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: var(--radius-sm); padding: 12px 16px;
+}
+.paes-check-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-family: var(--font-mono);
+  font-size: .85rem; font-weight: 700;
+}
+.paes-check:nth-child(1) .paes-check-icon { background: rgba(79,70,229,.2); color: #a5a0ff; }
+.paes-check:nth-child(2) .paes-check-icon { background: rgba(232,69,48,.2); color: #f08070; }
+.paes-check:nth-child(3) .paes-check-icon { background: rgba(10,158,138,.2); color: #40d8c0; }
+.paes-check-text { color: #fff; font-size: .88rem; font-weight: 500; }
+.paes-check-text span { display: block; color: var(--fg-on-dark-muted); font-size: .76rem; font-weight: 400; }
+
+.paes-visual { position: relative; z-index: 1; }
+.paes-score-panel {
+  background: rgba(255,255,255,.05);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 16px; padding: 26px;
+}
+.psp-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 18px;
+}
+.psp-header h4 { color: #fff; font-size: .92rem; margin: 0; }
+.psp-header span { color: var(--fg-on-dark-muted); font-size: .78rem; }
+.psp-big {
+  font-family: var(--font-display); font-size: 3.8rem; font-weight: 700;
+  color: #fff; line-height: 1; margin-bottom: 4px;
+}
+.psp-big small { font-size: 1rem; color: var(--fg-on-dark-muted); font-weight: 500; margin-left: 2px; }
+.psp-label { color: var(--fg-on-dark-muted); font-size: .82rem; margin-bottom: 18px; }
+.psp-breakdown { display: flex; flex-direction: column; gap: 8px; }
+.psp-row {
+  display: grid; grid-template-columns: 80px 1fr 48px;
+  align-items: center; gap: 10px;
+}
+.psp-row-label { color: var(--fg-on-dark-muted); font-size: .75rem; font-family: var(--font-mono); }
+.psp-row-bar { height: 6px; background: rgba(255,255,255,.06); border-radius: 3px; overflow: hidden; }
+.psp-row-fill { height: 100%; border-radius: 3px; transition: width 1.8s cubic-bezier(.22,1,.36,1); }
+.psp-row-val {
+  color: #fff; font-size: .78rem; font-weight: 600; text-align: right;
+  font-variant-numeric: tabular-nums; font-family: var(--font-mono);
+}
+
+/* ── TESTIMONIALS ── */
+.testimonials { padding: 76px 0; }
+.testimonials-header { text-align: center; margin-bottom: 44px; }
+.testimonials-header .section-desc { margin-inline: auto; }
+.test-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
+.test-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 26px;
+}
+.test-stars { color: var(--gold); font-size: .85rem; letter-spacing: 2px; margin-bottom: 14px; }
+.test-card blockquote {
+  margin: 0 0 18px; font-size: .9rem; line-height: 1.65;
+  color: var(--fg); font-style: italic;
+}
+.test-author { display: flex; align-items: center; gap: 12px; }
+.test-avatar {
+  width: 42px; height: 42px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: .85rem; color: #fff; flex-shrink: 0;
+}
+.test-meta strong { display: block; font-size: .85rem; }
+.test-meta span { font-size: .75rem; color: var(--fg-muted); }
+.test-score {
+  margin-left: auto; font-family: var(--font-mono);
+  font-size: 1.2rem; font-weight: 700; color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── CTA ── */
+.cta-section { padding: 76px 0; background: var(--bg-alt); }
+.cta-box {
+  background: var(--bg-dark); border-radius: 20px;
+  padding: 60px 44px; text-align: center;
+  position: relative; overflow: hidden;
+}
+.cta-box::before {
+  content: ''; position: absolute; inset: 0; opacity: .04; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(79,70,229,.6) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79,70,229,.6) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.cta-box h2 {
+  font-size: clamp(1.6rem,2.8vw,2.4rem);
+  color: #fff; margin: 0 0 14px; position: relative; z-index: 1;
+}
+.cta-box > p {
+  color: var(--fg-on-dark-muted); font-size: 1rem;
+  margin: 0 auto 32px; max-width: 520px;
+  position: relative; z-index: 1; line-height: 1.6;
+}
+.cta-box .btn-primary {
+  padding: 15px 38px; font-size: 1rem; position: relative; z-index: 1;
+}
+.cta-checks {
+  display: flex; justify-content: center; gap: 28px;
+  margin-top: 24px; position: relative; z-index: 1; flex-wrap: wrap;
+}
+.cta-check {
+  display: flex; align-items: center; gap: 6px;
+  color: var(--fg-on-dark-muted); font-size: .82rem;
+}
+.cta-check svg { flex-shrink: 0; }
+
+/* ── FOOTER ── */
+.footer { background: var(--bg-dark); padding: 52px 0 28px; }
+.footer-grid {
+  display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 36px; margin-bottom: 36px;
+}
+.footer-brand p {
+  color: var(--fg-on-dark-muted); font-size: .85rem;
+  margin: 14px 0 18px; max-width: 270px; line-height: 1.6;
+}
+.footer-socials { display: flex; gap: 8px; }
+.footer-social {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: rgba(255,255,255,.05);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--fg-on-dark-muted); transition: background .2s, color .2s;
+  font-size: .85rem;
+}
+.footer-social:hover { background: var(--accent); color: #fff; }
+.footer-col h5 {
+  color: #fff; font-size: .82rem; margin: 0 0 14px;
+  font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+}
+.footer-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 9px; }
+.footer-col a { color: var(--fg-on-dark-muted); font-size: .82rem; transition: color .2s; }
+.footer-col a:hover { color: #fff; }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,.07);
+  padding-top: 22px; display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 10px;
+}
+.footer-bottom p { color: var(--fg-on-dark-muted); font-size: .76rem; margin: 0; }
+.footer-bottom a { color: var(--fg-on-dark-muted); font-size: .76rem; }
+.footer-bottom a:hover { color: #fff; }
+
+/* ── MOBILE MENU ── */
+.mobile-menu {
+  display: none; position: fixed; inset: 0;
+  background: var(--bg); z-index: 200;
+  flex-direction: column; padding: 20px;
+  padding-top: calc(env(safe-area-inset-top,0px) + 20px);
+}
+.mobile-menu.open { display: flex; }
+.mm-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+.mm-close { background: none; border: none; cursor: pointer; color: var(--fg); padding: 4px; }
+.mm-links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 2px; }
+.mm-links a { display: block; padding: 13px 0; font-size: 1.05rem; font-weight: 500; color: var(--fg); border-bottom: 1px solid var(--border); }
+.mm-cta { margin-top: auto; padding-bottom: env(safe-area-inset-bottom,16px); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .nav-links { display: none; }
+  .hamburger { display: block; }
+  .hero-inner { grid-template-columns: 1fr; text-align: center; }
+  .hero-sub { margin-inline: auto; }
+  .hero-actions { justify-content: center; }
+  .hero-trust { justify-content: center; }
+  .hero-visual { display: none; }
+  .stats-grid { grid-template-columns: repeat(2,1fr); }
+  .programs-grid { grid-template-columns: 1fr; max-width: 460px; }
+  .topics-grid { grid-template-columns: 1fr; }
+  .method-steps { grid-template-columns: repeat(2,1fr); }
+  .method-steps::before { display: none; }
+  .paes-box { grid-template-columns: 1fr; padding: 32px 22px; }
+  .test-grid { grid-template-columns: 1fr; max-width: 460px; }
+  .cta-box { padding: 40px 22px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 520px) {
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .method-steps { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+  .cta-checks { flex-direction: column; align-items: center; gap: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important; }
+}
+</style>
+
+<!-- NAV -->
+<nav class="nav" id="mainNav">
+  <div class="container nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="logo-icon">∑</div>
+      PreuOnline
+      <span class="logo-math">Matemáticas</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#programas">Programas</a></li>
+      <li><a href="#contenidos">Contenidos</a></li>
+      <li><a href="#metodo">Método</a></li>
+      <li><a href="#paes">PAES</a></li>
+      <li><a href="#testimonios">Testimonios</a></li>
+      <li><a href="#inscripcion" class="nav-cta">Inscríbete</a></li>
+    </ul>
+    <button class="hamburger" aria-label="Abrir menú" onclick="document.getElementById('mm').classList.add('open')">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mm">
+  <div class="mm-header">
+    <a href="#" class="nav-logo"><div class="logo-icon">∑</div>PreuOnline <span class="logo-math">Matemáticas</span></a>
+    <button class="mm-close" aria-label="Cerrar menú" onclick="document.getElementById('mm').classList.remove('open')">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <ul class="mm-links">
+    <li><a href="#programas" onclick="document.getElementById('mm').classList.remove('open')">Programas</a></li>
+    <li><a href="#contenidos" onclick="document.getElementById('mm').classList.remove('open')">Contenidos</a></li>
+    <li><a href="#metodo" onclick="document.getElementById('mm').classList.remove('open')">Método</a></li>
+    <li><a href="#paes" onclick="document.getElementById('mm').classList.remove('open')">PAES</a></li>
+    <li><a href="#testimonios" onclick="document.getElementById('mm').classList.remove('open')">Testimonios</a></li>
+  </ul>
+  <div class="mm-cta"><a href="#inscripcion" class="btn-primary" style="width:100%;justify-content:center" onclick="document.getElementById('mm').classList.remove('open')">Inscríbete ahora</a></div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="container hero-inner">
+    <div>
+      <div class="hero-badge"><span class="dot"></span> Matrículas PAES 2027 abiertas</div>
+      <h1>Domina las <em>Matemáticas</em> y conquista tu puntaje PAES</h1>
+      <p class="hero-sub">Preparación especializada en Competencia Matemática M1 y M2. Clases en vivo, miles de ejercicios resueltos y ensayos con corrección en tiempo real.</p>
+      <div class="hero-actions">
+        <a href="#inscripcion" class="btn-primary">Clase de prueba gratis →</a>
+        <a href="#" class="btn-ghost">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="9.5,7.5 16.5,12 9.5,16.5"/></svg>
+          Ver metodología
+        </a>
+      </div>
+      <div class="hero-trust">
+        <div class="hero-trust-avatars">
+          <span style="background:var(--accent)">SC</span>
+          <span style="background:var(--teal)">MR</span>
+          <span style="background:var(--coral)">FJ</span>
+          <span style="background:var(--gold)">IV</span>
+        </div>
+        +12.000 alumnos preparados en matemáticas
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="math-board">
+        <div class="math-board-header">
+          <h3>Clase en vivo</h3>
+          <span class="math-live-tag">En vivo</span>
+        </div>
+        <div class="math-eq">
+          <span class="hl-accent">f</span>(<span class="hl-teal">x</span>) = <span class="hl-gold">2x²</span> + 3x − 5
+        </div>
+        <div class="math-eq-label">Función cuadrática — Vértice y raíces</div>
+        <div class="math-topics">
+          <div class="math-topic-row">
+            <span class="math-topic-name">Álgebra</span>
+            <div class="math-topic-bar"><div class="math-topic-fill" style="width:0%;background:var(--accent)" data-w="95"></div></div>
+            <span class="math-topic-pct">95%</span>
+          </div>
+          <div class="math-topic-row">
+            <span class="math-topic-name">Geometría</span>
+            <div class="math-topic-bar"><div class="math-topic-fill" style="width:0%;background:var(--coral)" data-w="88"></div></div>
+            <span class="math-topic-pct">88%</span>
+          </div>
+          <div class="math-topic-row">
+            <span class="math-topic-name">Probabilidad</span>
+            <div class="math-topic-bar"><div class="math-topic-fill" style="width:0%;background:var(--teal)" data-w="91"></div></div>
+            <span class="math-topic-pct">91%</span>
+          </div>
+          <div class="math-topic-row">
+            <span class="math-topic-name">Cálculo</span>
+            <div class="math-topic-bar"><div class="math-topic-fill" style="width:0%;background:var(--gold)" data-w="84"></div></div>
+            <span class="math-topic-pct">84%</span>
+          </div>
+        </div>
+        <div class="math-floating">
+          <div class="math-floating-icon">π</div>
+          <div class="math-floating-text">
+            <strong>+700 máximos nacionales</strong>
+            <span>en Matemática M1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-bar">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-number" data-count="700">0</div>
+        <div class="stat-label">Puntajes máximos en Matemática M1</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-count="4800">0</div>
+        <div class="stat-label">Alumnos sobre 900 pts en Matemática</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-count="5200">0</div>
+        <div class="stat-label">Ejercicios resueltos en la plataforma</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" data-count="120">0</div>
+        <div class="stat-label">Docentes especialistas en matemáticas</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMS -->
+<section class="programs" id="programas">
+  <div class="container">
+    <div class="section-eyebrow">// Programas</div>
+    <h2 class="section-title">Tres caminos para dominar la Matemática PAES</h2>
+    <p class="section-desc">Cada programa se adapta a tu nivel actual, tu meta de puntaje y tus horarios. Todos incluyen acceso completo a la plataforma de ejercicios.</p>
+    <div class="programs-grid">
+      <div class="prog-card">
+        <div class="prog-tag">Intensivo</div>
+        <h3>PAES M1 + M2 Intensivo</h3>
+        <p>Preparación completa para ambas pruebas de matemática. Ideal para IV Medio y egresados que apuntan sobre 900 puntos.</p>
+        <ul class="prog-features">
+          <li>Clases en vivo 5 días por semana</li>
+          <li>Ensayos PAES M1 y M2 semanales</li>
+          <li>Resolución de problemas en tiempo real</li>
+          <li>Tutor matemático personal</li>
+          <li>Simulaciones tipo DEMRE</li>
+        </ul>
+        <a href="#" class="prog-link">Ver programa →</a>
+      </div>
+      <div class="prog-card">
+        <div class="prog-tag">Refuerzo</div>
+        <h3>Matemáticas Sube Notas</h3>
+        <p>Refuerza tu NEM en matemáticas desde I a III Medio. Cada punto de NEM cuenta para tu ponderación final.</p>
+        <ul class="prog-features">
+          <li>Alineado al currículum escolar</li>
+          <li>Guías y ejercicios por unidad</li>
+          <li>Sesiones 1 a 1 para dudas</li>
+          <li>Seguimiento de notas del colegio</li>
+          <li>Horarios flexibles a tu ritmo</li>
+        </ul>
+        <a href="#" class="prog-link">Ver programa →</a>
+      </div>
+      <div class="prog-card">
+        <div class="prog-tag">Flexible</div>
+        <h3>Mate On Demand</h3>
+        <p>Acceso ilimitado a clases grabadas, ejercicios interactivos y ensayos para practicar cuando tú quieras.</p>
+        <ul class="prog-features">
+          <li>+800 horas de clases de matemáticas</li>
+          <li>Ejercicios con resolución paso a paso</li>
+          <li>Ensayos M1 y M2 ilimitados</li>
+          <li>Foro de dudas con profes</li>
+          <li>App móvil para estudiar donde sea</li>
+        </ul>
+        <a href="#" class="prog-link">Ver programa →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOPICS -->
+<section class="topics" id="contenidos">
+  <div class="container">
+    <div class="section-eyebrow">// Ejes temáticos</div>
+    <h2 class="section-title">Todo el temario PAES de Matemáticas, cubierto</h2>
+    <p class="section-desc">Nuestro programa abarca los 6 ejes temáticos del currículum de Competencia Matemática exigidos por DEMRE.</p>
+    <div class="topics-grid">
+      <div class="topic-card">
+        <div class="topic-icon">∑</div>
+        <div class="topic-body">
+          <h4>Álgebra y Funciones</h4>
+          <p>Expresiones algebraicas, ecuaciones, inecuaciones, sistemas de ecuaciones, funciones lineales, cuadráticas, exponenciales y logarítmicas.</p>
+        </div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-icon">△</div>
+        <div class="topic-body">
+          <h4>Geometría</h4>
+          <p>Figuras planas, cuerpos geométricos, transformaciones isométricas, vectores, perímetro, área, volumen y geometría analítica.</p>
+        </div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-icon">%</div>
+        <div class="topic-body">
+          <h4>Probabilidad y Estadística</h4>
+          <p>Medidas de tendencia central y dispersión, distribuciones, probabilidades, combinatoria y variable aleatoria.</p>
+        </div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-icon">∫</div>
+        <div class="topic-body">
+          <h4>Cálculo (M2)</h4>
+          <p>Límites, derivadas, integrales, tasas de cambio, optimización y área bajo la curva. Exclusivo prueba M2.</p>
+        </div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-icon">#</div>
+        <div class="topic-body">
+          <h4>Números</h4>
+          <p>Conjuntos numéricos, operatoria, potencias, raíces, logaritmos, proporcionalidad y porcentajes.</p>
+        </div>
+      </div>
+      <div class="topic-card">
+        <div class="topic-icon">⊿</div>
+        <div class="topic-body">
+          <h4>Trigonometría</h4>
+          <p>Razones trigonométricas, identidades, ecuaciones trigonométricas, funciones seno, coseno y tangente.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHOD -->
+<section class="method" id="metodo">
+  <div class="container">
+    <div class="method-header">
+      <div class="section-eyebrow">// Método</div>
+      <h2 class="section-title">Tu ruta a los 1.000 puntos en 4 etapas</h2>
+      <p class="section-desc">Un proceso probado, diseñado específicamente para la preparación matemática PAES.</p>
+    </div>
+    <div class="method-steps">
+      <div class="method-step">
+        <div class="method-num">01</div>
+        <h4>Diagnóstico matemático</h4>
+        <p>Ensayo diagnóstico M1 y M2 para identificar tus ejes fuertes y débiles con precisión.</p>
+      </div>
+      <div class="method-step">
+        <div class="method-num">02</div>
+        <h4>Plan de ataque</h4>
+        <p>Tu tutor diseña un plan que prioriza los ejes con mayor potencial de mejora en tu puntaje.</p>
+      </div>
+      <div class="method-step">
+        <div class="method-num">03</div>
+        <h4>Práctica masiva</h4>
+        <p>Cientos de ejercicios tipo PAES por eje, con resolución paso a paso y corrección inmediata.</p>
+      </div>
+      <div class="method-step">
+        <div class="method-num">04</div>
+        <h4>Simulación y resultado</h4>
+        <p>Ensayos cronometrados en condiciones reales. Llegas a la prueba seguro y entrenado.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAES BANNER -->
+<section class="paes-banner" id="paes">
+  <div class="container">
+    <div class="paes-box">
+      <div class="paes-content">
+        <div class="section-eyebrow">PAES Matemáticas 2027</div>
+        <h2>Preparación que se traduce en puntaje real</h2>
+        <p>Nuestros alumnos logran en promedio 180 puntos más que su diagnóstico inicial en las pruebas M1 y M2. Los resultados son verificables.</p>
+        <div class="paes-checklist">
+          <div class="paes-check">
+            <div class="paes-check-icon">M1</div>
+            <div class="paes-check-text">
+              Competencia Matemática M1
+              <span>Obligatoria — Álgebra, geometría, probabilidad</span>
+            </div>
+          </div>
+          <div class="paes-check">
+            <div class="paes-check-icon">M2</div>
+            <div class="paes-check-text">
+              Competencia Matemática M2
+              <span>Electiva — Incluye cálculo y funciones avanzadas</span>
+            </div>
+          </div>
+          <div class="paes-check">
+            <div class="paes-check-icon">⊞</div>
+            <div class="paes-check-text">
+              +40 ensayos tipo DEMRE
+              <span>Con análisis detallado de respuestas y tiempos</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="paes-visual">
+        <div class="paes-score-panel">
+          <div class="psp-header">
+            <h4>Resultados promedio</h4>
+            <span>PAES 2026</span>
+          </div>
+          <div class="psp-big" id="paesScore">968<small> pts</small></div>
+          <div class="psp-label">Promedio alumnos PreuOnline Matemáticas</div>
+          <div class="psp-breakdown">
+            <div class="psp-row">
+              <span class="psp-row-label">M1</span>
+              <div class="psp-row-bar"><div class="psp-row-fill" style="width:0%;background:var(--accent)" data-w="97"></div></div>
+              <span class="psp-row-val">972</span>
+            </div>
+            <div class="psp-row">
+              <span class="psp-row-label">M2</span>
+              <div class="psp-row-bar"><div class="psp-row-fill" style="width:0%;background:var(--coral)" data-w="96"></div></div>
+              <span class="psp-row-val">964</span>
+            </div>
+            <div class="psp-row">
+              <span class="psp-row-label">Δ mejora</span>
+              <div class="psp-row-bar"><div class="psp-row-fill" style="width:0%;background:var(--teal)" data-w="80"></div></div>
+              <span class="psp-row-val">+180</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonios">
+  <div class="container">
+    <div class="testimonials-header">
+      <div class="section-eyebrow">// Testimonios</div>
+      <h2 class="section-title">Ellos ya lograron su puntaje en Matemáticas</h2>
+      <p class="section-desc">Alumnos reales que mejoraron su rendimiento matemático con nuestro método de preparación.</p>
+    </div>
+    <div class="test-grid">
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <blockquote>"Entré con 580 en matemáticas y saqué 1.000 en M1. La clave fueron los ensayos semanales y las tutorías donde me explicaban cada error."</blockquote>
+        <div class="test-author">
+          <div class="test-avatar" style="background:var(--accent)">SC</div>
+          <div class="test-meta">
+            <strong>Simón Calderón</strong>
+            <span>1.000 pts — Ingeniería, PUC</span>
+          </div>
+          <div class="test-score">1000</div>
+        </div>
+      </div>
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <blockquote>"El programa Mate On Demand fue perfecto para mí porque estudio en región. Podía ver las clases a mi hora y practicar con los ejercicios interactivos."</blockquote>
+        <div class="test-author">
+          <div class="test-avatar" style="background:var(--teal)">CV</div>
+          <div class="test-meta">
+            <strong>Constanza Velásquez</strong>
+            <span>980 pts — Medicina, U. Chile</span>
+          </div>
+          <div class="test-score">980</div>
+        </div>
+      </div>
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <blockquote>"En el colegio siempre me fue mal en mate. Acá me enseñaron desde cero y terminé con 945 en M1. Los profes hacen que todo se entienda."</blockquote>
+        <div class="test-author">
+          <div class="test-avatar" style="background:var(--gold)">FO</div>
+          <div class="test-meta">
+            <strong>Franco Ortega</strong>
+            <span>945 pts — Ing. Comercial, UAI</span>
+          </div>
+          <div class="test-score">945</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="inscripcion">
+  <div class="container">
+    <div class="cta-box">
+      <h2>¿Listo para subir tu puntaje en Matemáticas?</h2>
+      <p>Inscríbete hoy y accede a una clase de prueba gratuita + un ensayo diagnóstico M1 con corrección detallada.</p>
+      <a href="#" class="btn-primary">Comenzar gratis →</a>
+      <div class="cta-checks">
+        <span class="cta-check">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Clase de prueba gratis
+        </span>
+        <span class="cta-check">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Ensayo diagnóstico incluido
+        </span>
+        <span class="cta-check">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Soporte por WhatsApp
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo" style="color:#fff">
+          <div class="logo-icon">∑</div>
+          PreuOnline
+          <span class="logo-math" style="background:rgba(124,115,250,.15);color:#a5a0ff">Matemáticas</span>
+        </a>
+        <p>El preuniversitario online especializado en Matemáticas PAES. Preparación de excelencia en M1 y M2 con los mejores docentes de Chile.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social" aria-label="Instagram"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg></a>
+          <a href="#" class="footer-social" aria-label="YouTube"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="4"/><polygon points="10,8.5 16,12 10,15.5" fill="currentColor" stroke="none"/></svg></a>
+          <a href="#" class="footer-social" aria-label="TikTok"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg></a>
+          <a href="#" class="footer-social" aria-label="Facebook"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Programas</h5>
+        <ul>
+          <li><a href="#">PAES M1 + M2 Intensivo</a></li>
+          <li><a href="#">Mate Sube Notas</a></li>
+          <li><a href="#">Mate On Demand</a></li>
+          <li><a href="#">Tutorías individuales</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Recursos</h5>
+        <ul>
+          <li><a href="#">Ensayos PAES M1</a></li>
+          <li><a href="#">Ensayos PAES M2</a></li>
+          <li><a href="#">Ejercicios por eje</a></li>
+          <li><a href="#">Blog de Matemáticas</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Contacto</h5>
+        <ul>
+          <li><a href="#">600 123 4567</a></li>
+          <li><a href="#">mate@preuonline.cl</a></li>
+          <li><a href="#">WhatsApp</a></li>
+          <li><a href="#">Preguntas frecuentes</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 PreuOnline Matemáticas. Todos los derechos reservados.</p>
+      <div><a href="#">Políticas de privacidad</a> · <a href="#">Términos de uso</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Sticky nav shadow
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 10);
+}, { passive: true });
+
+// Animate bars on load
+setTimeout(() => {
+  document.querySelectorAll('[data-w]').forEach(bar => {
+    bar.style.width = bar.dataset.w + '%';
+  });
+}, 500);
+
+// Counter animation
+function animateCounters() {
+  document.querySelectorAll('.stat-number[data-count]').forEach(el => {
+    const target = parseInt(el.dataset.count);
+    const duration = 2000;
+    const start = performance.now();
+    const prefix = '+';
+    function tick(now) {
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = prefix + Math.round(eased * target).toLocaleString('es-CL');
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  });
+}
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { animateCounters(); obs.disconnect(); } });
+}, { threshold: 0.3 });
+const sb = document.querySelector('.stats-bar');
+if (sb) obs.observe(sb);
+
+// Animate PAES panel bars
+const obs2 = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.psp-row-fill[data-w]').forEach(bar => {
+        bar.style.width = bar.dataset.w + '%';
+      });
+      obs2.disconnect();
+    }
+  });
+}, { threshold: 0.3 });
+const pb = document.querySelector('.paes-score-panel');
+if (pb) obs2.observe(pb);
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const href = a.getAttribute('href');
+    if (href === '#') return;
+    const t = document.querySelector(href);
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+});
+</script>
+
+</body></html>
