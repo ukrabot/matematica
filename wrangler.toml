@@ -2,15 +2,7 @@ name = "preuonline-matematica"
 compatibility_date = "2024-09-23"
 pages_build_output_dir = "."
 
-# ============================================================
-# CONFIGURACIÓN CLOUDFLARE PAGES
-# ============================================================
-#
-# La vinculación D1 y las variables de entorno se configuran
-# desde el Dashboard de Cloudflare (no en este archivo):
-#
-# 1) Dashboard → Pages → matematica → Configuración → Funciones
-#    → D1 database bindings → Variable: DB → preuonline-db
-#
-# 2) Dashboard → Pages → matematica → Configuración → Variables de entorno
-#    → JWT_SECRET = (clave secreta larga)
+[[d1_databases]]
+binding = "DB"
+database_name = "preuonline-db"
+database_id = "014beff1-fefd-4ce3-aed6-d6daeeee1608"
