@@ -2,16 +2,46 @@ name = "preuonline-matematica"
 compatibility_date = "2024-09-23"
 pages_build_output_dir = "."
 
-# Crear la base de datos D1:
-#   wrangler d1 create preuonline-db
+# ============================================================
+# CONFIGURACIÓN CLOUDFLARE PAGES (GitHub Integration)
+# ============================================================
 #
-# Ejecutar el schema:
-#   wrangler d1 execute preuonline-db --file=./schema.sql
+# En el Dashboard de Cloudflare Pages → tu proyecto → Settings → Build:
+#   - Build command:           (DEJAR EN BLANCO)
+#   - Build output directory:  .
+#   - Framework preset:        None
 #
-# Variables de entorno (configurar en Cloudflare Dashboard > Pages > Settings > Environment variables):
-#   JWT_SECRET = (genera una clave secreta larga y aleatoria)
+# La carpeta functions/ es detectada automáticamente por Pages.
+#
+# ============================================================
+# CONFIGURAR D1 (ver pasos abajo)
+# ============================================================
 
 [[d1_databases]]
 binding = "DB"
 database_name = "preuonline-db"
-database_id = "" # ← Reemplazar con el ID real después de crear la DB
+database_id = ""  # ← Reemplazar con el ID real (ver instrucciones abajo)
+
+# PASOS PARA CONFIGURAR:
+#
+# 1) Instalar wrangler (si no lo tienes):
+#      npm install -g wrangler
+#      wrangler login
+#
+# 2) Crear la base de datos D1:
+#      wrangler d1 create preuonline-db
+#    → Copiar el database_id que te da y pegarlo arriba
+#
+# 3) Ejecutar el schema:
+#      wrangler d1 execute preuonline-db --file=./schema.sql
+#
+# 4) Vincular D1 al proyecto Pages:
+#    Dashboard → Pages → preuonline → Settings → Functions → D1 database bindings
+#    Variable name: DB
+#    D1 database:   preuonline-db
+#
+# 5) Agregar variable de entorno JWT_SECRET:
+#    Dashboard → Pages → preuonline → Settings → Environment variables
+#    Variable name:  JWT_SECRET
+#    Value:          (una clave secreta larga y aleatoria)
+#    Marcar "Encrypt"
