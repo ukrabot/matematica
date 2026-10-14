@@ -1,0 +1,17 @@
+name = "preuonline-matematica"
+compatibility_date = "2024-09-23"
+pages_build_output_dir = "."
+
+# Crear la base de datos D1:
+#   wrangler d1 create preuonline-db
+#
+# Ejecutar el schema:
+#   wrangler d1 execute preuonline-db --file=./schema.sql
+#
+# Variables de entorno (configurar en Cloudflare Dashboard > Pages > Settings > Environment variables):
+#   JWT_SECRET = (genera una clave secreta larga y aleatoria)
+
+[[d1_databases]]
+binding = "DB"
+database_name = "preuonline-db"
+database_id = "" # ← Reemplazar con el ID real después de crear la DB

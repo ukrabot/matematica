@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Recuperar Contraseña — PreuOnline Matemáticas</title>
+  <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+<div class="auth-layout">
+
+  <!-- Branded left panel -->
+  <div class="auth-brand">
+    <a href="/" class="back-home">← Volver al inicio</a>
+    <div class="brand-logo">
+      <div class="brand-sigma">∑</div>
+      <div class="brand-name">Preu<span>Online</span></div>
+    </div>
+    <p class="brand-tagline">No te preocupes, te ayudamos a recuperar el acceso a tu cuenta.</p>
+    <div class="brand-formulas">
+      x = (−b ± √Δ) / 2a<br>
+      lim (x→∞) 1/x = 0<br>
+      d/dx [xⁿ] = nxⁿ⁻¹<br>
+      A = π r²
+    </div>
+  </div>
+
+  <!-- Form panel -->
+  <div class="auth-form-panel">
+    <div class="auth-card">
+
+      <!-- Step 1: request reset -->
+      <div id="step1">
+        <h1>Recuperar Contraseña</h1>
+        <p class="subtitle">Ingresa tu correo electrónico y te enviaremos instrucciones para restablecer tu contraseña.</p>
+
+        <div class="alert alert-error" id="alert1"></div>
+        <div class="alert alert-success" id="success1"></div>
+
+        <form id="recoverForm" novalidate>
+          <div class="form-group">
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" placeholder="tu@email.com" required autocomplete="email">
+          </div>
+          <button type="submit" class="btn btn-primary" id="submitBtn1">
+            <span class="spinner"></span>
+            <span class="btn-text">Enviar instrucciones</span>
+          </button>
+        </form>
+
+        <p class="form-footer">
+          <a href="login.html">← Volver a iniciar sesión</a>
+        </p>
+      </div>
+
+      <!-- Step 2: enter new password (with token) -->
+      <div id="step2" style="display:none;">
+        <h1>Nueva Contraseña</h1>
+        <p class="subtitle">Ingresa tu nueva contraseña.</p>
+
+        <div class="alert alert-error" id="alert2"></div>
+        <div class="alert alert-success" id="success2"></div>
+
+        <form id="resetForm" novalidate>
+          <div class="form-group">
+            <label for="newPassword">Nueva contraseña</label>
+            <div class="password-wrapper">
+              <input type="password" id="newPassword" placeholder="Mínimo 6 caracteres" required minlength="6" autocomplete="new-password">
+              <button type="button" class="toggle-password" aria-label="Mostrar contraseña">👁</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">Confirmar contraseña</label>
+            <div class="password-wrapper">
+              <input type="password" id="confirmPassword" placeholder="Repite tu contraseña" required autocomplete="new-password">
+              <button type="button" class="toggle-password" aria-label="Mostrar contraseña">👁</button>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" id="submitBtn2">
+            <span class="spinner"></span>
+            <span class="btn-text">Restablecer contraseña</span>
+          </button>
+        </form>
+
+        <p class="form-footer">
+          <a href="login.html">← Volver a iniciar sesión</a>
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Toggle password visibility
+document.querySelectorAll('.toggle-password').forEach(toggle => {
+  toggle.addEventListener('click', function() {
+    const input = this.previousElementSibling;
+    const isPassword = input.type === 'password';
+    input.type = isPassword ? 'text' : 'password';
+    this.textContent = isPassword ? '🔒' : '👁';
+  });
+});
+
+// Check if we have a token in the URL (step 2)
+const params = new URLSearchParams(window.location.search);
+const resetToken = params.get('token');
+
+if (resetToken) {
+  document.getElementById('step1').style.display = 'none';
+  document.getElementById('step2').style.display = 'block';
+}
+
+// Step 1: Request recovery email
+document.getElementById('recoverForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const alertEl = document.getElementById('alert1');
+  const successEl = document.getElementById('success1');
+  const btn = document.getElementById('submitBtn1');
+
+  alertEl.classList.remove('show');
+  successEl.classList.remove('show');
+
+  const email = document.getElementById('email').value.trim();
+  if (!email) {
+    alertEl.textContent = 'Ingresa tu correo electrónico';
+    alertEl.classList.add('show');
+    return;
+  }
+
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('/api/auth/recover', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    const data = await res.json();
+
+    successEl.textContent = data.message || 'Revisa tu correo electrónico para las instrucciones.';
+    successEl.classList.add('show');
+  } catch (err) {
+    alertEl.textContent = 'Error de conexión. Inténtalo de nuevo.';
+    alertEl.classList.add('show');
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+});
+
+// Step 2: Reset password with token
+document.getElementById('resetForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const alertEl = document.getElementById('alert2');
+  const successEl = document.getElementById('success2');
+  const btn = document.getElementById('submitBtn2');
+
+  alertEl.classList.remove('show');
+  successEl.classList.remove('show');
+
+  const newPassword = document.getElementById('newPassword').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
+
+  if (!newPassword || newPassword.length < 6) {
+    alertEl.textContent = 'La contraseña debe tener al menos 6 caracteres';
+    alertEl.classList.add('show');
+    return;
+  }
+  if (newPassword !== confirmPassword) {
+    alertEl.textContent = 'Las contraseñas no coinciden';
+    alertEl.classList.add('show');
+    return;
+  }
+
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('/api/auth/reset-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: resetToken, newPassword })
+    });
+    const data = await res.json();
+
+    if (!data.ok) {
+      alertEl.textContent = data.error || 'Error al restablecer la contraseña';
+      alertEl.classList.add('show');
+      return;
+    }
+
+    successEl.textContent = '¡Contraseña restablecida! Redirigiendo al login...';
+    successEl.classList.add('show');
+    setTimeout(() => window.location.href = 'login.html', 2000);
+  } catch (err) {
+    alertEl.textContent = 'Error de conexión. Inténtalo de nuevo.';
+    alertEl.classList.add('show');
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>

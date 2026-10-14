@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Iniciar Sesión — PreuOnline Matemáticas</title>
+  <link rel="stylesheet" href="auth.css">
+</head>
+<body>
+<div class="auth-layout">
+
+  <!-- Branded left panel -->
+  <div class="auth-brand">
+    <a href="/" class="back-home">← Volver al inicio</a>
+    <div class="brand-logo">
+      <div class="brand-sigma">∑</div>
+      <div class="brand-name">Preu<span>Online</span></div>
+    </div>
+    <p class="brand-tagline">Prepárate para la PAES de Matemáticas con clases en vivo, ejercicios ilimitados y tutores expertos.</p>
+    <div class="brand-formulas">
+      ax² + bx + c = 0<br>
+      sin²θ + cos²θ = 1<br>
+      P(A∪B) = P(A) + P(B) − P(A∩B)<br>
+      ∫ f(x)dx = F(b) − F(a)
+    </div>
+  </div>
+
+  <!-- Form panel -->
+  <div class="auth-form-panel">
+    <div class="auth-card">
+      <h1>Iniciar Sesión</h1>
+      <p class="subtitle">Ingresa a tu cuenta para continuar estudiando</p>
+
+      <div class="alert alert-error" id="alert"></div>
+
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label for="email">Correo electrónico</label>
+          <input type="email" id="email" placeholder="tu@email.com" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <div class="password-wrapper">
+            <input type="password" id="password" placeholder="Tu contraseña" required autocomplete="current-password">
+            <button type="button" class="toggle-password" aria-label="Mostrar contraseña">👁</button>
+          </div>
+        </div>
+        <div class="form-options">
+          <label><input type="checkbox" id="remember"> Recordarme</label>
+          <a href="recuperar.html">¿Olvidaste tu contraseña?</a>
+        </div>
+        <button type="submit" class="btn btn-primary" id="submitBtn">
+          <span class="spinner"></span>
+          <span class="btn-text">Iniciar Sesión</span>
+        </button>
+      </form>
+
+      <p class="form-footer">
+        ¿No tienes cuenta? <a href="register.html">Regístrate aquí</a>
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const form = document.getElementById('loginForm');
+const alert = document.getElementById('alert');
+const btn = document.getElementById('submitBtn');
+
+// Toggle password visibility
+document.querySelector('.toggle-password').addEventListener('click', function() {
+  const input = this.previousElementSibling;
+  const isPassword = input.type === 'password';
+  input.type = isPassword ? 'text' : 'password';
+  this.textContent = isPassword ? '🔒' : '👁';
+});
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  alert.classList.remove('show');
+
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+
+  if (!email || !password) {
+    showError('Completa todos los campos');
+    return;
+  }
+
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await res.json();
+
+    if (!data.ok) {
+      showError(data.error || 'Error al iniciar sesión');
+      return;
+    }
+
+    // Redirect to student dashboard
+    window.location.href = '/estudiante/';
+  } catch (err) {
+    showError('Error de conexión. Inténtalo de nuevo.');
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+});
+
+function showError(msg) {
+  alert.textContent = msg;
+  alert.classList.add('show');
+}
+</script>
+</body>
+</html>
