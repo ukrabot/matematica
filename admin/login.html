@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Admin — PreuOnline</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="sigma">∑</div>
+      <h1>Preu<span>Online</span></h1>
+      <p>Panel de Administración</p>
+    </div>
+
+    <div class="alert alert-error" id="alert"></div>
+
+    <form id="loginForm" novalidate>
+      <div class="form-group">
+        <label for="username">Usuario</label>
+        <input type="text" id="username" placeholder="admin" required autocomplete="username">
+      </div>
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" placeholder="Tu contraseña" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn btn-primary" id="submitBtn" style="width:100%; margin-top:8px;">
+        <span class="spinner"></span>
+        <span class="btn-text">Ingresar</span>
+      </button>
+    </form>
+
+    <p style="text-align:center; margin-top:20px; font-size:.82rem; color:var(--fg-muted);">
+      <a href="/" style="color:var(--accent); text-decoration:none;">← Volver al inicio</a>
+    </p>
+  </div>
+</div>
+
+<script>
+const form = document.getElementById('loginForm');
+const alertEl = document.getElementById('alert');
+const btn = document.getElementById('submitBtn');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  alertEl.classList.remove('show');
+
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value;
+
+  if (!username || !password) {
+    alertEl.textContent = 'Completa todos los campos';
+    alertEl.classList.add('show');
+    return;
+  }
+
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('/api/admin/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password })
+    });
+    const data = await res.json();
+
+    if (!data.ok) {
+      alertEl.textContent = data.error || 'Error al iniciar sesión';
+      alertEl.classList.add('show');
+      return;
+    }
+
+    window.location.href = '/admin/';
+  } catch (err) {
+    alertEl.textContent = 'Error de conexión. Inténtalo de nuevo.';
+    alertEl.classList.add('show');
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>
