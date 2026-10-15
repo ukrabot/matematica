@@ -96,7 +96,13 @@ export async function onRequestPost(context) {
     if (!geminiRes.ok) {
       const errData = await geminiRes.text();
       console.error('Gemini API error:', errData);
-      return Response.json({ ok: false, error: 'Error al contactar el tutor IA' }, { status: 502 });
+      // Return the actual error for debugging
+      let detail = 'Error al contactar el tutor IA';
+      try {
+        const parsed = JSON.parse(errData);
+        detail = parsed.error?.message || detail;
+      } catch {}
+      return Response.json({ ok: false, error: detail }, { status: 502 });
     }
 
     const geminiData = await geminiRes.json();
