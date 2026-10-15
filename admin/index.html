@@ -28,6 +28,12 @@
         </a>
       </li>
       <li>
+        <a href="#" data-section="profesores" onclick="switchSection('profesores', this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4h-1M15 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14"/><path d="M22 7l-5 5M17 7l5 5"/></svg>
+          Profesores
+        </a>
+      </li>
+      <li>
         <a href="#" data-section="configuracion" onclick="switchSection('configuracion', this)">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
           Configuración
@@ -123,6 +129,58 @@
                   </div>
                 </td>
               </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <!-- SECTION: Profesores                         -->
+    <!-- ════════════════════════════════════════════ -->
+    <div id="section-profesores" style="display:none;">
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">Total Profesores</div>
+          <div class="stat-value" id="profTotalCount">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Activos</div>
+          <div class="stat-value" id="profActiveCount">—</div>
+        </div>
+      </div>
+
+      <div class="action-bar">
+        <button class="btn btn-primary" onclick="openModal('createProfModal')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          Registrar Profesor
+        </button>
+      </div>
+
+      <div class="table-card">
+        <div class="table-header">
+          <h2>Lista de Profesores</h2>
+          <div class="search-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input type="text" placeholder="Buscar profesor..." id="profSearchInput" oninput="filterProfesores()">
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Profesor</th>
+                <th>RUT</th>
+                <th>Especialidad</th>
+                <th>Teléfono</th>
+                <th>Fecha registro</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="profesoresList">
+              <tr><td colspan="7"><div class="empty-state"><p>Cargando profesores...</p></div></td></tr>
             </tbody>
           </table>
         </div>
@@ -354,11 +412,152 @@
   </div>
 </div>
 
+<!-- ══════════════════════════════════════════════ -->
+<!-- Modal: Registrar Profesor                    -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="modal-overlay" id="createProfModal">
+  <div class="modal">
+    <h2>Registrar Profesor</h2>
+    <div class="alert alert-error" id="createProfAlert"></div>
+    <div class="alert alert-success" id="createProfSuccess"></div>
+    <div class="form-row-2">
+      <div class="form-group">
+        <label for="cpNombre">Nombre *</label>
+        <input type="text" id="cpNombre" placeholder="Nombre">
+      </div>
+      <div class="form-group">
+        <label for="cpApellido">Apellido *</label>
+        <input type="text" id="cpApellido" placeholder="Apellido">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="cpRut">RUT</label>
+      <input type="text" id="cpRut" placeholder="12.345.678-9" maxlength="12">
+    </div>
+    <div class="form-group">
+      <label for="cpEmail">Correo electrónico *</label>
+      <input type="email" id="cpEmail" placeholder="correo@ejemplo.com">
+    </div>
+    <div class="form-row-2">
+      <div class="form-group">
+        <label for="cpTelefono">Teléfono</label>
+        <input type="tel" id="cpTelefono" placeholder="+56 9 1234 5678">
+      </div>
+      <div class="form-group">
+        <label for="cpEspecialidad">Especialidad</label>
+        <input type="text" id="cpEspecialidad" placeholder="Ej: Álgebra, Geometría">
+      </div>
+    </div>
+    <div class="form-row-2">
+      <div class="form-group">
+        <label for="cpPassword">Contraseña *</label>
+        <input type="password" id="cpPassword" placeholder="Mínimo 6 caracteres" minlength="6">
+      </div>
+      <div class="form-group">
+        <label for="cpPassword2">Confirmar *</label>
+        <input type="password" id="cpPassword2" placeholder="Repetir contraseña">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('createProfModal')">Cancelar</button>
+      <button class="btn btn-primary" id="createProfBtn" onclick="createProfesor()">
+        <span class="spinner"></span>
+        <span class="btn-text">Registrar</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Editar Profesor -->
+<div class="modal-overlay" id="editProfModal">
+  <div class="modal">
+    <h2>Editar Profesor</h2>
+    <div class="alert alert-error" id="editProfAlert"></div>
+    <div class="alert alert-success" id="editProfSuccess"></div>
+    <input type="hidden" id="editProfId">
+    <div class="form-group">
+      <label for="epNombre">Nombre</label>
+      <input type="text" id="epNombre">
+    </div>
+    <div class="form-group">
+      <label for="epApellido">Apellido</label>
+      <input type="text" id="epApellido">
+    </div>
+    <div class="form-group">
+      <label for="epRut">RUT</label>
+      <input type="text" id="epRut" maxlength="12">
+    </div>
+    <div class="form-group">
+      <label for="epEmail">Correo electrónico</label>
+      <input type="email" id="epEmail">
+    </div>
+    <div class="form-group">
+      <label for="epTelefono">Teléfono</label>
+      <input type="tel" id="epTelefono">
+    </div>
+    <div class="form-group">
+      <label for="epEspecialidad">Especialidad</label>
+      <input type="text" id="epEspecialidad">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('editProfModal')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveProfesor()">
+        <span class="spinner"></span>
+        <span class="btn-text">Guardar cambios</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Cambiar Contraseña Profesor -->
+<div class="modal-overlay" id="profPasswordModal">
+  <div class="modal">
+    <h2>Cambiar Contraseña</h2>
+    <div class="alert alert-error" id="profPwdAlert"></div>
+    <div class="alert alert-success" id="profPwdSuccess"></div>
+    <input type="hidden" id="profPwdId">
+    <p style="color:var(--fg-muted); font-size:.85rem; margin-bottom:16px;" id="profPwdName"></p>
+    <div class="form-group">
+      <label for="profNewPassword">Nueva contraseña</label>
+      <input type="password" id="profNewPassword" placeholder="Mínimo 6 caracteres" minlength="6">
+    </div>
+    <div class="form-group">
+      <label for="profConfirmPassword">Confirmar contraseña</label>
+      <input type="password" id="profConfirmPassword" placeholder="Repite la contraseña">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('profPasswordModal')">Cancelar</button>
+      <button class="btn btn-primary" onclick="changeProfPassword()">
+        <span class="spinner"></span>
+        <span class="btn-text">Actualizar contraseña</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Confirmar eliminación Profesor -->
+<div class="modal-overlay" id="deleteProfModal">
+  <div class="modal">
+    <h2>Eliminar Profesor</h2>
+    <input type="hidden" id="deleteProfId">
+    <p style="margin-bottom:8px;">¿Estás seguro de que deseas eliminar a <strong id="deleteProfName"></strong>?</p>
+    <p style="color:var(--fg-muted); font-size:.85rem;">Se eliminarán también todos sus materiales. Esta acción no se puede deshacer.</p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('deleteProfModal')">Cancelar</button>
+      <button class="btn btn-danger" onclick="confirmDeleteProf()">
+        <span class="spinner"></span>
+        <span class="btn-text">Eliminar</span>
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- SheetJS for Excel parsing (loaded from CDN) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 <script>
 let allStudents = [];
+let allProfesores = [];
 let bulkData = [];
 
 // ── Auth check ──
@@ -377,21 +576,23 @@ async function checkAuth() {
 function switchSection(section, el) {
   // Hide all sections
   document.getElementById('section-estudiantes').style.display = 'none';
+  document.getElementById('section-profesores').style.display = 'none';
   document.getElementById('section-configuracion').style.display = 'none';
 
   // Show selected
   document.getElementById('section-' + section).style.display = '';
 
   // Update title
-  const titles = { estudiantes: 'Estudiantes', configuracion: 'Configuración' };
+  const titles = { estudiantes: 'Estudiantes', profesores: 'Profesores', configuracion: 'Configuración' };
   document.getElementById('sectionTitle').textContent = titles[section] || section;
 
   // Update active nav
   document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
   if (el) el.classList.add('active');
 
-  // Load settings if switching to config
+  // Load data for section
   if (section === 'configuracion') loadSettings();
+  if (section === 'profesores') loadProfesores();
 
   // Close mobile sidebar
   document.getElementById('sidebar').classList.remove('open');
@@ -930,8 +1131,318 @@ async function logout() {
   window.location.href = '/admin/login.html';
 }
 
+// ════════════════════════════════════════════════
+// PROFESORES
+// ════════════════════════════════════════════════
+
+async function loadProfesores() {
+  try {
+    const res = await fetch('/api/admin/profesores');
+    const data = await res.json();
+    if (!data.ok) throw new Error();
+    allProfesores = data.profesores;
+    renderProfesores(allProfesores);
+    updateProfStats(allProfesores);
+  } catch {
+    document.getElementById('profesoresList').innerHTML = `
+      <tr><td colspan="7"><div class="empty-state"><p>Error al cargar profesores</p></div></td></tr>
+    `;
+  }
+}
+
+function renderProfesores(profs) {
+  const tbody = document.getElementById('profesoresList');
+
+  if (profs.length === 0) {
+    tbody.innerHTML = `
+      <tr><td colspan="7"><div class="empty-state">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        <p>No hay profesores registrados</p>
+      </div></td></tr>
+    `;
+    return;
+  }
+
+  tbody.innerHTML = profs.map(p => {
+    const date = new Date(p.created_at).toLocaleDateString('es-CL', { day: '2-digit', month: 'short', year: 'numeric' });
+    const isActive = p.activo !== 0;
+    const badgeClass = isActive ? 'badge-active' : 'badge-inactive';
+    const badgeText = isActive ? 'Activo' : 'Inactivo';
+    const toggleTitle = isActive ? 'Deshabilitar' : 'Habilitar';
+    const toggleIcon = isActive
+      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18.36 6.64A9 9 0 010 12a9 9 0 0118.36-5.36"/><path d="M22 12A10 10 0 1112 2"/></svg>'
+      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
+    return `
+      <tr${!isActive ? ' class="row-inactive"' : ''}>
+        <td>
+          <span class="student-name">${esc(p.nombre)} ${esc(p.apellido)}</span>
+          <span class="student-email">${esc(p.email)}</span>
+        </td>
+        <td>${esc(p.rut || '—')}</td>
+        <td>${esc(p.especialidad || '—')}</td>
+        <td>${esc(p.telefono || '—')}</td>
+        <td>${date}</td>
+        <td><span class="badge ${badgeClass}">${badgeText}</span></td>
+        <td>
+          <div class="actions">
+            <button class="btn-icon ${isActive ? '' : 'enable'}" title="${toggleTitle}" onclick='toggleProfesor(${p.id}, ${isActive})'>
+              ${toggleIcon}
+            </button>
+            <button class="btn-icon" title="Editar" onclick='openEditProf(${JSON.stringify(p)})'>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </button>
+            <button class="btn-icon" title="Cambiar contraseña" onclick='openProfPassword(${p.id}, "${esc(p.nombre)} ${esc(p.apellido)}")'>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            </button>
+            <button class="btn-icon delete" title="Eliminar" onclick='openDeleteProf(${p.id}, "${esc(p.nombre)} ${esc(p.apellido)}")'>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function updateProfStats(profs) {
+  document.getElementById('profTotalCount').textContent = profs.length;
+  document.getElementById('profActiveCount').textContent = profs.filter(p => p.activo !== 0).length;
+}
+
+function filterProfesores() {
+  const q = document.getElementById('profSearchInput').value.toLowerCase();
+  if (!q) return renderProfesores(allProfesores);
+  const filtered = allProfesores.filter(p =>
+    (p.nombre + ' ' + p.apellido + ' ' + p.email + ' ' + (p.especialidad || '') + ' ' + (p.rut || '')).toLowerCase().includes(q)
+  );
+  renderProfesores(filtered);
+}
+
+async function createProfesor() {
+  const alertEl = document.getElementById('createProfAlert');
+  const successEl = document.getElementById('createProfSuccess');
+  const btn = document.getElementById('createProfBtn');
+  alertEl.classList.remove('show');
+  successEl.classList.remove('show');
+
+  const body = {
+    nombre: document.getElementById('cpNombre').value.trim(),
+    apellido: document.getElementById('cpApellido').value.trim(),
+    rut: document.getElementById('cpRut').value.trim(),
+    email: document.getElementById('cpEmail').value.trim(),
+    telefono: document.getElementById('cpTelefono').value.trim(),
+    especialidad: document.getElementById('cpEspecialidad').value.trim(),
+    password: document.getElementById('cpPassword').value,
+  };
+
+  const pwd2 = document.getElementById('cpPassword2').value;
+
+  if (!body.nombre || !body.apellido || !body.email || !body.password) {
+    alertEl.textContent = 'Nombre, apellido, correo y contraseña son obligatorios';
+    alertEl.classList.add('show');
+    return;
+  }
+  if (body.password.length < 6) {
+    alertEl.textContent = 'La contraseña debe tener al menos 6 caracteres';
+    alertEl.classList.add('show');
+    return;
+  }
+  if (body.password !== pwd2) {
+    alertEl.textContent = 'Las contraseñas no coinciden';
+    alertEl.classList.add('show');
+    return;
+  }
+
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('/api/admin/profesores/create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+
+    if (!data.ok) {
+      alertEl.textContent = data.error || 'Error al registrar';
+      alertEl.classList.add('show');
+      return;
+    }
+
+    successEl.textContent = 'Profesor registrado correctamente';
+    successEl.classList.add('show');
+
+    ['cpNombre','cpApellido','cpRut','cpEmail','cpTelefono','cpEspecialidad','cpPassword','cpPassword2'].forEach(id => document.getElementById(id).value = '');
+
+    setTimeout(() => { closeModal('createProfModal'); loadProfesores(); }, 1200);
+  } catch {
+    alertEl.textContent = 'Error de conexión';
+    alertEl.classList.add('show');
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+}
+
+async function toggleProfesor(id, currentlyActive) {
+  const action = currentlyActive ? 'deshabilitar' : 'habilitar';
+  if (!window.confirm(`¿Estás seguro de que deseas ${action} a este profesor?`)) return;
+
+  try {
+    const res = await fetch(`/api/admin/profesores/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ activo: !currentlyActive })
+    });
+    const data = await res.json();
+
+    if (!data.ok) {
+      window.alert(data.error || 'Error al actualizar estado');
+      return;
+    }
+
+    loadProfesores();
+  } catch {
+    window.alert('Error de conexión');
+  }
+}
+
+function openEditProf(prof) {
+  document.getElementById('editProfId').value = prof.id;
+  document.getElementById('epNombre').value = prof.nombre;
+  document.getElementById('epApellido').value = prof.apellido;
+  document.getElementById('epRut').value = prof.rut || '';
+  document.getElementById('epEmail').value = prof.email;
+  document.getElementById('epTelefono').value = prof.telefono || '';
+  document.getElementById('epEspecialidad').value = prof.especialidad || '';
+  openModal('editProfModal');
+}
+
+async function saveProfesor() {
+  const id = document.getElementById('editProfId').value;
+  const alertEl = document.getElementById('editProfAlert');
+  const successEl = document.getElementById('editProfSuccess');
+  alertEl.classList.remove('show');
+  successEl.classList.remove('show');
+
+  const body = {
+    nombre: document.getElementById('epNombre').value.trim(),
+    apellido: document.getElementById('epApellido').value.trim(),
+    rut: document.getElementById('epRut').value.trim(),
+    email: document.getElementById('epEmail').value.trim(),
+    telefono: document.getElementById('epTelefono').value.trim(),
+    especialidad: document.getElementById('epEspecialidad').value.trim()
+  };
+
+  if (!body.nombre || !body.apellido || !body.email) {
+    alertEl.textContent = 'Nombre, apellido y correo son obligatorios';
+    alertEl.classList.add('show');
+    return;
+  }
+
+  try {
+    const res = await fetch(`/api/admin/profesores/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+
+    if (!data.ok) {
+      alertEl.textContent = data.error || 'Error al actualizar';
+      alertEl.classList.add('show');
+      return;
+    }
+
+    successEl.textContent = 'Profesor actualizado correctamente';
+    successEl.classList.add('show');
+    setTimeout(() => { closeModal('editProfModal'); loadProfesores(); }, 1000);
+  } catch {
+    alertEl.textContent = 'Error de conexión';
+    alertEl.classList.add('show');
+  }
+}
+
+function openProfPassword(id, name) {
+  document.getElementById('profPwdId').value = id;
+  document.getElementById('profPwdName').textContent = 'Profesor: ' + name;
+  document.getElementById('profNewPassword').value = '';
+  document.getElementById('profConfirmPassword').value = '';
+  openModal('profPasswordModal');
+}
+
+async function changeProfPassword() {
+  const id = document.getElementById('profPwdId').value;
+  const alertEl = document.getElementById('profPwdAlert');
+  const successEl = document.getElementById('profPwdSuccess');
+  alertEl.classList.remove('show');
+  successEl.classList.remove('show');
+
+  const newPassword = document.getElementById('profNewPassword').value;
+  const confirm = document.getElementById('profConfirmPassword').value;
+
+  if (!newPassword || newPassword.length < 6) {
+    alertEl.textContent = 'La contraseña debe tener al menos 6 caracteres';
+    alertEl.classList.add('show');
+    return;
+  }
+  if (newPassword !== confirm) {
+    alertEl.textContent = 'Las contraseñas no coinciden';
+    alertEl.classList.add('show');
+    return;
+  }
+
+  try {
+    const res = await fetch(`/api/admin/profesores/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ newPassword })
+    });
+    const data = await res.json();
+
+    if (!data.ok) {
+      alertEl.textContent = data.error || 'Error al actualizar contraseña';
+      alertEl.classList.add('show');
+      return;
+    }
+
+    successEl.textContent = 'Contraseña actualizada correctamente';
+    successEl.classList.add('show');
+    setTimeout(() => closeModal('profPasswordModal'), 1500);
+  } catch {
+    alertEl.textContent = 'Error de conexión';
+    alertEl.classList.add('show');
+  }
+}
+
+function openDeleteProf(id, name) {
+  document.getElementById('deleteProfId').value = id;
+  document.getElementById('deleteProfName').textContent = name;
+  openModal('deleteProfModal');
+}
+
+async function confirmDeleteProf() {
+  const id = document.getElementById('deleteProfId').value;
+
+  try {
+    const res = await fetch(`/api/admin/profesores/${id}`, { method: 'DELETE' });
+    const data = await res.json();
+
+    if (!data.ok) {
+      window.alert(data.error || 'Error al eliminar');
+      return;
+    }
+
+    closeModal('deleteProfModal');
+    loadProfesores();
+  } catch {
+    window.alert('Error de conexión');
+  }
+}
+
 // ── RUT formatting ──
-document.querySelectorAll('#createRut, #editRut').forEach(input => {
+document.querySelectorAll('#createRut, #editRut, #cpRut, #epRut').forEach(input => {
   input.addEventListener('input', function() {
     let v = this.value.replace(/[^0-9kK]/g, '');
     if (v.length > 1) {

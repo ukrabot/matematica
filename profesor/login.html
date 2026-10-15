@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Profesor — PreuOnline Matemáticas</title>
+  <link rel="stylesheet" href="/auth/auth.css">
+</head>
+<body>
+<div class="auth-layout">
+
+  <!-- Branded left panel -->
+  <div class="auth-brand">
+    <a href="/" class="back-home">← Volver al inicio</a>
+    <div class="brand-logo">
+      <div class="brand-sigma">∑</div>
+      <div class="brand-name">Preu<span>Online</span></div>
+    </div>
+    <p class="brand-tagline">Portal Profesor — Sube materiales y recursos para tus estudiantes.</p>
+    <div class="brand-formulas">
+      ax² + bx + c = 0<br>
+      sin²θ + cos²θ = 1<br>
+      P(A∪B) = P(A) + P(B) − P(A∩B)<br>
+      ∫ f(x)dx = F(b) − F(a)
+    </div>
+  </div>
+
+  <!-- Form panel -->
+  <div class="auth-form-panel">
+    <div class="auth-card">
+      <h1>Acceso Profesor</h1>
+      <p class="subtitle">Ingresa con tu cuenta de profesor</p>
+
+      <div class="alert alert-error" id="alert"></div>
+
+      <form id="loginForm" novalidate>
+        <div class="form-group">
+          <label for="email">Correo electrónico</label>
+          <input type="email" id="email" placeholder="tu@email.com" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <div class="password-wrapper">
+            <input type="password" id="password" placeholder="Tu contraseña" required autocomplete="current-password">
+            <button type="button" class="toggle-password" aria-label="Mostrar contraseña">👁</button>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" id="submitBtn" style="margin-top:8px;">
+          <span class="spinner"></span>
+          <span class="btn-text">Ingresar</span>
+        </button>
+      </form>
+
+      <p style="text-align:center; margin-top:20px; font-size:.82rem; color:var(--fg-muted);">
+        <a href="/" style="color:var(--accent); text-decoration:none;">← Volver al inicio</a>
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const form = document.getElementById('loginForm');
+const alertEl = document.getElementById('alert');
+const btn = document.getElementById('submitBtn');
+
+// Toggle password visibility
+document.querySelector('.toggle-password').addEventListener('click', function() {
+  const input = this.previousElementSibling;
+  const isPassword = input.type === 'password';
+  input.type = isPassword ? 'text' : 'password';
+  this.textContent = isPassword ? '🔒' : '👁';
+});
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  alertEl.classList.remove('show');
+
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+
+  if (!email || !password) {
+    showError('Completa todos los campos');
+    return;
+  }
+
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('/api/profesor/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await res.json();
+
+    if (!data.ok) {
+      showError(data.error || 'Error al iniciar sesión');
+      return;
+    }
+
+    window.location.href = '/profesor/';
+  } catch (err) {
+    showError('Error de conexión. Inténtalo de nuevo.');
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+});
+
+function showError(msg) {
+  alertEl.textContent = msg;
+  alertEl.classList.add('show');
+}
+</script>
+</body>
+</html>

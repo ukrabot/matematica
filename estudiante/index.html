@@ -434,6 +434,91 @@
     max-width: 360px;
   }
 
+  /* ===================== MATERIALES ===================== */
+  .mat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 14px;
+  }
+  .mat-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  .mat-card:hover {
+    box-shadow: var(--shadow);
+    border-color: var(--accent);
+  }
+  .mat-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .mat-title {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.3;
+    word-break: break-word;
+  }
+  .mat-tipo {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .mat-tipo-link       { background: rgba(79,70,229,0.1);  color: var(--accent); }
+  .mat-tipo-video      { background: rgba(232,69,48,0.1);  color: var(--coral); }
+  .mat-tipo-documento  { background: rgba(10,158,138,0.1); color: var(--teal); }
+  .mat-tipo-presentacion { background: rgba(212,160,23,0.1); color: var(--gold); }
+  .mat-tipo-otro       { background: var(--bg-alt); color: var(--fg-muted); }
+  .mat-desc {
+    font-size: 13px;
+    color: var(--fg-muted);
+    line-height: 1.5;
+  }
+  .mat-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--fg-muted);
+    margin-top: auto;
+  }
+  .mat-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background 0.2s;
+    margin-top: 4px;
+    align-self: flex-start;
+  }
+  .mat-link:hover { background: var(--accent-hover); }
+  .mat-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--fg-muted);
+  }
+  .mat-empty svg { width: 48px; height: 48px; opacity: 0.3; margin-bottom: 12px; }
+  .mat-empty p { font-size: 14px; }
+
   /* ===================== TUTOR IA CHAT ===================== */
   .tutor-container { display: flex; flex-direction: column; height: calc(100vh - var(--topbar-h) - 200px); min-height: 400px; }
   .chat-messages {
@@ -895,6 +980,20 @@
       </div>
     </div>
 
+    <!-- MATERIALES SECTION -->
+    <div id="materialesSection" style="display:none;">
+      <div class="content-section">
+        <h3>📚 Materiales de Estudio</h3>
+        <p style="color:var(--fg-muted); font-size:14px; margin-bottom:20px;">Recursos subidos por tus profesores para apoyar tu preparación.</p>
+        <div id="materialesList">
+          <div class="content-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            <p>Cargando materiales...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- OTHER SECTIONS PLACEHOLDER -->
     <div id="otherSection" style="display:none;">
       <div class="content-placeholder">
@@ -1009,11 +1108,16 @@ navItems.forEach(item => {
     sectionTitle.textContent = sectionLabels[section] || section;
 
     // Show/hide sections
+    document.getElementById('tutorSection').style.display = 'none';
+    document.getElementById('materialesSection').style.display = 'none';
+    document.getElementById('otherSection').style.display = 'none';
+
     if (section === 'tutor') {
       document.getElementById('tutorSection').style.display = 'flex';
-      document.getElementById('otherSection').style.display = 'none';
+    } else if (section === 'materiales') {
+      document.getElementById('materialesSection').style.display = 'block';
+      loadMateriales();
     } else {
-      document.getElementById('tutorSection').style.display = 'none';
       document.getElementById('otherSection').style.display = 'block';
     }
 
@@ -1022,6 +1126,72 @@ navItems.forEach(item => {
     overlay.classList.remove('show');
   });
 });
+
+// --- Materiales ---
+let materialesLoaded = false;
+
+async function loadMateriales() {
+  if (materialesLoaded) return;
+  const container = document.getElementById('materialesList');
+
+  try {
+    const res = await fetch('/api/materiales');
+    const data = await res.json();
+
+    if (!data.ok || !data.materiales || data.materiales.length === 0) {
+      container.innerHTML = `
+        <div class="mat-empty">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <p>Aún no hay materiales disponibles.</p>
+        </div>
+      `;
+      materialesLoaded = true;
+      return;
+    }
+
+    const tipoLabels = { link: 'Enlace', video: 'Video', documento: 'Documento', presentacion: 'Presentación', otro: 'Otro' };
+
+    container.innerHTML = '<div class="mat-grid">' + data.materiales.map(m => {
+      const tipoClass = 'mat-tipo-' + (m.tipo || 'link');
+      const tipoText = tipoLabels[m.tipo] || m.tipo;
+      const date = m.created_at ? new Date(m.created_at).toLocaleDateString('es-CL', { day: '2-digit', month: 'short', year: 'numeric' }) : '';
+      const descHtml = m.descripcion ? `<div class="mat-desc">${escHtml(m.descripcion)}</div>` : '';
+
+      return `
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-title">${escHtml(m.titulo)}</div>
+            <span class="mat-tipo ${tipoClass}">${tipoText}</span>
+          </div>
+          ${descHtml}
+          <div class="mat-meta">
+            <span>${escHtml(m.profesor || '')}</span>
+            <span>${date}</span>
+          </div>
+          <a href="${escHtml(m.url)}" target="_blank" rel="noopener" class="mat-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Abrir recurso
+          </a>
+        </div>
+      `;
+    }).join('') + '</div>';
+
+    materialesLoaded = true;
+  } catch {
+    container.innerHTML = `
+      <div class="mat-empty">
+        <p>Error al cargar materiales. Intenta de nuevo.</p>
+      </div>
+    `;
+  }
+}
+
+function escHtml(str) {
+  if (!str) return '';
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
 
 // --- Logout ---
 document.getElementById('logoutBtn').addEventListener('click', async () => {

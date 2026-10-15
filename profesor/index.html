@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panel Profesor — PreuOnline Matemáticas</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <style>
+  :root {
+    --bg: #fafbfe;
+    --bg-alt: #f0f1f8;
+    --bg-dark: #0b0e2a;
+    --bg-card: #ffffff;
+    --fg: #141838;
+    --fg-muted: #5a5f88;
+    --accent: #4f46e5;
+    --accent-hover: #4338ca;
+    --accent-soft: rgba(79,70,229,0.08);
+    --coral: #e84530;
+    --teal: #0a9e8a;
+    --gold: #d4a017;
+    --border: #e0e2ee;
+    --shadow: 0 2px 12px rgba(11,14,42,0.06);
+    --shadow-lg: 0 8px 32px rgba(11,14,42,0.10);
+    --radius: 14px;
+    --radius-sm: 8px;
+    --sidebar-w: 260px;
+    --topbar-h: 64px;
+    --font-display: 'Space Grotesk', system-ui, sans-serif;
+    --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    --success: #16a34a;
+    --danger: #dc2626;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #08091a;
+      --bg-alt: #0f1128;
+      --bg-dark: #050618;
+      --bg-card: #13153a;
+      --fg: #e2e4f2;
+      --fg-muted: #8a90b8;
+      --accent: #7c73fa;
+      --accent-hover: #9a94ff;
+      --accent-soft: rgba(124,115,250,0.12);
+      --coral: #f06050;
+      --teal: #20c8b0;
+      --gold: #f0c040;
+      --border: #1e2148;
+      --shadow: 0 2px 12px rgba(0,0,0,0.24);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.35);
+      --success: #22c55e;
+      --danger: #ef4444;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #08091a;
+    --bg-alt: #0f1128;
+    --bg-dark: #050618;
+    --bg-card: #13153a;
+    --fg: #e2e4f2;
+    --fg-muted: #8a90b8;
+    --accent: #7c73fa;
+    --accent-hover: #9a94ff;
+    --accent-soft: rgba(124,115,250,0.12);
+    --coral: #f06050;
+    --teal: #20c8b0;
+    --gold: #f0c040;
+    --border: #1e2148;
+    --shadow: 0 2px 12px rgba(0,0,0,0.24);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.35);
+    --success: #22c55e;
+    --danger: #ef4444;
+    color-scheme: dark;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--fg);
+    min-height: 100vh;
+  }
+
+  /* ===================== TOP BAR ===================== */
+  .topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--topbar-h);
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-inline: 20px;
+    z-index: 100;
+  }
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .topbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--fg);
+  }
+  .topbar-sigma {
+    width: 38px;
+    height: 38px;
+    background: var(--accent);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .topbar-name {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+  .topbar-name span { color: var(--accent); }
+  .topbar-badge {
+    font-size: 11px;
+    font-weight: 600;
+    background: var(--teal);
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .user-dropdown {
+    position: relative;
+  }
+  .user-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 6px 12px;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--fg);
+  }
+  .user-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 6px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-lg);
+    min-width: 180px;
+    display: none;
+    z-index: 200;
+    overflow: hidden;
+  }
+  .dropdown-menu.open { display: block; }
+  .dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 10px 16px;
+    font-size: 14px;
+    text-align: left;
+    background: none;
+    border: none;
+    color: var(--fg);
+    cursor: pointer;
+    font-family: var(--font-body);
+    transition: background 0.15s;
+  }
+  .dropdown-item:hover { background: var(--accent-soft); }
+  .dropdown-item.danger { color: var(--danger); }
+
+  /* ===================== SIDEBAR ===================== */
+  .sidebar {
+    position: fixed;
+    top: var(--topbar-h);
+    left: 0;
+    bottom: 0;
+    width: var(--sidebar-w);
+    background: var(--bg-card);
+    border-right: 1px solid var(--border);
+    padding: 20px 12px;
+    overflow-y: auto;
+    z-index: 90;
+  }
+  .nav-section-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--fg-muted);
+    padding: 8px 12px 6px;
+    margin-top: 12px;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--fg-muted);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    user-select: none;
+  }
+  .nav-item:hover { background: var(--accent-soft); color: var(--fg); }
+  .nav-item.active { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+  .nav-icon { font-size: 18px; width: 24px; text-align: center; }
+
+  /* ===================== MAIN ===================== */
+  .main {
+    margin-left: var(--sidebar-w);
+    margin-top: var(--topbar-h);
+    padding: 28px 32px;
+    min-height: calc(100vh - var(--topbar-h));
+  }
+
+  /* ===================== WELCOME ===================== */
+  .welcome-card {
+    background: linear-gradient(135deg, var(--accent) 0%, #7c3aed 100%);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    color: #fff;
+    margin-bottom: 28px;
+  }
+  .welcome-card h2 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .welcome-card p {
+    font-size: 14px;
+    opacity: 0.9;
+  }
+
+  /* ===================== MATERIALS SECTION ===================== */
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .section-header h3 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-sm {
+    padding: 6px 14px;
+    font-size: 13px;
+  }
+  .btn-outline {
+    background: transparent;
+    border: 1.5px solid var(--border);
+    color: var(--fg);
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-danger {
+    background: var(--danger);
+    color: #fff;
+  }
+  .btn-danger:hover { opacity: 0.9; }
+
+  /* ── Material cards ── */
+  .materials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+  }
+  .material-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: box-shadow 0.2s;
+  }
+  .material-card:hover { box-shadow: var(--shadow); }
+  .material-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .material-tipo {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .tipo-link       { background: rgba(79,70,229,0.1);  color: var(--accent); }
+  .tipo-video      { background: rgba(232,69,48,0.1);  color: var(--coral); }
+  .tipo-documento  { background: rgba(10,158,138,0.1); color: var(--teal); }
+  .tipo-presentacion { background: rgba(212,160,23,0.1); color: var(--gold); }
+  .tipo-otro       { background: var(--bg-alt); color: var(--fg-muted); }
+
+  .material-title {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.3;
+    word-break: break-word;
+  }
+  .material-desc {
+    font-size: 13px;
+    color: var(--fg-muted);
+    line-height: 1.5;
+    word-break: break-word;
+  }
+  .material-url {
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+    word-break: break-all;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .material-url:hover { text-decoration: underline; }
+  .material-date {
+    font-size: 12px;
+    color: var(--fg-muted);
+  }
+  .material-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--fg-muted);
+  }
+  .empty-state .empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.4;
+  }
+  .empty-state h4 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: var(--fg);
+  }
+  .empty-state p {
+    font-size: 14px;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+
+  /* ===================== MODAL ===================== */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    width: 100%;
+    max-width: 520px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+  }
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .modal-header h3 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .modal-close {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: var(--fg-muted);
+    padding: 4px;
+    line-height: 1;
+  }
+  .modal-body {
+    padding: 24px;
+  }
+  .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 24px;
+    border-top: 1px solid var(--border);
+  }
+  .form-group {
+    margin-bottom: 16px;
+  }
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 14px;
+    background: var(--bg);
+    color: var(--fg);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  .form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  /* ── Alert ── */
+  .alert {
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    margin-bottom: 16px;
+    display: none;
+  }
+  .alert.show { display: block; }
+  .alert-error {
+    background: rgba(220,38,38,0.08);
+    color: var(--danger);
+    border: 1px solid rgba(220,38,38,0.2);
+  }
+  .alert-success {
+    background: rgba(22,163,74,0.08);
+    color: var(--success);
+    border: 1px solid rgba(22,163,74,0.2);
+  }
+
+  /* ── Change password modal ── */
+  .pwd-modal { }
+
+  /* ===================== MOBILE ===================== */
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--fg);
+    padding: 4px;
+  }
+  @media (max-width: 768px) {
+    .sidebar { transform: translateX(-100%); transition: transform 0.25s ease; z-index: 95; }
+    .sidebar.open { transform: translateX(0); }
+    .main { margin-left: 0; padding: 20px 16px; }
+    .menu-toggle { display: block; }
+    .materials-grid { grid-template-columns: 1fr; }
+  }
+  </style>
+</head>
+<body>
+
+<!-- ====== TOP BAR ====== -->
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="menu-toggle" id="menuToggle">☰</button>
+    <a href="/profesor/" class="topbar-logo">
+      <div class="topbar-sigma">∑</div>
+      <div class="topbar-name">Preu<span>Online</span></div>
+    </a>
+    <span class="topbar-badge">Profesor</span>
+  </div>
+  <div class="topbar-right">
+    <div class="user-dropdown">
+      <button class="user-btn" id="userBtn">
+        <div class="user-avatar" id="userAvatar">P</div>
+        <span id="userName">Profesor</span>
+        <span style="font-size:12px;">▼</span>
+      </button>
+      <div class="dropdown-menu" id="dropdownMenu">
+        <button class="dropdown-item" onclick="openPasswordModal()">Cambiar contraseña</button>
+        <button class="dropdown-item danger" onclick="logout()">Cerrar sesión</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== SIDEBAR ====== -->
+<div class="sidebar" id="sidebar">
+  <div class="nav-section-label">Menú</div>
+  <div class="nav-item active" data-section="materiales">
+    <span class="nav-icon">📚</span>
+    <span>Subir Material</span>
+  </div>
+</div>
+
+<!-- ====== MAIN ====== -->
+<div class="main">
+
+  <!-- Welcome -->
+  <div class="welcome-card" id="welcomeCard">
+    <h2 id="welcomeText">Bienvenido, Profesor</h2>
+    <p>Sube materiales y recursos para que tus estudiantes puedan acceder a ellos.</p>
+  </div>
+
+  <!-- Materials section -->
+  <div id="materialesSection">
+    <div class="section-header">
+      <h3>Mis Materiales</h3>
+      <button class="btn btn-primary" onclick="openCreateModal()">+ Nuevo Material</button>
+    </div>
+
+    <div class="alert alert-success" id="successAlert"></div>
+    <div class="alert alert-error" id="errorAlert"></div>
+
+    <div id="materialesContainer">
+      <div class="empty-state" id="emptyState" style="display:none;">
+        <div class="empty-icon">📂</div>
+        <h4>Sin materiales</h4>
+        <p>Aún no has subido materiales. Haz clic en "Nuevo Material" para comenzar.</p>
+      </div>
+      <div class="materials-grid" id="materialsGrid"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ====== CREATE/EDIT MATERIAL MODAL ====== -->
+<div class="modal-overlay" id="materialModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="materialModalTitle">Nuevo Material</h3>
+      <button class="modal-close" onclick="closeModal('materialModal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="matTitulo">Título *</label>
+        <input type="text" id="matTitulo" placeholder="Ej: Guía de funciones cuadráticas">
+      </div>
+      <div class="form-group">
+        <label for="matTipo">Tipo</label>
+        <select id="matTipo">
+          <option value="link">Enlace</option>
+          <option value="video">Video</option>
+          <option value="documento">Documento</option>
+          <option value="presentacion">Presentación</option>
+          <option value="otro">Otro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="matUrl">URL *</label>
+        <input type="url" id="matUrl" placeholder="https://drive.google.com/... o https://youtube.com/...">
+      </div>
+      <div class="form-group">
+        <label for="matDesc">Descripción (opcional)</label>
+        <textarea id="matDesc" placeholder="Breve descripción del material..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('materialModal')">Cancelar</button>
+      <button class="btn btn-primary" id="saveMaterialBtn" onclick="saveMaterial()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== DELETE CONFIRM MODAL ====== -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Eliminar Material</h3>
+      <button class="modal-close" onclick="closeModal('deleteModal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p>¿Estás seguro de que deseas eliminar "<strong id="deleteName"></strong>"? Esta acción no se puede deshacer.</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('deleteModal')">Cancelar</button>
+      <button class="btn btn-danger" id="confirmDeleteBtn" onclick="confirmDelete()">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== CHANGE PASSWORD MODAL ====== -->
+<div class="modal-overlay pwd-modal" id="passwordModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Cambiar Contraseña</h3>
+      <button class="modal-close" onclick="closeModal('passwordModal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-error" id="pwdError"></div>
+      <div class="alert alert-success" id="pwdSuccess"></div>
+      <div class="form-group">
+        <label for="newPwd">Nueva contraseña</label>
+        <input type="password" id="newPwd" placeholder="Mínimo 6 caracteres">
+      </div>
+      <div class="form-group">
+        <label for="confirmPwd">Confirmar contraseña</label>
+        <input type="password" id="confirmPwd" placeholder="Repetir contraseña">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('passwordModal')">Cancelar</button>
+      <button class="btn btn-primary" onclick="changePassword()">Cambiar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── State ──
+let profesor = null;
+let materiales = [];
+let editingId = null;
+let deletingId = null;
+
+// ── Auth check ──
+async function checkAuth() {
+  try {
+    const res = await fetch('/api/profesor/me');
+    const data = await res.json();
+    if (!data.ok) {
+      window.location.href = '/profesor/login.html';
+      return;
+    }
+    profesor = data.profesor;
+    document.getElementById('userName').textContent = profesor.nombre;
+    document.getElementById('userAvatar').textContent = (profesor.nombre[0] || 'P').toUpperCase();
+    document.getElementById('welcomeText').textContent = `Bienvenido, ${profesor.nombre}`;
+    loadMateriales();
+  } catch {
+    window.location.href = '/profesor/login.html';
+  }
+}
+
+// ── Load materials ──
+async function loadMateriales() {
+  try {
+    const res = await fetch('/api/profesor/materiales');
+    const data = await res.json();
+    if (data.ok) {
+      materiales = data.materiales;
+      renderMateriales();
+    }
+  } catch (err) {
+    showAlert('errorAlert', 'Error al cargar materiales');
+  }
+}
+
+function renderMateriales() {
+  const grid = document.getElementById('materialsGrid');
+  const empty = document.getElementById('emptyState');
+
+  if (materiales.length === 0) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+
+  empty.style.display = 'none';
+  grid.innerHTML = materiales.map(m => `
+    <div class="material-card">
+      <div class="material-card-header">
+        <div class="material-title">${esc(m.titulo)}</div>
+        <span class="material-tipo tipo-${m.tipo}">${tipoLabel(m.tipo)}</span>
+      </div>
+      ${m.descripcion ? `<div class="material-desc">${esc(m.descripcion)}</div>` : ''}
+      <a href="${esc(m.url)}" target="_blank" rel="noopener" class="material-url">🔗 ${esc(truncUrl(m.url))}</a>
+      <div class="material-date">${formatDate(m.created_at)}</div>
+      <div class="material-actions">
+        <button class="btn btn-sm btn-outline" onclick="openEditModal(${m.id})">Editar</button>
+        <button class="btn btn-sm btn-danger" onclick="openDeleteModal(${m.id})">Eliminar</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function tipoLabel(tipo) {
+  const labels = { link: 'Enlace', video: 'Video', documento: 'Documento', presentacion: 'Presentación', otro: 'Otro' };
+  return labels[tipo] || tipo;
+}
+
+function truncUrl(url) {
+  try {
+    const u = new URL(url);
+    const path = u.pathname.length > 30 ? u.pathname.slice(0, 30) + '…' : u.pathname;
+    return u.hostname + path;
+  } catch { return url.slice(0, 50); }
+}
+
+function formatDate(d) {
+  if (!d) return '';
+  const date = new Date(d);
+  return date.toLocaleDateString('es-CL', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+function esc(s) {
+  if (!s) return '';
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+// ── Create/Edit modal ──
+function openCreateModal() {
+  editingId = null;
+  document.getElementById('materialModalTitle').textContent = 'Nuevo Material';
+  document.getElementById('matTitulo').value = '';
+  document.getElementById('matTipo').value = 'link';
+  document.getElementById('matUrl').value = '';
+  document.getElementById('matDesc').value = '';
+  document.getElementById('materialModal').classList.add('open');
+}
+
+function openEditModal(id) {
+  const m = materiales.find(x => x.id === id);
+  if (!m) return;
+  editingId = id;
+  document.getElementById('materialModalTitle').textContent = 'Editar Material';
+  document.getElementById('matTitulo').value = m.titulo;
+  document.getElementById('matTipo').value = m.tipo;
+  document.getElementById('matUrl').value = m.url;
+  document.getElementById('matDesc').value = m.descripcion || '';
+  document.getElementById('materialModal').classList.add('open');
+}
+
+async function saveMaterial() {
+  const titulo = document.getElementById('matTitulo').value.trim();
+  const tipo = document.getElementById('matTipo').value;
+  const url = document.getElementById('matUrl').value.trim();
+  const descripcion = document.getElementById('matDesc').value.trim();
+
+  if (!titulo) { alert('El título es obligatorio'); return; }
+  if (!url)    { alert('La URL es obligatoria'); return; }
+
+  const body = { titulo, tipo, url, descripcion };
+
+  try {
+    let res;
+    if (editingId) {
+      res = await fetch(`/api/profesor/materiales/${editingId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+    } else {
+      res = await fetch('/api/profesor/materiales', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+    }
+
+    const data = await res.json();
+    if (data.ok) {
+      closeModal('materialModal');
+      showAlert('successAlert', editingId ? 'Material actualizado' : 'Material creado');
+      loadMateriales();
+    } else {
+      showAlert('errorAlert', data.error || 'Error al guardar');
+    }
+  } catch {
+    showAlert('errorAlert', 'Error de conexión');
+  }
+}
+
+// ── Delete modal ──
+function openDeleteModal(id) {
+  const m = materiales.find(x => x.id === id);
+  if (!m) return;
+  deletingId = id;
+  document.getElementById('deleteName').textContent = m.titulo;
+  document.getElementById('deleteModal').classList.add('open');
+}
+
+async function confirmDelete() {
+  if (!deletingId) return;
+  try {
+    const res = await fetch(`/api/profesor/materiales/${deletingId}`, { method: 'DELETE' });
+    const data = await res.json();
+    if (data.ok) {
+      closeModal('deleteModal');
+      showAlert('successAlert', 'Material eliminado');
+      loadMateriales();
+    } else {
+      showAlert('errorAlert', data.error || 'Error al eliminar');
+    }
+  } catch {
+    showAlert('errorAlert', 'Error de conexión');
+  }
+}
+
+// ── Password change ──
+function openPasswordModal() {
+  document.getElementById('newPwd').value = '';
+  document.getElementById('confirmPwd').value = '';
+  document.getElementById('pwdError').classList.remove('show');
+  document.getElementById('pwdSuccess').classList.remove('show');
+  closeDropdown();
+  document.getElementById('passwordModal').classList.add('open');
+}
+
+async function changePassword() {
+  const pwd = document.getElementById('newPwd').value;
+  const confirm = document.getElementById('confirmPwd').value;
+  const errEl = document.getElementById('pwdError');
+  const okEl = document.getElementById('pwdSuccess');
+  errEl.classList.remove('show');
+  okEl.classList.remove('show');
+
+  if (!pwd || pwd.length < 6) {
+    errEl.textContent = 'La contraseña debe tener al menos 6 caracteres';
+    errEl.classList.add('show');
+    return;
+  }
+  if (pwd !== confirm) {
+    errEl.textContent = 'Las contraseñas no coinciden';
+    errEl.classList.add('show');
+    return;
+  }
+
+  // Use admin endpoint to change password (professor can't change own password directly — handled via admin)
+  // For now, show message to contact admin
+  okEl.textContent = 'Contacta al administrador para cambiar tu contraseña';
+  okEl.classList.add('show');
+}
+
+// ── Utilities ──
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+function showAlert(id, msg) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 4000);
+}
+
+async function logout() {
+  try {
+    await fetch('/api/profesor/logout', { method: 'POST' });
+  } catch {}
+  window.location.href = '/profesor/login.html';
+}
+
+// ── Dropdown ──
+const userBtn = document.getElementById('userBtn');
+const dropdownMenu = document.getElementById('dropdownMenu');
+userBtn.addEventListener('click', () => dropdownMenu.classList.toggle('open'));
+function closeDropdown() { dropdownMenu.classList.remove('open'); }
+document.addEventListener('click', e => {
+  if (!e.target.closest('.user-dropdown')) closeDropdown();
+});
+
+// ── Mobile menu ──
+document.getElementById('menuToggle').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('open');
+});
+document.addEventListener('click', e => {
+  if (!e.target.closest('.sidebar') && !e.target.closest('#menuToggle')) {
+    document.getElementById('sidebar').classList.remove('open');
+  }
+});
+
+// ── Init ──
+checkAuth();
+</script>
+</body>
+</html>
