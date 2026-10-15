@@ -516,6 +516,19 @@ tbody tr:hover { background: var(--accent-soft); }
   background: var(--green-soft);
   color: var(--green);
 }
+.badge-inactive {
+  background: var(--red-soft);
+  color: var(--red);
+}
+
+/* Inactive row */
+.row-inactive td {
+  opacity: .55;
+}
+.row-inactive td:last-child {
+  opacity: 1;
+}
+.btn-icon.enable:hover { color: var(--green); border-color: var(--green); }
 
 /* ── Action bar ── */
 .action-bar {

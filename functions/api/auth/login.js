@@ -11,11 +11,16 @@ export async function onRequestPost(context) {
 
     const db = context.env.DB;
     const user = await db.prepare(
-      'SELECT id, nombre, apellido, email, telefono, colegio, password_hash, salt FROM users WHERE email = ?'
+      'SELECT id, nombre, apellido, email, telefono, colegio, password_hash, salt, activo FROM users WHERE email = ?'
     ).bind(email.toLowerCase().trim()).first();
 
     if (!user) {
       return error('Email o contraseña incorrectos', 401);
+    }
+
+    // Check if student account is disabled
+    if (user.activo === 0) {
+      return error('Tu cuenta está deshabilitada. Contacta al administrador.', 403);
     }
 
     const valid = await verifyPassword(password, user.salt, user.password_hash);

@@ -6,7 +6,7 @@ export async function onRequestGet(context) {
 
   try {
     const { results } = await context.env.DB.prepare(
-      'SELECT id, nombre, apellido, email, telefono, colegio, rut, created_at FROM users ORDER BY created_at DESC'
+      'SELECT id, nombre, apellido, email, telefono, colegio, rut, activo, created_at FROM users ORDER BY created_at DESC'
     ).all();
 
     return json({ ok: true, estudiantes: results });

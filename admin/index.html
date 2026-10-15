@@ -430,8 +430,15 @@ function renderStudents(students) {
 
   tbody.innerHTML = students.map(s => {
     const date = new Date(s.created_at).toLocaleDateString('es-CL', { day: '2-digit', month: 'short', year: 'numeric' });
+    const isActive = s.activo !== 0;
+    const badgeClass = isActive ? 'badge-active' : 'badge-inactive';
+    const badgeText = isActive ? 'Activo' : 'Inactivo';
+    const toggleTitle = isActive ? 'Deshabilitar' : 'Habilitar';
+    const toggleIcon = isActive
+      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18.36 6.64A9 9 0 010 12a9 9 0 0118.36-5.36"/><path d="M22 12A10 10 0 1112 2"/></svg>'
+      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
     return `
-      <tr>
+      <tr${!isActive ? ' class="row-inactive"' : ''}>
         <td>
           <span class="student-name">${esc(s.nombre)} ${esc(s.apellido)}</span>
           <span class="student-email">${esc(s.email)}</span>
@@ -440,9 +447,12 @@ function renderStudents(students) {
         <td>${esc(s.colegio)}</td>
         <td>${esc(s.telefono)}</td>
         <td>${date}</td>
-        <td><span class="badge badge-active">Activo</span></td>
+        <td><span class="badge ${badgeClass}">${badgeText}</span></td>
         <td>
           <div class="actions">
+            <button class="btn-icon ${isActive ? '' : 'enable'}" title="${toggleTitle}" onclick='toggleEstudiante(${s.id}, ${isActive})'>
+              ${toggleIcon}
+            </button>
             <button class="btn-icon" title="Editar" onclick='openEdit(${JSON.stringify(s)})'>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
             </button>
@@ -742,6 +752,30 @@ async function toggleRegistro(enabled) {
       setTimeout(() => successEl.classList.remove('show'), 3000);
     }
   } catch {}
+}
+
+// ── Toggle student active status ──
+async function toggleEstudiante(id, currentlyActive) {
+  const action = currentlyActive ? 'deshabilitar' : 'habilitar';
+  if (!window.confirm(`¿Estás seguro de que deseas ${action} a este estudiante?`)) return;
+
+  try {
+    const res = await fetch(`/api/admin/estudiantes/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ activo: !currentlyActive })
+    });
+    const data = await res.json();
+
+    if (!data.ok) {
+      window.alert(data.error || 'Error al actualizar estado');
+      return;
+    }
+
+    loadStudents();
+  } catch {
+    window.alert('Error de conexión');
+  }
 }
 
 // ── Modals ──
