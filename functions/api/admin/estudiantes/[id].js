@@ -7,7 +7,7 @@ export async function onRequestGet(context) {
 
   const id = context.params.id;
   const { results } = await context.env.DB.prepare(
-    'SELECT id, nombre, apellido, email, telefono, colegio, created_at FROM users WHERE id = ?'
+    'SELECT id, nombre, apellido, email, telefono, colegio, rut, created_at FROM users WHERE id = ?'
   ).bind(id).all();
 
   if (!results[0]) return error('Estudiante no encontrado', 404);
@@ -23,7 +23,7 @@ export async function onRequestPut(context) {
 
   try {
     const body = await context.request.json();
-    const { nombre, apellido, email, telefono, colegio, newPassword } = body;
+    const { nombre, apellido, email, telefono, colegio, rut, newPassword } = body;
 
     // If password update requested
     if (newPassword) {
@@ -38,7 +38,7 @@ export async function onRequestPut(context) {
     }
 
     // If info update requested
-    if (nombre || apellido || email || telefono || colegio) {
+    if (nombre || apellido || email || telefono || colegio || rut !== undefined) {
       const fields = [];
       const values = [];
 
@@ -47,6 +47,7 @@ export async function onRequestPut(context) {
       if (email)    { fields.push('email = ?');    values.push(email); }
       if (telefono) { fields.push('telefono = ?'); values.push(telefono); }
       if (colegio)  { fields.push('colegio = ?');  values.push(colegio); }
+      if (rut !== undefined) { fields.push('rut = ?'); values.push(rut || ''); }
 
       if (fields.length > 0) {
         fields.push('updated_at = CURRENT_TIMESTAMP');

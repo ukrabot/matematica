@@ -22,9 +22,15 @@
     <p class="sidebar-label">Gestión</p>
     <ul class="sidebar-nav">
       <li>
-        <a href="#" class="active" data-section="estudiantes">
+        <a href="#" class="active" data-section="estudiantes" onclick="switchSection('estudiantes', this)">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
           Estudiantes
+        </a>
+      </li>
+      <li>
+        <a href="#" data-section="configuracion" onclick="switchSection('configuracion', this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          Configuración
         </a>
       </li>
     </ul>
@@ -46,65 +52,222 @@
         <button class="hamburger-admin" onclick="toggleSidebar()">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
         </button>
-        <h1>Estudiantes</h1>
+        <h1 id="sectionTitle">Estudiantes</h1>
       </div>
       <div class="topbar-info">
         <span id="adminName">admin</span>
       </div>
     </div>
 
-    <!-- Stats -->
-    <div class="stats-row">
-      <div class="stat-card">
-        <div class="stat-label">Total Estudiantes</div>
-        <div class="stat-value" id="totalCount">—</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Registros hoy</div>
-        <div class="stat-value" id="todayCount">—</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Esta semana</div>
-        <div class="stat-value" id="weekCount">—</div>
-      </div>
-    </div>
-
-    <!-- Table -->
-    <div class="table-card">
-      <div class="table-header">
-        <h2>Lista de Estudiantes</h2>
-        <div class="search-box">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-          <input type="text" placeholder="Buscar estudiante..." id="searchInput" oninput="filterStudents()">
+    <!-- ════════════════════════════════════════════ -->
+    <!-- SECTION: Estudiantes                        -->
+    <!-- ════════════════════════════════════════════ -->
+    <div id="section-estudiantes">
+      <!-- Stats -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-label">Total Estudiantes</div>
+          <div class="stat-value" id="totalCount">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Registros hoy</div>
+          <div class="stat-value" id="todayCount">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Esta semana</div>
+          <div class="stat-value" id="weekCount">—</div>
         </div>
       </div>
 
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Estudiante</th>
-              <th>Colegio</th>
-              <th>Teléfono</th>
-              <th>Fecha registro</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody id="studentsList">
-            <tr>
-              <td colspan="6">
-                <div class="empty-state">
-                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                  <p>Cargando estudiantes...</p>
-                </div>
-              </td>
-            </tr>
-          </tbody>
+      <!-- Action buttons -->
+      <div class="action-bar">
+        <button class="btn btn-primary" onclick="openModal('createModal')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          Registrar Estudiante
+        </button>
+        <button class="btn btn-secondary" onclick="openModal('bulkModal')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Carga Masiva Excel
+        </button>
+      </div>
+
+      <!-- Table -->
+      <div class="table-card">
+        <div class="table-header">
+          <h2>Lista de Estudiantes</h2>
+          <div class="search-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input type="text" placeholder="Buscar estudiante..." id="searchInput" oninput="filterStudents()">
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Estudiante</th>
+                <th>RUT</th>
+                <th>Colegio</th>
+                <th>Teléfono</th>
+                <th>Fecha registro</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="studentsList">
+              <tr>
+                <td colspan="7">
+                  <div class="empty-state">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                    <p>Cargando estudiantes...</p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <!-- SECTION: Configuración                      -->
+    <!-- ════════════════════════════════════════════ -->
+    <div id="section-configuracion" style="display:none;">
+      <div class="settings-card">
+        <h2>Configuración General</h2>
+        <p class="settings-desc">Administra las opciones generales de la plataforma.</p>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-label">Registro público de estudiantes</div>
+            <div class="setting-help">Permite que los estudiantes se registren desde la página de login. Si está deshabilitado, solo podrás registrar estudiantes desde este panel.</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="toggleRegistro" onchange="toggleRegistro(this.checked)">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="alert alert-success" id="settingsSuccess"></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- Modal: Registrar Estudiante                   -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="modal-overlay" id="createModal">
+  <div class="modal">
+    <h2>Registrar Estudiante</h2>
+    <div class="alert alert-error" id="createAlert"></div>
+    <div class="alert alert-success" id="createSuccess"></div>
+    <div class="form-row-2">
+      <div class="form-group">
+        <label for="createNombre">Nombre *</label>
+        <input type="text" id="createNombre" placeholder="Nombre">
+      </div>
+      <div class="form-group">
+        <label for="createApellido">Apellido *</label>
+        <input type="text" id="createApellido" placeholder="Apellido">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="createRut">RUT</label>
+      <input type="text" id="createRut" placeholder="12.345.678-9" maxlength="12">
+    </div>
+    <div class="form-group">
+      <label for="createEmail">Correo electrónico *</label>
+      <input type="email" id="createEmail" placeholder="correo@ejemplo.com">
+    </div>
+    <div class="form-row-2">
+      <div class="form-group">
+        <label for="createTelefono">Teléfono</label>
+        <input type="tel" id="createTelefono" placeholder="+56 9 1234 5678">
+      </div>
+      <div class="form-group">
+        <label for="createColegio">Colegio</label>
+        <input type="text" id="createColegio" placeholder="Nombre del colegio">
+      </div>
+    </div>
+    <div class="form-row-2">
+      <div class="form-group">
+        <label for="createPassword">Contraseña *</label>
+        <input type="password" id="createPassword" placeholder="Mínimo 6 caracteres" minlength="6">
+      </div>
+      <div class="form-group">
+        <label for="createPassword2">Confirmar *</label>
+        <input type="password" id="createPassword2" placeholder="Repetir contraseña">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('createModal')">Cancelar</button>
+      <button class="btn btn-primary" id="createBtn" onclick="createStudent()">
+        <span class="spinner"></span>
+        <span class="btn-text">Registrar</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- Modal: Carga Masiva Excel                     -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="modal-overlay" id="bulkModal">
+  <div class="modal modal-lg">
+    <h2>Carga Masiva de Estudiantes</h2>
+    <div class="alert alert-error" id="bulkAlert"></div>
+    <div class="alert alert-success" id="bulkSuccess"></div>
+
+    <div class="bulk-info">
+      <p>Sube un archivo Excel (.xlsx / .xls) o CSV con las columnas:</p>
+      <div class="bulk-columns">
+        <span class="col-tag required">nombre *</span>
+        <span class="col-tag required">apellido *</span>
+        <span class="col-tag required">email *</span>
+        <span class="col-tag">rut</span>
+        <span class="col-tag">telefono</span>
+        <span class="col-tag">colegio</span>
+        <span class="col-tag">password</span>
+      </div>
+      <p class="bulk-note">* Campos obligatorios. Si no incluyes contraseña, se asignará <strong>Preu2026</strong> como contraseña por defecto.</p>
+    </div>
+
+    <div class="drop-zone" id="dropZone">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 12 15 15"/></svg>
+      <p>Arrastra tu archivo aquí o <label for="bulkFile" class="file-link">selecciona un archivo</label></p>
+      <input type="file" id="bulkFile" accept=".xlsx,.xls,.csv" style="display:none;" onchange="handleBulkFile(this)">
+      <span class="drop-hint">.xlsx, .xls o .csv</span>
+    </div>
+
+    <div id="bulkPreview" style="display:none;">
+      <div class="bulk-preview-header">
+        <span id="bulkFileName"></span>
+        <span id="bulkRowCount"></span>
+        <button class="btn-link" onclick="clearBulkFile()">Cambiar archivo</button>
+      </div>
+      <div class="table-wrap" style="max-height:240px; overflow-y:auto;">
+        <table class="preview-table">
+          <thead id="previewHead"></thead>
+          <tbody id="previewBody"></tbody>
         </table>
       </div>
     </div>
-  </main>
+
+    <div id="bulkResults" style="display:none;">
+      <div class="bulk-result-summary" id="bulkResultSummary"></div>
+      <div id="bulkErrorList" style="max-height:150px; overflow-y:auto;"></div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('bulkModal')">Cerrar</button>
+      <button class="btn btn-primary" id="bulkUploadBtn" onclick="uploadBulk()" style="display:none;">
+        <span class="spinner"></span>
+        <span class="btn-text">Subir Estudiantes</span>
+      </button>
+    </div>
+  </div>
 </div>
 
 <!-- Modal: Editar Estudiante -->
@@ -121,6 +284,10 @@
     <div class="form-group">
       <label for="editApellido">Apellido</label>
       <input type="text" id="editApellido">
+    </div>
+    <div class="form-group">
+      <label for="editRut">RUT</label>
+      <input type="text" id="editRut" maxlength="12">
     </div>
     <div class="form-group">
       <label for="editEmail">Correo electrónico</label>
@@ -187,8 +354,12 @@
   </div>
 </div>
 
+<!-- SheetJS for Excel parsing (loaded from CDN) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
 <script>
 let allStudents = [];
+let bulkData = [];
 
 // ── Auth check ──
 async function checkAuth() {
@@ -200,6 +371,31 @@ async function checkAuth() {
   } catch {
     window.location.href = '/admin/login.html';
   }
+}
+
+// ── Section switching ──
+function switchSection(section, el) {
+  // Hide all sections
+  document.getElementById('section-estudiantes').style.display = 'none';
+  document.getElementById('section-configuracion').style.display = 'none';
+
+  // Show selected
+  document.getElementById('section-' + section).style.display = '';
+
+  // Update title
+  const titles = { estudiantes: 'Estudiantes', configuracion: 'Configuración' };
+  document.getElementById('sectionTitle').textContent = titles[section] || section;
+
+  // Update active nav
+  document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
+  if (el) el.classList.add('active');
+
+  // Load settings if switching to config
+  if (section === 'configuracion') loadSettings();
+
+  // Close mobile sidebar
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
 }
 
 // ── Load students ──
@@ -214,7 +410,7 @@ async function loadStudents() {
     updateStats(allStudents);
   } catch {
     document.getElementById('studentsList').innerHTML = `
-      <tr><td colspan="6"><div class="empty-state"><p>Error al cargar estudiantes</p></div></td></tr>
+      <tr><td colspan="7"><div class="empty-state"><p>Error al cargar estudiantes</p></div></td></tr>
     `;
   }
 }
@@ -224,7 +420,7 @@ function renderStudents(students) {
 
   if (students.length === 0) {
     tbody.innerHTML = `
-      <tr><td colspan="6"><div class="empty-state">
+      <tr><td colspan="7"><div class="empty-state">
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
         <p>No hay estudiantes registrados</p>
       </div></td></tr>
@@ -240,6 +436,7 @@ function renderStudents(students) {
           <span class="student-name">${esc(s.nombre)} ${esc(s.apellido)}</span>
           <span class="student-email">${esc(s.email)}</span>
         </td>
+        <td>${esc(s.rut || '—')}</td>
         <td>${esc(s.colegio)}</td>
         <td>${esc(s.telefono)}</td>
         <td>${date}</td>
@@ -281,16 +478,276 @@ function filterStudents() {
   if (!q) return renderStudents(allStudents);
 
   const filtered = allStudents.filter(s =>
-    (s.nombre + ' ' + s.apellido + ' ' + s.email + ' ' + s.colegio).toLowerCase().includes(q)
+    (s.nombre + ' ' + s.apellido + ' ' + s.email + ' ' + s.colegio + ' ' + (s.rut || '')).toLowerCase().includes(q)
   );
   renderStudents(filtered);
+}
+
+// ── Create student ──
+async function createStudent() {
+  const alertEl = document.getElementById('createAlert');
+  const successEl = document.getElementById('createSuccess');
+  const btn = document.getElementById('createBtn');
+  alertEl.classList.remove('show');
+  successEl.classList.remove('show');
+
+  const body = {
+    nombre: document.getElementById('createNombre').value.trim(),
+    apellido: document.getElementById('createApellido').value.trim(),
+    rut: document.getElementById('createRut').value.trim(),
+    email: document.getElementById('createEmail').value.trim(),
+    telefono: document.getElementById('createTelefono').value.trim(),
+    colegio: document.getElementById('createColegio').value.trim(),
+    password: document.getElementById('createPassword').value,
+  };
+
+  const pwd2 = document.getElementById('createPassword2').value;
+
+  if (!body.nombre || !body.apellido || !body.email || !body.password) {
+    alertEl.textContent = 'Nombre, apellido, correo y contraseña son obligatorios';
+    alertEl.classList.add('show');
+    return;
+  }
+  if (body.password.length < 6) {
+    alertEl.textContent = 'La contraseña debe tener al menos 6 caracteres';
+    alertEl.classList.add('show');
+    return;
+  }
+  if (body.password !== pwd2) {
+    alertEl.textContent = 'Las contraseñas no coinciden';
+    alertEl.classList.add('show');
+    return;
+  }
+
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('/api/admin/estudiantes/create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+
+    if (!data.ok) {
+      alertEl.textContent = data.error || 'Error al registrar';
+      alertEl.classList.add('show');
+      return;
+    }
+
+    successEl.textContent = 'Estudiante registrado correctamente';
+    successEl.classList.add('show');
+
+    // Clear form
+    ['createNombre','createApellido','createRut','createEmail','createTelefono','createColegio','createPassword','createPassword2'].forEach(id => document.getElementById(id).value = '');
+
+    setTimeout(() => { closeModal('createModal'); loadStudents(); }, 1200);
+  } catch {
+    alertEl.textContent = 'Error de conexión';
+    alertEl.classList.add('show');
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+}
+
+// ── Bulk upload ──
+function handleBulkFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+  processFile(file);
+}
+
+// Drag & drop
+const dropZone = document.getElementById('dropZone');
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file) processFile(file);
+});
+
+function processFile(file) {
+  const ext = file.name.split('.').pop().toLowerCase();
+  if (!['xlsx','xls','csv'].includes(ext)) {
+    const a = document.getElementById('bulkAlert');
+    a.textContent = 'Solo se permiten archivos .xlsx, .xls o .csv';
+    a.classList.add('show');
+    return;
+  }
+
+  document.getElementById('bulkAlert').classList.remove('show');
+  document.getElementById('bulkResults').style.display = 'none';
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = new Uint8Array(e.target.result);
+      const workbook = XLSX.read(data, { type: 'array' });
+      const sheet = workbook.Sheets[workbook.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+
+      if (rows.length === 0) {
+        const a = document.getElementById('bulkAlert');
+        a.textContent = 'El archivo está vacío';
+        a.classList.add('show');
+        return;
+      }
+
+      // Normalize column names (lowercase, trim, remove accents)
+      bulkData = rows.map(row => {
+        const normalized = {};
+        for (const [key, val] of Object.entries(row)) {
+          const k = key.toLowerCase().trim()
+            .normalize('NFD').replace(/[̀-ͯ]/g, '')
+            .replace(/\s+/g, '_');
+          normalized[k] = val;
+        }
+        return {
+          nombre: normalized.nombre || normalized.name || '',
+          apellido: normalized.apellido || normalized.apellidos || normalized.last_name || '',
+          email: normalized.email || normalized.correo || normalized.mail || '',
+          rut: normalized.rut || '',
+          telefono: normalized.telefono || normalized.phone || normalized.celular || '',
+          colegio: normalized.colegio || normalized.school || normalized.institucion || '',
+          password: normalized.password || normalized.contrasena || normalized.clave || ''
+        };
+      });
+
+      showPreview(file.name, bulkData);
+    } catch (err) {
+      const a = document.getElementById('bulkAlert');
+      a.textContent = 'Error al leer el archivo: ' + err.message;
+      a.classList.add('show');
+    }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function showPreview(fileName, data) {
+  document.getElementById('dropZone').style.display = 'none';
+  document.getElementById('bulkPreview').style.display = '';
+  document.getElementById('bulkUploadBtn').style.display = '';
+
+  document.getElementById('bulkFileName').textContent = fileName;
+  document.getElementById('bulkRowCount').textContent = data.length + ' estudiantes';
+
+  const cols = ['nombre', 'apellido', 'email', 'rut', 'telefono', 'colegio'];
+  document.getElementById('previewHead').innerHTML = '<tr>' + cols.map(c => '<th>' + c + '</th>').join('') + '</tr>';
+
+  const preview = data.slice(0, 10);
+  document.getElementById('previewBody').innerHTML = preview.map(s =>
+    '<tr>' + cols.map(c => '<td>' + esc(String(s[c] || '')) + '</td>').join('') + '</tr>'
+  ).join('') + (data.length > 10 ? '<tr><td colspan="6" style="text-align:center; color:var(--fg-muted); font-size:.82rem;">... y ' + (data.length - 10) + ' más</td></tr>' : '');
+}
+
+function clearBulkFile() {
+  bulkData = [];
+  document.getElementById('bulkFile').value = '';
+  document.getElementById('dropZone').style.display = '';
+  document.getElementById('bulkPreview').style.display = 'none';
+  document.getElementById('bulkUploadBtn').style.display = 'none';
+  document.getElementById('bulkResults').style.display = 'none';
+  document.getElementById('bulkAlert').classList.remove('show');
+  document.getElementById('bulkSuccess').classList.remove('show');
+}
+
+async function uploadBulk() {
+  if (bulkData.length === 0) return;
+
+  const btn = document.getElementById('bulkUploadBtn');
+  const alertEl = document.getElementById('bulkAlert');
+  const successEl = document.getElementById('bulkSuccess');
+  alertEl.classList.remove('show');
+  successEl.classList.remove('show');
+
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('/api/admin/estudiantes/bulk', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ students: bulkData })
+    });
+    const data = await res.json();
+
+    if (!data.ok) {
+      alertEl.textContent = data.error || 'Error al procesar';
+      alertEl.classList.add('show');
+      return;
+    }
+
+    // Show results
+    const results = data.results;
+    document.getElementById('bulkResults').style.display = '';
+
+    let summaryHtml = `<div class="result-badge success">${results.created} registrados</div>`;
+    if (results.skipped > 0) {
+      summaryHtml += `<div class="result-badge warning">${results.skipped} omitidos</div>`;
+    }
+    document.getElementById('bulkResultSummary').innerHTML = summaryHtml;
+
+    if (results.errors.length > 0) {
+      document.getElementById('bulkErrorList').innerHTML = results.errors.map(e =>
+        '<div class="error-line">' + esc(e.error) + '</div>'
+      ).join('');
+    } else {
+      document.getElementById('bulkErrorList').innerHTML = '';
+    }
+
+    if (results.created > 0) {
+      successEl.textContent = data.message;
+      successEl.classList.add('show');
+      loadStudents();
+    }
+  } catch {
+    alertEl.textContent = 'Error de conexión';
+    alertEl.classList.add('show');
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+}
+
+// ── Settings ──
+async function loadSettings() {
+  try {
+    const res = await fetch('/api/admin/settings');
+    const data = await res.json();
+    if (data.ok) {
+      document.getElementById('toggleRegistro').checked = data.settings.registro_habilitado !== 'false';
+    }
+  } catch {}
+}
+
+async function toggleRegistro(enabled) {
+  const successEl = document.getElementById('settingsSuccess');
+  successEl.classList.remove('show');
+
+  try {
+    const res = await fetch('/api/admin/settings', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key: 'registro_habilitado', value: enabled ? 'true' : 'false' })
+    });
+    const data = await res.json();
+
+    if (data.ok) {
+      successEl.textContent = enabled ? 'Registro público habilitado' : 'Registro público deshabilitado';
+      successEl.classList.add('show');
+      setTimeout(() => successEl.classList.remove('show'), 3000);
+    }
+  } catch {}
 }
 
 // ── Modals ──
 function openModal(id) { document.getElementById(id).classList.add('open'); }
 function closeModal(id) {
   document.getElementById(id).classList.remove('open');
-  // Clear alerts
   document.querySelectorAll(`#${id} .alert`).forEach(a => a.classList.remove('show'));
 }
 
@@ -298,6 +755,7 @@ function openEdit(student) {
   document.getElementById('editId').value = student.id;
   document.getElementById('editNombre').value = student.nombre;
   document.getElementById('editApellido').value = student.apellido;
+  document.getElementById('editRut').value = student.rut || '';
   document.getElementById('editEmail').value = student.email;
   document.getElementById('editTelefono').value = student.telefono;
   document.getElementById('editColegio').value = student.colegio;
@@ -314,6 +772,7 @@ async function saveStudent() {
   const body = {
     nombre: document.getElementById('editNombre').value.trim(),
     apellido: document.getElementById('editApellido').value.trim(),
+    rut: document.getElementById('editRut').value.trim(),
     email: document.getElementById('editEmail').value.trim(),
     telefono: document.getElementById('editTelefono').value.trim(),
     colegio: document.getElementById('editColegio').value.trim()
@@ -414,14 +873,14 @@ async function confirmDelete() {
     const data = await res.json();
 
     if (!data.ok) {
-      alert(data.error || 'Error al eliminar');
+      window.alert(data.error || 'Error al eliminar');
       return;
     }
 
     closeModal('deleteModal');
     loadStudents();
   } catch {
-    alert('Error de conexión');
+    window.alert('Error de conexión');
   }
 }
 
@@ -437,10 +896,23 @@ async function logout() {
   window.location.href = '/admin/login.html';
 }
 
+// ── RUT formatting ──
+document.querySelectorAll('#createRut, #editRut').forEach(input => {
+  input.addEventListener('input', function() {
+    let v = this.value.replace(/[^0-9kK]/g, '');
+    if (v.length > 1) {
+      let body = v.slice(0, -1);
+      let dv = v.slice(-1).toUpperCase();
+      body = body.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      this.value = body + '-' + dv;
+    }
+  });
+});
+
 // ── Escape HTML ──
 function esc(str) {
   if (!str) return '';
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 // ── Init ──

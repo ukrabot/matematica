@@ -55,7 +55,7 @@
         </button>
       </form>
 
-      <p class="form-footer">
+      <p class="form-footer" id="registerLink">
         ¿No tienes cuenta? <a href="register.html">Regístrate aquí</a>
       </p>
     </div>
@@ -118,6 +118,18 @@ function showError(msg) {
   alert.textContent = msg;
   alert.classList.add('show');
 }
+
+// Hide register link if registration is disabled
+async function checkRegistro() {
+  try {
+    const res = await fetch('/api/auth/registro-status');
+    const data = await res.json();
+    if (data.ok && !data.enabled) {
+      document.getElementById('registerLink').style.display = 'none';
+    }
+  } catch {}
+}
+checkRegistro();
 </script>
 </body>
 </html>

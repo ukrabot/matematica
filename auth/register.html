@@ -46,6 +46,11 @@
         </div>
 
         <div class="form-group">
+          <label for="rut">RUT</label>
+          <input type="text" id="rut" placeholder="12.345.678-9" autocomplete="off" maxlength="12">
+        </div>
+
+        <div class="form-group">
           <label for="colegio">Colegio</label>
           <input type="text" id="colegio" placeholder="Nombre de tu colegio" required>
         </div>
@@ -111,6 +116,7 @@ form.addEventListener('submit', async (e) => {
 
   const nombre   = document.getElementById('nombre').value.trim();
   const apellido = document.getElementById('apellido').value.trim();
+  const rut      = document.getElementById('rut').value.trim();
   const colegio  = document.getElementById('colegio').value.trim();
   const telefono = document.getElementById('telefono').value.trim();
   const email    = document.getElementById('email').value.trim();
@@ -138,7 +144,7 @@ form.addEventListener('submit', async (e) => {
     const res = await fetch('/api/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nombre, apellido, colegio, telefono, email, password })
+      body: JSON.stringify({ nombre, apellido, colegio, telefono, email, rut, password })
     });
     const data = await res.json();
 
@@ -161,6 +167,31 @@ function showError(msg) {
   alertEl.textContent = msg;
   alertEl.classList.add('show');
 }
+
+// Check if registration is enabled
+async function checkRegistroStatus() {
+  try {
+    const res = await fetch('/api/auth/registro-status');
+    const data = await res.json();
+    if (data.ok && !data.enabled) {
+      document.getElementById('registerForm').style.display = 'none';
+      alertEl.textContent = 'El registro de nuevos estudiantes está deshabilitado. Contacta al administrador.';
+      alertEl.classList.add('show');
+    }
+  } catch {}
+}
+checkRegistroStatus();
+
+// Format RUT on input
+document.getElementById('rut').addEventListener('input', function() {
+  let v = this.value.replace(/[^0-9kK]/g, '');
+  if (v.length > 1) {
+    let body = v.slice(0, -1);
+    let dv = v.slice(-1).toUpperCase();
+    body = body.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    this.value = body + '-' + dv;
+  }
+});
 </script>
 </body>
 </html>

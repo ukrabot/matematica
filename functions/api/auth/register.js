@@ -2,8 +2,18 @@ import { hashPassword, generateSalt, createJWT, setAuthCookie, json, error, vali
 
 export async function onRequestPost(context) {
   try {
+    const db = context.env.DB;
+
+    // Check if registration is enabled
+    try {
+      const setting = await db.prepare("SELECT value FROM settings WHERE key = 'registro_habilitado'").first();
+      if (setting && setting.value === 'false') {
+        return error('El registro de nuevos estudiantes está deshabilitado. Contacta al administrador.');
+      }
+    } catch {}
+
     const body = await context.request.json();
-    const { nombre, apellido, email, telefono, colegio, password } = body;
+    const { nombre, apellido, email, telefono, colegio, rut, password } = body;
 
     // Validate required fields
     if (!nombre?.trim() || !apellido?.trim() || !email?.trim() || !telefono?.trim() || !colegio?.trim() || !password) {
@@ -16,12 +26,18 @@ export async function onRequestPost(context) {
       return error('La contraseña debe tener al menos 6 caracteres');
     }
 
-    const db = context.env.DB;
-
     // Check if email already exists
     const existing = await db.prepare('SELECT id FROM users WHERE email = ?').bind(email.toLowerCase().trim()).first();
     if (existing) {
       return error('Ya existe una cuenta con este email');
+    }
+
+    // Check duplicate RUT if provided
+    if (rut?.trim()) {
+      const existingRut = await db.prepare("SELECT id FROM users WHERE rut = ? AND rut != ''").bind(rut.trim()).first();
+      if (existingRut) {
+        return error('Ya existe una cuenta con este RUT');
+      }
     }
 
     // Hash password
@@ -30,9 +46,9 @@ export async function onRequestPost(context) {
 
     // Insert user
     const result = await db.prepare(
-      'INSERT INTO users (nombre, apellido, email, telefono, colegio, password_hash, salt) VALUES (?, ?, ?, ?, ?, ?, ?)'
+      'INSERT INTO users (nombre, apellido, email, telefono, colegio, rut, password_hash, salt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
     ).bind(
-      nombre.trim(), apellido.trim(), email.toLowerCase().trim(), telefono.trim(), colegio.trim(), password_hash, salt
+      nombre.trim(), apellido.trim(), email.toLowerCase().trim(), telefono.trim(), colegio.trim(), (rut || '').trim(), password_hash, salt
     ).run();
 
     const userId = result.meta.last_row_id;
