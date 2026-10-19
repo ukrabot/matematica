@@ -519,6 +519,184 @@
   .mat-empty svg { width: 48px; height: 48px; opacity: 0.3; margin-bottom: 12px; }
   .mat-empty p { font-size: 14px; }
 
+  /* ===================== FULL EJERCICIOS ===================== */
+  .ej-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .ej-header-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background: var(--accent);
+    border-radius: 14px;
+    color: #fff;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .ej-header-text h4 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .ej-header-text p {
+    font-size: 13px;
+    color: var(--fg-muted);
+  }
+  .ej-axes {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .ej-axis {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .ej-axis:hover {
+    box-shadow: var(--shadow);
+  }
+  .ej-axis-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    background: var(--bg-card);
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-body);
+    color: var(--fg);
+    text-align: left;
+    transition: background 0.15s;
+  }
+  .ej-axis-btn:hover {
+    background: var(--accent-soft);
+  }
+  .ej-axis-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .ej-axis-icon.numeros   { background: rgba(79,70,229,0.1);  color: var(--accent); }
+  .ej-axis-icon.algebra   { background: rgba(10,158,138,0.1); color: var(--teal); }
+  .ej-axis-icon.geometria { background: rgba(212,160,23,0.1); color: var(--gold); }
+  .ej-axis-icon.probest   { background: rgba(232,69,48,0.1);  color: var(--coral); }
+  .ej-axis-label {
+    flex: 1;
+  }
+  .ej-axis-label strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+  .ej-axis-label span {
+    font-size: 12px;
+    color: var(--fg-muted);
+  }
+  .ej-axis-chevron {
+    color: var(--fg-muted);
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+  }
+  .ej-axis.open .ej-axis-chevron {
+    transform: rotate(180deg);
+  }
+  .ej-axis-topics {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    background: var(--bg);
+  }
+  .ej-axis.open .ej-axis-topics {
+    max-height: 600px;
+  }
+  .ej-topic-list {
+    padding: 6px 20px 14px 72px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .ej-topic {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    color: var(--fg);
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
+    font-family: var(--font-body);
+    transition: background 0.15s, color 0.15s;
+    text-align: left;
+  }
+  .ej-topic:hover {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .ej-topic-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--border);
+    flex-shrink: 0;
+    transition: background 0.15s;
+  }
+  .ej-topic:hover .ej-topic-dot {
+    background: var(--accent);
+  }
+  .ej-topic-name {
+    flex: 1;
+    line-height: 1.4;
+  }
+  .ej-topic-arrow {
+    color: var(--fg-muted);
+    opacity: 0;
+    transition: opacity 0.15s;
+    flex-shrink: 0;
+  }
+  .ej-topic:hover .ej-topic-arrow {
+    opacity: 1;
+    color: var(--accent);
+  }
+  .ej-coming {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: var(--bg-alt);
+    color: var(--fg-muted);
+    flex-shrink: 0;
+  }
+  @media (max-width: 520px) {
+    .ej-topic-list { padding-left: 20px; }
+    .ej-axis-btn { padding: 14px 16px; gap: 10px; }
+    .ej-axis-icon { width: 32px; height: 32px; font-size: 15px; }
+  }
+
   /* ===================== TUTOR IA CHAT ===================== */
   .tutor-container { display: flex; flex-direction: column; height: calc(100vh - var(--topbar-h) - 200px); min-height: 400px; }
   .chat-messages {
@@ -994,6 +1172,164 @@
       </div>
     </div>
 
+    <!-- EJERCICIOS SECTION -->
+    <div id="ejerciciosSection" style="display:none;">
+      <div class="ej-header">
+        <div class="ej-header-badge">M1</div>
+        <div class="ej-header-text">
+          <h4>Matemática 1 (M1)</h4>
+          <p>Competencia Matemática 1 — PAES</p>
+        </div>
+      </div>
+      <div class="ej-axes">
+
+        <!-- NÚMEROS -->
+        <div class="ej-axis">
+          <button class="ej-axis-btn" onclick="toggleAxis(this)">
+            <div class="ej-axis-icon numeros">π</div>
+            <div class="ej-axis-label">
+              <strong>NÚMEROS</strong>
+              <span>3 temas</span>
+            </div>
+            <svg class="ej-axis-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="ej-axis-topics">
+            <div class="ej-topic-list">
+              <button class="ej-topic" onclick="openTopic('numeros-enteros-racionales')">
+                <span class="ej-topic-dot"></span>
+                <span class="ej-topic-name">Conjunto de los números enteros y racionales</span>
+                <span class="ej-coming">Pronto</span>
+              </button>
+              <button class="ej-topic" onclick="openTopic('porcentaje')">
+                <span class="ej-topic-dot"></span>
+                <span class="ej-topic-name">Porcentaje</span>
+                <span class="ej-coming">Pronto</span>
+              </button>
+              <button class="ej-topic" onclick="openTopic('potencias-raices')">
+                <span class="ej-topic-dot"></span>
+                <span class="ej-topic-name">Potencias y raíces enésimas</span>
+                <span class="ej-coming">Pronto</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ÁLGEBRA Y FUNCIONES -->
+        <div class="ej-axis">
+          <button class="ej-axis-btn" onclick="toggleAxis(this)">
+            <div class="ej-axis-icon algebra">ƒ</div>
+            <div class="ej-axis-label">
+              <strong>ÁLGEBRA Y FUNCIONES</strong>
+              <span>6 temas</span>
+            </div>
+            <svg class="ej-axis-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="ej-axis-topics">
+            <div class="ej-topic-list">
+              <button class="ej-topic" onclick="openTopic('expresiones-algebraicas')">
+                <span class="ej-topic-dot"></span>
+                <span class="ej-topic-name">Expresiones algebraicas</span>
+                <span class="ej-coming">Pronto</span>
+              </button>
+              <button class="ej-topic" onclick="openTopic('proporcionalidad')">
+                <span class="ej-topic-dot"></span>
+                <span class="ej-topic-name">Proporcionalidad</span>
+                <span class="ej-coming">Pronto</span>
+              </button>
+              <button class="ej-topic" onclick="openTopic('ecuaciones-inecuaciones-1er-grado')">
+                <span class="ej-topic-dot"></span>
+                <span class="ej-topic-name">Ecuaciones e inecuaciones de primer grado</span>
+                <span class="ej-coming">Pronto</span>
+              </button>
+              <button class="ej-topic" onclick="openTopic('sistemas-ecuaciones-2x2')">
+                <span class="ej-topic-dot"></span>
+                <span class="ej-topic-name">Sistemas de ecuaciones lineales (2×2)</span>
+                <span class="ej-coming">Pronto</span>
+              </button>
+              <button class="ej-topic" onclick="openTopic('funcion-lineal-afin')">
+                <span class="ej-topic-dot"></span>
+                <span class="ej-topic-name">Función lineal y afín</span>
+                <span class="ej-coming">Pronto</span>
+              </button>
+              <button class="ej-topic" onclick="openTopic('funcion-cuadratica')">
+                <span class="ej-topic-dot"></span>
+                <span class="ej-topic-name">Función cuadrática</span>
+                <span class="ej-coming">Pronto</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- GEOMETRÍA -->
+        <div class="ej-axis">
+          <button class="ej-axis-btn" onclick="toggleAxis(this)">
+            <div class="ej-axis-icon geometria">△</div>
+            <div class="ej-axis-label">
+              <strong>GEOMETRÍA</strong>
+              <span>4 temas</span>
+            </div>
+            <svg class="ej-axis-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="ej-axis-topics">
+            <div class="ej-topic-list">
+              <button class="ej-topic" onclick="openTopic('figuras-geometricas')">
+                <span class="ej-topic-dot"></span>
+                <span class="ej-topic-name">Figuras geométricas</span>
+                <span class="ej-coming">Pronto</span>
+              </button>
+              <button class="ej-topic" onclick="openTopic('cuerpos-geometricos')">
+                <span class="ej-topic-dot"></span>
+                <span class="ej-topic-name">Cuerpos geométricos</span>
+                <span class="ej-coming">Pronto</span>
+              </button>
+              <button class="ej-topic" onclick="openTopic('transformaciones-isometricas')">
+                <span class="ej-topic-dot"></span>
+                <span class="ej-topic-name">Transformaciones isométricas</span>
+                <span class="ej-coming">Pronto</span>
+              </button>
+              <button class="ej-topic" onclick="openTopic('semejanza-proporcionalidad')">
+                <span class="ej-topic-dot"></span>
+                <span class="ej-topic-name">Semejanza y proporcionalidad de figuras</span>
+                <span class="ej-coming">Pronto</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROBABILIDAD Y ESTADÍSTICA -->
+        <div class="ej-axis">
+          <button class="ej-axis-btn" onclick="toggleAxis(this)">
+            <div class="ej-axis-icon probest">%</div>
+            <div class="ej-axis-label">
+              <strong>PROBABILIDAD Y ESTADÍSTICA</strong>
+              <span>3 temas</span>
+            </div>
+            <svg class="ej-axis-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="ej-axis-topics">
+            <div class="ej-topic-list">
+              <button class="ej-topic" onclick="openTopic('tablas-graficos')">
+                <span class="ej-topic-dot"></span>
+                <span class="ej-topic-name">Representación de datos a través de tablas y gráficos</span>
+                <span class="ej-coming">Pronto</span>
+              </button>
+              <button class="ej-topic" onclick="openTopic('medidas-posicion')">
+                <span class="ej-topic-dot"></span>
+                <span class="ej-topic-name">Medidas de posición</span>
+                <span class="ej-coming">Pronto</span>
+              </button>
+              <button class="ej-topic" onclick="openTopic('reglas-probabilidades')">
+                <span class="ej-topic-dot"></span>
+                <span class="ej-topic-name">Reglas de las probabilidades</span>
+                <span class="ej-coming">Pronto</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <!-- OTHER SECTIONS PLACEHOLDER -->
     <div id="otherSection" style="display:none;">
       <div class="content-placeholder">
@@ -1110,6 +1446,7 @@ navItems.forEach(item => {
     // Show/hide sections
     document.getElementById('tutorSection').style.display = 'none';
     document.getElementById('materialesSection').style.display = 'none';
+    document.getElementById('ejerciciosSection').style.display = 'none';
     document.getElementById('otherSection').style.display = 'none';
 
     if (section === 'tutor') {
@@ -1117,6 +1454,8 @@ navItems.forEach(item => {
     } else if (section === 'materiales') {
       document.getElementById('materialesSection').style.display = 'block';
       loadMateriales();
+    } else if (section === 'ejercicios') {
+      document.getElementById('ejerciciosSection').style.display = 'block';
     } else {
       document.getElementById('otherSection').style.display = 'block';
     }
@@ -1191,6 +1530,17 @@ function escHtml(str) {
   const d = document.createElement('div');
   d.textContent = str;
   return d.innerHTML;
+}
+
+// --- Ejercicios accordion ---
+function toggleAxis(btn) {
+  const axis = btn.closest('.ej-axis');
+  axis.classList.toggle('open');
+}
+
+function openTopic(slug) {
+  // Placeholder — topics will load exercises in the future
+  console.log('Topic:', slug);
 }
 
 // --- Logout ---
