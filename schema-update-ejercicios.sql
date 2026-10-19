@@ -1,0 +1,13 @@
+-- Exercise results table
+CREATE TABLE IF NOT EXISTS exercise_results (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL,
+  topic TEXT NOT NULL,
+  total INTEGER NOT NULL,
+  correctas INTEGER NOT NULL DEFAULT 0,
+  incorrectas INTEGER NOT NULL DEFAULT 0,
+  omitidas INTEGER NOT NULL DEFAULT 0,
+  tiempo_usado INTEGER NOT NULL DEFAULT 0,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);

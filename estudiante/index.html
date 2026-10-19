@@ -697,6 +697,378 @@
     .ej-axis-icon { width: 32px; height: 32px; font-size: 15px; }
   }
 
+  /* ===================== QUIZ VIEW ===================== */
+  .quiz-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .quiz-topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .quiz-back {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 6px 12px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--fg-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .quiz-back:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-soft);
+  }
+  .quiz-title-text {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .quiz-timer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+    padding: 6px 16px;
+    background: var(--accent-soft);
+    border-radius: var(--radius-sm);
+  }
+  .quiz-timer.warning { color: var(--coral); background: rgba(232,69,48,0.08); }
+  .quiz-timer svg { flex-shrink: 0; }
+  .quiz-progress {
+    width: 100%;
+    height: 6px;
+    background: var(--bg-alt);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .quiz-progress-bar {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+  }
+  .quiz-questions {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .quiz-q {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow);
+  }
+  .quiz-q-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .quiz-q-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 8px;
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .quiz-q-text {
+    font-size: 15px;
+    line-height: 1.6;
+    font-weight: 500;
+  }
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .quiz-opt {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.15s;
+    background: var(--bg);
+  }
+  .quiz-opt:hover {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+  .quiz-opt.selected {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+  .quiz-opt.correct {
+    border-color: var(--success);
+    background: rgba(22,163,74,0.08);
+  }
+  .quiz-opt.incorrect {
+    border-color: var(--danger);
+    background: rgba(220,38,38,0.08);
+  }
+  .quiz-opt-letter {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--fg-muted);
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+  .quiz-opt.selected .quiz-opt-letter {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: #fff;
+  }
+  .quiz-opt.correct .quiz-opt-letter {
+    border-color: var(--success);
+    background: var(--success);
+    color: #fff;
+  }
+  .quiz-opt.incorrect .quiz-opt-letter {
+    border-color: var(--danger);
+    background: var(--danger);
+    color: #fff;
+  }
+  .quiz-opt-text {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .quiz-submit-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .quiz-submit-btn {
+    padding: 12px 36px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .quiz-submit-btn:hover { background: var(--accent-hover); }
+  .quiz-submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* Quiz results screen */
+  .quiz-result {
+    text-align: center;
+    padding: 20px 0;
+  }
+  .quiz-result-score {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin: 24px 0;
+    flex-wrap: wrap;
+  }
+  .qr-stat {
+    text-align: center;
+    padding: 20px 28px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    min-width: 120px;
+  }
+  .qr-stat-val {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .qr-stat-val.good { color: var(--success); }
+  .qr-stat-val.bad  { color: var(--danger); }
+  .qr-stat-val.skip { color: var(--fg-muted); }
+  .qr-stat-label {
+    font-size: 13px;
+    color: var(--fg-muted);
+    margin-top: 6px;
+  }
+  .quiz-result h3 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .quiz-result p {
+    color: var(--fg-muted);
+    font-size: 14px;
+  }
+  .qr-bar-wrap {
+    max-width: 400px;
+    margin: 24px auto;
+    height: 16px;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    background: var(--bg-alt);
+  }
+  .qr-bar-good { background: var(--success); }
+  .qr-bar-bad  { background: var(--danger); }
+  .qr-bar-skip { background: var(--border); }
+  .quiz-result-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .qr-btn {
+    padding: 10px 24px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background 0.15s;
+  }
+  .qr-btn-primary { background: var(--accent); color: #fff; }
+  .qr-btn-primary:hover { background: var(--accent-hover); }
+  .qr-btn-secondary { background: var(--bg-alt); color: var(--fg); border: 1px solid var(--border); }
+  .qr-btn-secondary:hover { background: var(--border); }
+
+  /* ===================== RESULTADOS SECTION ===================== */
+  .res-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .res-stat {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    text-align: center;
+  }
+  .res-stat-val {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+  }
+  .res-stat-label {
+    font-size: 12px;
+    color: var(--fg-muted);
+    margin-top: 4px;
+  }
+  .res-chart-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+    margin-bottom: 24px;
+  }
+  .res-chart-donut {
+    position: relative;
+    width: 200px;
+    height: 200px;
+  }
+  .res-chart-donut svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .res-chart-center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .res-chart-pct {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .res-chart-label {
+    font-size: 12px;
+    color: var(--fg-muted);
+  }
+  .res-legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .res-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--fg-muted);
+  }
+  .res-legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .res-table-wrap { overflow-x: auto; }
+  .res-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .res-table th {
+    text-align: left;
+    padding: 10px 14px;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--fg-muted);
+    border-bottom: 2px solid var(--border);
+    white-space: nowrap;
+  }
+  .res-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .res-table tr:hover td { background: var(--accent-soft); }
+  .res-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--fg-muted);
+  }
+
   /* ===================== TUTOR IA CHAT ===================== */
   .tutor-container { display: flex; flex-direction: column; height: calc(100vh - var(--topbar-h) - 200px); min-height: 400px; }
   .chat-messages {
@@ -1481,6 +1853,19 @@
       </div>
     </div>
 
+    <!-- QUIZ VIEW (replaces ejercicios menu when active) -->
+    <div id="quizSection" style="display:none;"></div>
+
+    <!-- RESULTADOS SECTION -->
+    <div id="resultadosSection" style="display:none;">
+      <div id="resultadosContent">
+        <div class="content-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <p>Cargando resultados...</p>
+        </div>
+      </div>
+    </div>
+
     <!-- OTHER SECTIONS PLACEHOLDER -->
     <div id="otherSection" style="display:none;">
       <div class="content-placeholder">
@@ -1598,6 +1983,8 @@ navItems.forEach(item => {
     document.getElementById('tutorSection').style.display = 'none';
     document.getElementById('materialesSection').style.display = 'none';
     document.getElementById('ejerciciosSection').style.display = 'none';
+    document.getElementById('quizSection').style.display = 'none';
+    document.getElementById('resultadosSection').style.display = 'none';
     document.getElementById('otherSection').style.display = 'none';
 
     if (section === 'tutor') {
@@ -1607,6 +1994,9 @@ navItems.forEach(item => {
       loadMateriales();
     } else if (section === 'ejercicios') {
       document.getElementById('ejerciciosSection').style.display = 'block';
+    } else if (section === 'resultados') {
+      document.getElementById('resultadosSection').style.display = 'block';
+      loadResultados();
     } else {
       document.getElementById('otherSection').style.display = 'block';
     }
@@ -1689,9 +2079,499 @@ function toggleAxis(btn) {
   axis.classList.toggle('open');
 }
 
+// ===================== EXERCISE BANK =====================
+const exerciseBank = {
+  'numeros-enteros-racionales': {
+    title: 'Conjunto de los números enteros y racionales',
+    questions: [
+      {
+        q: '¿Cuál es el resultado de (−3) × (−5) + (−2)?',
+        opts: ['17', '13', '−13', '−17'],
+        answer: 1
+      },
+      {
+        q: '¿Cuál de los siguientes números NO es un número racional?',
+        opts: ['3/4', '−2', '√2', '0,333...'],
+        answer: 2
+      },
+      {
+        q: 'El resultado de  −8 ÷ (−2) + 3 × (−1)  es:',
+        opts: ['7', '1', '−1', '−7'],
+        answer: 1
+      },
+      {
+        q: '¿Cuál es el valor de  |−7| − |3| + |−2| ?',
+        opts: ['6', '12', '2', '−6'],
+        answer: 0
+      },
+      {
+        q: 'Si  a = −4  y  b = 6, ¿cuál es el valor de  a² − b ?',
+        opts: ['22', '10', '−10', '−22'],
+        answer: 1
+      },
+      {
+        q: 'Al ordenar de menor a mayor:  −3/2,  −1,  0,  5/4,  −2.  El orden correcto es:',
+        opts: ['−2, −3/2, −1, 0, 5/4', '−3/2, −2, −1, 0, 5/4', '−1, −3/2, −2, 0, 5/4', '−2, −1, −3/2, 0, 5/4'],
+        answer: 0
+      },
+      {
+        q: '¿Cuál es el resultado de  2/3 + 5/6 − 1/2 ?',
+        opts: ['1', '7/6', '1/2', '5/3'],
+        answer: 0
+      },
+      {
+        q: 'El inverso aditivo de  −3/5  es:',
+        opts: ['−5/3', '5/3', '3/5', '−3/5'],
+        answer: 2
+      },
+      {
+        q: 'Si  x  es un número entero y  −3 < x ≤ 2, ¿cuántos valores puede tomar  x ?',
+        opts: ['4', '5', '6', '3'],
+        answer: 1
+      },
+      {
+        q: '¿Cuál es el resultado de  (−1)⁴⁷ + (−1)⁵⁰ ?',
+        opts: ['0', '2', '−2', '1'],
+        answer: 0
+      }
+    ]
+  }
+};
+
+// ===================== QUIZ ENGINE =====================
+let quizState = null;
+let quizTimer = null;
+
 function openTopic(slug) {
-  // Placeholder — topics will load exercises in the future
-  console.log('Topic:', slug);
+  const bank = exerciseBank[slug];
+  if (!bank) {
+    // Topic not yet available
+    return;
+  }
+  startQuiz(slug, bank);
+}
+
+function startQuiz(slug, bank) {
+  quizState = {
+    slug: slug,
+    title: bank.title,
+    questions: bank.questions,
+    answers: new Array(bank.questions.length).fill(-1), // -1 = omitida
+    submitted: false,
+    startTime: Date.now(),
+    timeLimit: 30 * 60 // 30 minutes in seconds
+  };
+
+  // Hide ejercicios menu, show quiz
+  document.getElementById('ejerciciosSection').style.display = 'none';
+  document.getElementById('quizSection').style.display = 'block';
+  document.getElementById('sectionTitle').textContent = bank.title;
+
+  renderQuiz();
+  startTimer();
+}
+
+function renderQuiz() {
+  const qs = quizState.questions;
+  const letters = ['A', 'B', 'C', 'D'];
+
+  let html = `
+    <div class="quiz-topbar">
+      <div class="quiz-topbar-left">
+        <button class="quiz-back" onclick="exitQuiz()">← Volver</button>
+        <span class="quiz-title-text">${escHtml(quizState.title)}</span>
+      </div>
+      <div class="quiz-timer" id="quizTimerDisplay">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        <span id="quizTimerText">30:00</span>
+      </div>
+    </div>
+    <div class="quiz-progress"><div class="quiz-progress-bar" id="quizProgressBar" style="width:0%"></div></div>
+    <div class="quiz-questions">
+  `;
+
+  qs.forEach((question, i) => {
+    html += `<div class="quiz-q" id="quizQ${i}">
+      <div class="quiz-q-header">
+        <div class="quiz-q-num">${i + 1}</div>
+        <div class="quiz-q-text">${escHtml(question.q)}</div>
+      </div>
+      <div class="quiz-options">`;
+
+    question.opts.forEach((opt, j) => {
+      const selected = quizState.answers[i] === j ? ' selected' : '';
+      html += `<div class="quiz-opt${selected}" onclick="selectAnswer(${i}, ${j})" id="quizOpt${i}_${j}">
+        <span class="quiz-opt-letter">${letters[j]}</span>
+        <span class="quiz-opt-text">${escHtml(opt)}</span>
+      </div>`;
+    });
+
+    html += `</div></div>`;
+  });
+
+  html += `</div>
+    <div class="quiz-submit-row">
+      <button class="quiz-submit-btn" onclick="submitQuiz()" id="quizSubmitBtn">Finalizar y ver resultados</button>
+    </div>`;
+
+  document.getElementById('quizSection').innerHTML = html;
+  updateProgress();
+}
+
+function selectAnswer(qIdx, optIdx) {
+  if (quizState.submitted) return;
+
+  const prev = quizState.answers[qIdx];
+  const letters = ['A', 'B', 'C', 'D'];
+
+  // Deselect previous
+  if (prev >= 0) {
+    const prevEl = document.getElementById(`quizOpt${qIdx}_${prev}`);
+    if (prevEl) prevEl.classList.remove('selected');
+  }
+
+  // If clicking same option, deselect (omit)
+  if (prev === optIdx) {
+    quizState.answers[qIdx] = -1;
+  } else {
+    quizState.answers[qIdx] = optIdx;
+    const el = document.getElementById(`quizOpt${qIdx}_${optIdx}`);
+    if (el) el.classList.add('selected');
+  }
+
+  updateProgress();
+}
+
+function updateProgress() {
+  const answered = quizState.answers.filter(a => a >= 0).length;
+  const total = quizState.questions.length;
+  const pct = (answered / total) * 100;
+  const bar = document.getElementById('quizProgressBar');
+  if (bar) bar.style.width = pct + '%';
+}
+
+function startTimer() {
+  const startTime = Date.now();
+  const duration = quizState.timeLimit * 1000;
+
+  quizTimer = setInterval(() => {
+    const elapsed = Date.now() - startTime;
+    const remaining = Math.max(0, duration - elapsed);
+    const mins = Math.floor(remaining / 60000);
+    const secs = Math.floor((remaining % 60000) / 1000);
+
+    const display = document.getElementById('quizTimerText');
+    const timerEl = document.getElementById('quizTimerDisplay');
+    if (display) {
+      display.textContent = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+    }
+
+    // Warning when < 5 min
+    if (timerEl) {
+      if (remaining < 5 * 60000) {
+        timerEl.classList.add('warning');
+      } else {
+        timerEl.classList.remove('warning');
+      }
+    }
+
+    if (remaining <= 0) {
+      clearInterval(quizTimer);
+      submitQuiz(true);
+    }
+  }, 1000);
+}
+
+function exitQuiz() {
+  if (quizState && !quizState.submitted) {
+    if (!confirm('¿Seguro que quieres salir? Perderás tu progreso.')) return;
+  }
+  clearInterval(quizTimer);
+  quizState = null;
+
+  document.getElementById('quizSection').style.display = 'none';
+  document.getElementById('quizSection').innerHTML = '';
+  document.getElementById('ejerciciosSection').style.display = 'block';
+  document.getElementById('sectionTitle').textContent = 'Full Ejercicios';
+}
+
+async function submitQuiz(timeUp) {
+  if (quizState.submitted) return;
+  quizState.submitted = true;
+  clearInterval(quizTimer);
+
+  const qs = quizState.questions;
+  let correctas = 0, incorrectas = 0, omitidas = 0;
+
+  qs.forEach((question, i) => {
+    const sel = quizState.answers[i];
+    if (sel < 0) {
+      omitidas++;
+    } else if (sel === question.answer) {
+      correctas++;
+    } else {
+      incorrectas++;
+    }
+  });
+
+  const elapsed = Math.round((Date.now() - quizState.startTime) / 1000);
+
+  // Show correct/incorrect on each question
+  qs.forEach((question, i) => {
+    const sel = quizState.answers[i];
+    // Mark correct answer green
+    const correctEl = document.getElementById(`quizOpt${i}_${question.answer}`);
+    if (correctEl) correctEl.classList.add('correct');
+    // Mark wrong selection red
+    if (sel >= 0 && sel !== question.answer) {
+      const wrongEl = document.getElementById(`quizOpt${i}_${sel}`);
+      if (wrongEl) wrongEl.classList.add('incorrect');
+    }
+    // Disable clicking
+    question.opts.forEach((_, j) => {
+      const el = document.getElementById(`quizOpt${i}_${j}`);
+      if (el) el.onclick = null;
+    });
+  });
+
+  // Remove submit button, add result summary at top
+  const submitBtn = document.getElementById('quizSubmitBtn');
+  if (submitBtn) submitBtn.remove();
+
+  const total = qs.length;
+  const pctCorrect = Math.round((correctas / total) * 100);
+  const timerText = document.getElementById('quizTimerText');
+  if (timerText) {
+    const m = Math.floor(elapsed / 60);
+    const s = elapsed % 60;
+    timerText.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+  }
+  const timerEl = document.getElementById('quizTimerDisplay');
+  if (timerEl) timerEl.classList.remove('warning');
+
+  // Build result card at top
+  const resultHTML = `
+    <div class="quiz-result" id="quizResultCard">
+      <h3>${timeUp ? '⏱️ ¡Tiempo agotado!' : '✅ ¡Ejercicio completado!'}</h3>
+      <p>Revisa tus respuestas más abajo. Las correctas están en verde.</p>
+      <div class="quiz-result-score">
+        <div class="qr-stat">
+          <div class="qr-stat-val good">${correctas}</div>
+          <div class="qr-stat-label">Correctas</div>
+        </div>
+        <div class="qr-stat">
+          <div class="qr-stat-val bad">${incorrectas}</div>
+          <div class="qr-stat-label">Incorrectas</div>
+        </div>
+        <div class="qr-stat">
+          <div class="qr-stat-val skip">${omitidas}</div>
+          <div class="qr-stat-label">Omitidas</div>
+        </div>
+      </div>
+      <div class="qr-bar-wrap">
+        <div class="qr-bar-good" style="width:${(correctas/total)*100}%"></div>
+        <div class="qr-bar-bad" style="width:${(incorrectas/total)*100}%"></div>
+        <div class="qr-bar-skip" style="width:${(omitidas/total)*100}%"></div>
+      </div>
+      <p style="font-size:13px; color:var(--fg-muted);">Nota: ${pctCorrect}% — Tiempo: ${Math.floor(elapsed/60)}m ${elapsed%60}s</p>
+      <div class="quiz-result-actions">
+        <button class="qr-btn qr-btn-secondary" onclick="exitQuiz()">Volver al menú</button>
+        <button class="qr-btn qr-btn-primary" onclick="retryQuiz()">Intentar de nuevo</button>
+      </div>
+    </div>
+  `;
+
+  // Insert result before questions
+  const quizSection = document.getElementById('quizSection');
+  const questionsDiv = quizSection.querySelector('.quiz-questions');
+  if (questionsDiv) {
+    questionsDiv.insertAdjacentHTML('beforebegin', resultHTML);
+    // Scroll to top
+    quizSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Set progress bar to 100%
+  const bar = document.getElementById('quizProgressBar');
+  if (bar) bar.style.width = '100%';
+
+  // Save results to backend
+  try {
+    await fetch('/api/ejercicios/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        topic: quizState.slug,
+        total: total,
+        correctas,
+        incorrectas,
+        omitidas,
+        tiempo_usado: elapsed
+      })
+    });
+    // Invalidate resultados cache
+    resultadosLoaded = false;
+  } catch {}
+}
+
+function retryQuiz() {
+  const slug = quizState.slug;
+  const bank = exerciseBank[slug];
+  clearInterval(quizTimer);
+  quizState = null;
+  startQuiz(slug, bank);
+}
+
+// ===================== RESULTADOS =====================
+let resultadosLoaded = false;
+
+const topicNames = {
+  'numeros-enteros-racionales': 'Números enteros y racionales',
+  'porcentaje': 'Porcentaje',
+  'potencias-raices': 'Potencias y raíces',
+  'expresiones-algebraicas': 'Expresiones algebraicas',
+  'proporcionalidad': 'Proporcionalidad',
+  'ecuaciones-inecuaciones-1er-grado': 'Ecuaciones 1er grado',
+  'sistemas-ecuaciones-2x2': 'Sistemas 2×2',
+  'funcion-lineal-afin': 'Función lineal y afín',
+  'funcion-cuadratica': 'Función cuadrática',
+  'figuras-geometricas': 'Figuras geométricas',
+  'cuerpos-geometricos': 'Cuerpos geométricos',
+  'transformaciones-isometricas': 'Transformaciones isométricas',
+  'semejanza-proporcionalidad': 'Semejanza',
+  'tablas-graficos': 'Tablas y gráficos',
+  'medidas-posicion': 'Medidas de posición',
+  'reglas-probabilidades': 'Reglas de probabilidades'
+};
+
+async function loadResultados() {
+  if (resultadosLoaded) return;
+  const container = document.getElementById('resultadosContent');
+
+  try {
+    const res = await fetch('/api/ejercicios/resultados');
+    const data = await res.json();
+
+    if (!data.ok) {
+      container.innerHTML = '<div class="res-empty"><p>Error al cargar resultados.</p></div>';
+      return;
+    }
+
+    const { resumen, resultados } = data;
+
+    if (!resultados || resultados.length === 0) {
+      container.innerHTML = `
+        <div class="res-empty">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:48px;height:48px;opacity:0.3;margin-bottom:12px;display:block;margin-inline:auto;">
+            <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <p>Aún no tienes resultados. ¡Resuelve ejercicios para ver tu progreso aquí!</p>
+        </div>`;
+      resultadosLoaded = true;
+      return;
+    }
+
+    const { totalCorrectas: tc, totalIncorrectas: ti, totalOmitidas: to, totalEjercicios: te, intentos } = resumen;
+    const pct = te > 0 ? Math.round((tc / te) * 100) : 0;
+
+    // Donut chart SVG
+    const r = 80, cx = 100, cy = 100, circumference = 2 * Math.PI * r;
+    const pGood = te > 0 ? tc / te : 0;
+    const pBad = te > 0 ? ti / te : 0;
+    const pSkip = te > 0 ? to / te : 0;
+
+    const d1 = circumference * pGood;
+    const d2 = circumference * pBad;
+    const d3 = circumference * pSkip;
+    const o1 = 0;
+    const o2 = d1;
+    const o3 = d1 + d2;
+
+    // Compute CSS color values for SVG
+    const goodColor = getComputedStyle(document.documentElement).getPropertyValue('--success').trim() || '#16a34a';
+    const badColor = getComputedStyle(document.documentElement).getPropertyValue('--danger').trim() || '#dc2626';
+    const skipColor = getComputedStyle(document.documentElement).getPropertyValue('--border').trim() || '#e0e2ee';
+
+    const donutSVG = `<svg viewBox="0 0 200 200">
+      <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${skipColor}" stroke-width="24" stroke-dasharray="${d3} ${circumference - d3}" stroke-dashoffset="${-o3}" />
+      <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${badColor}" stroke-width="24" stroke-dasharray="${d2} ${circumference - d2}" stroke-dashoffset="${-o2}" />
+      <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${goodColor}" stroke-width="24" stroke-dasharray="${d1} ${circumference - d1}" stroke-dashoffset="${-o1}" />
+    </svg>`;
+
+    let html = `
+      <div class="res-summary">
+        <div class="res-stat">
+          <div class="res-stat-val" style="color:var(--accent);">${intentos}</div>
+          <div class="res-stat-label">Intentos</div>
+        </div>
+        <div class="res-stat">
+          <div class="res-stat-val" style="color:var(--success);">${tc}</div>
+          <div class="res-stat-label">Correctas</div>
+        </div>
+        <div class="res-stat">
+          <div class="res-stat-val" style="color:var(--danger);">${ti}</div>
+          <div class="res-stat-label">Incorrectas</div>
+        </div>
+        <div class="res-stat">
+          <div class="res-stat-val" style="color:var(--fg-muted);">${to}</div>
+          <div class="res-stat-label">Omitidas</div>
+        </div>
+      </div>
+
+      <div class="res-chart-wrap">
+        <div class="res-chart-donut">
+          ${donutSVG}
+          <div class="res-chart-center">
+            <div class="res-chart-pct">${pct}%</div>
+            <div class="res-chart-label">Acierto</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="res-legend">
+        <div class="res-legend-item"><div class="res-legend-dot" style="background:var(--success);"></div> Correctas</div>
+        <div class="res-legend-item"><div class="res-legend-dot" style="background:var(--danger);"></div> Incorrectas</div>
+        <div class="res-legend-item"><div class="res-legend-dot" style="background:var(--border);"></div> Omitidas</div>
+      </div>
+
+      <div class="res-table-wrap">
+        <table class="res-table">
+          <thead><tr>
+            <th>Tema</th>
+            <th>✓</th>
+            <th>✗</th>
+            <th>—</th>
+            <th>Nota</th>
+            <th>Tiempo</th>
+            <th>Fecha</th>
+          </tr></thead>
+          <tbody>
+    `;
+
+    for (const r of resultados) {
+      const nota = r.total > 0 ? Math.round((r.correctas / r.total) * 100) : 0;
+      const m = Math.floor(r.tiempo_usado / 60);
+      const s = r.tiempo_usado % 60;
+      const fecha = r.created_at ? new Date(r.created_at).toLocaleDateString('es-CL', { day: '2-digit', month: 'short' }) : '';
+      const tname = topicNames[r.topic] || r.topic;
+
+      html += `<tr>
+        <td>${escHtml(tname)}</td>
+        <td style="color:var(--success);font-weight:600;">${r.correctas}</td>
+        <td style="color:var(--danger);font-weight:600;">${r.incorrectas}</td>
+        <td style="color:var(--fg-muted);">${r.omitidas}</td>
+        <td><strong>${nota}%</strong></td>
+        <td>${m}m ${s}s</td>
+        <td>${fecha}</td>
+      </tr>`;
+    }
+
+    html += '</tbody></table></div>';
+    container.innerHTML = html;
+    resultadosLoaded = true;
+
+  } catch {
+    container.innerHTML = '<div class="res-empty"><p>Error de conexión al cargar resultados.</p></div>';
+  }
 }
 
 // --- Logout ---
