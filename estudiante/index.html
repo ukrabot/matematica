@@ -691,6 +691,17 @@
     color: var(--fg-muted);
     flex-shrink: 0;
   }
+  .ej-available {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: rgba(22,163,74,0.1);
+    color: var(--success);
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
   @media (max-width: 520px) {
     .ej-topic-list { padding-left: 20px; }
     .ej-axis-btn { padding: 14px 16px; gap: 10px; }
@@ -1570,7 +1581,7 @@
               <button class="ej-topic" onclick="openTopic('numeros-enteros-racionales')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Conjunto de los números enteros y racionales</span>
-                <span class="ej-coming">Pronto</span>
+                <span class="ej-available">Disponible</span>
               </button>
               <button class="ej-topic" onclick="openTopic('porcentaje')">
                 <span class="ej-topic-dot"></span>
@@ -1933,6 +1944,35 @@ checkAuth().then(user => {
   document.getElementById('userAvatar').textContent = initials;
   document.getElementById('dropdownGreeting').textContent = '¡Hola, ' + user.nombre + '!';
   document.getElementById('welcomeTitle').textContent = '¡Bienvenido, ' + user.nombre + '!';
+
+  // --- Apply section permissions ---
+  const permMap = {
+    tutor: user.perm_tutor,
+    evaluacion: user.perm_evaluacion,
+    ejercicios: user.perm_ejercicios,
+    materiales: user.perm_materiales,
+    resultados: user.perm_resultados
+  };
+
+  let firstAllowed = null;
+  document.querySelectorAll('.nav-item[data-section]').forEach(navEl => {
+    const section = navEl.dataset.section;
+    if (permMap[section] === 0) {
+      navEl.style.display = 'none';
+    } else {
+      if (!firstAllowed) firstAllowed = section;
+    }
+  });
+
+  // If current default section (tutor) is disabled, switch to the first allowed one
+  if (permMap.tutor === 0 && firstAllowed) {
+    const firstNav = document.querySelector(`.nav-item[data-section="${firstAllowed}"]`);
+    if (firstNav) firstNav.click();
+  }
+  // If no sections are allowed, show a message
+  if (!firstAllowed) {
+    document.getElementById('dynamicContent').innerHTML = '<div style="text-align:center; padding:60px 20px; color:var(--fg-muted);"><p style="font-size:1.1rem;">No tienes acceso a ninguna sección actualmente.</p><p style="font-size:.9rem; margin-top:8px;">Contacta a tu administrador para más información.</p></div>';
+  }
 });
 
 // --- User dropdown ---

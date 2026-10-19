@@ -208,6 +208,77 @@
 
         <div class="alert alert-success" id="settingsSuccess"></div>
       </div>
+
+      <!-- Global Section Access Controls -->
+      <div class="settings-card" style="margin-top: 24px;">
+        <h2>Acceso a Secciones (Global)</h2>
+        <p class="settings-desc">Habilita o deshabilita secciones para <strong>todos</strong> los estudiantes a la vez. Esto sobrescribirá los permisos individuales.</p>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-label">🤖 Tutor IA</div>
+            <div class="setting-help">Acceso al asistente de inteligencia artificial</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="globalPermTutor" checked onchange="toggleGlobalPerm('tutor', this.checked)">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-label">📝 Full Evaluación</div>
+            <div class="setting-help">Acceso a las evaluaciones completas PAES</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="globalPermEvaluacion" checked onchange="toggleGlobalPerm('evaluacion', this.checked)">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-label">⭐ Full Ejercicios</div>
+            <div class="setting-help">Acceso a los ejercicios por tema</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="globalPermEjercicios" checked onchange="toggleGlobalPerm('ejercicios', this.checked)">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-label">📚 Materiales</div>
+            <div class="setting-help">Acceso a los materiales de estudio</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="globalPermMateriales" checked onchange="toggleGlobalPerm('materiales', this.checked)">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-label">📊 Resultados</div>
+            <div class="setting-help">Acceso a la sección de resultados y estadísticas</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="globalPermResultados" checked onchange="toggleGlobalPerm('resultados', this.checked)">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div style="margin-top:16px; padding-top:16px; border-top:1px solid var(--border);">
+          <button class="btn btn-primary" onclick="applyGlobalPerms()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            Aplicar a todos los estudiantes
+          </button>
+          <span class="settings-desc" style="margin-left:12px; display:inline;">Esto actualizará los permisos de todos los estudiantes</span>
+        </div>
+
+        <div class="alert alert-success" id="globalPermSuccess"></div>
+      </div>
     </div>
 
   </main>
@@ -407,6 +478,75 @@
       <button class="btn btn-danger" onclick="confirmDelete()">
         <span class="spinner"></span>
         <span class="btn-text">Eliminar</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- Modal: Permisos de Secciones (per-student)   -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="modal-overlay" id="permModal">
+  <div class="modal">
+    <h2>Permisos de Secciones</h2>
+    <div class="alert alert-error" id="permAlert"></div>
+    <div class="alert alert-success" id="permSuccess"></div>
+    <input type="hidden" id="permId">
+    <p style="color:var(--fg-muted); font-size:.85rem; margin-bottom:16px;" id="permStudentName"></p>
+
+    <div class="perm-grid">
+      <div class="setting-item">
+        <div class="setting-info">
+          <div class="setting-label">🤖 Tutor IA</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="permTutor">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="setting-item">
+        <div class="setting-info">
+          <div class="setting-label">📝 Full Evaluación</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="permEvaluacion">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="setting-item">
+        <div class="setting-info">
+          <div class="setting-label">⭐ Full Ejercicios</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="permEjercicios">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="setting-item">
+        <div class="setting-info">
+          <div class="setting-label">📚 Materiales</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="permMateriales">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="setting-item">
+        <div class="setting-info">
+          <div class="setting-label">📊 Resultados</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="permResultados">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('permModal')">Cancelar</button>
+      <button class="btn btn-primary" onclick="savePermisos()">
+        <span class="spinner"></span>
+        <span class="btn-text">Guardar permisos</span>
       </button>
     </div>
   </div>
@@ -653,6 +793,9 @@ function renderStudents(students) {
           <div class="actions">
             <button class="btn-icon ${isActive ? '' : 'enable'}" title="${toggleTitle}" onclick='toggleEstudiante(${s.id}, ${isActive})'>
               ${toggleIcon}
+            </button>
+            <button class="btn-icon" title="Permisos" onclick='openPermisos(${JSON.stringify(s)})'>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             </button>
             <button class="btn-icon" title="Editar" onclick='openEdit(${JSON.stringify(s)})'>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
@@ -931,6 +1074,12 @@ async function loadSettings() {
     const data = await res.json();
     if (data.ok) {
       document.getElementById('toggleRegistro').checked = data.settings.registro_habilitado !== 'false';
+      // Load global permission toggles
+      document.getElementById('globalPermTutor').checked = data.settings.global_perm_tutor !== 'false';
+      document.getElementById('globalPermEvaluacion').checked = data.settings.global_perm_evaluacion !== 'false';
+      document.getElementById('globalPermEjercicios').checked = data.settings.global_perm_ejercicios !== 'false';
+      document.getElementById('globalPermMateriales').checked = data.settings.global_perm_materiales !== 'false';
+      document.getElementById('globalPermResultados').checked = data.settings.global_perm_resultados !== 'false';
     }
   } catch {}
 }
@@ -953,6 +1102,101 @@ async function toggleRegistro(enabled) {
       setTimeout(() => successEl.classList.remove('show'), 3000);
     }
   } catch {}
+}
+
+// ── Global permission toggle (save individual setting) ──
+async function toggleGlobalPerm(section, enabled) {
+  try {
+    await fetch('/api/admin/settings', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key: 'global_perm_' + section, value: enabled ? 'true' : 'false' })
+    });
+  } catch {}
+}
+
+// ── Apply global permissions to ALL students ──
+async function applyGlobalPerms() {
+  if (!window.confirm('¿Estás seguro? Esto sobrescribirá los permisos individuales de todos los estudiantes.')) return;
+
+  const successEl = document.getElementById('globalPermSuccess');
+  successEl.classList.remove('show');
+
+  const body = {
+    perm_tutor: document.getElementById('globalPermTutor').checked,
+    perm_evaluacion: document.getElementById('globalPermEvaluacion').checked,
+    perm_ejercicios: document.getElementById('globalPermEjercicios').checked,
+    perm_materiales: document.getElementById('globalPermMateriales').checked,
+    perm_resultados: document.getElementById('globalPermResultados').checked
+  };
+
+  try {
+    const res = await fetch('/api/admin/estudiantes/permisos', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+
+    if (data.ok) {
+      successEl.textContent = 'Permisos actualizados para todos los estudiantes';
+      successEl.classList.add('show');
+      setTimeout(() => successEl.classList.remove('show'), 3000);
+      loadStudents();
+    }
+  } catch {
+    window.alert('Error de conexión');
+  }
+}
+
+// ── Per-student permissions ──
+function openPermisos(student) {
+  document.getElementById('permId').value = student.id;
+  document.getElementById('permStudentName').textContent = 'Estudiante: ' + student.nombre + ' ' + student.apellido;
+  document.getElementById('permTutor').checked = student.perm_tutor !== 0;
+  document.getElementById('permEvaluacion').checked = student.perm_evaluacion !== 0;
+  document.getElementById('permEjercicios').checked = student.perm_ejercicios !== 0;
+  document.getElementById('permMateriales').checked = student.perm_materiales !== 0;
+  document.getElementById('permResultados').checked = student.perm_resultados !== 0;
+  openModal('permModal');
+}
+
+async function savePermisos() {
+  const id = document.getElementById('permId').value;
+  const alertEl = document.getElementById('permAlert');
+  const successEl = document.getElementById('permSuccess');
+  alertEl.classList.remove('show');
+  successEl.classList.remove('show');
+
+  const body = {
+    perm_tutor: document.getElementById('permTutor').checked,
+    perm_evaluacion: document.getElementById('permEvaluacion').checked,
+    perm_ejercicios: document.getElementById('permEjercicios').checked,
+    perm_materiales: document.getElementById('permMateriales').checked,
+    perm_resultados: document.getElementById('permResultados').checked
+  };
+
+  try {
+    const res = await fetch(`/api/admin/estudiantes/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+
+    if (!data.ok) {
+      alertEl.textContent = data.error || 'Error al actualizar permisos';
+      alertEl.classList.add('show');
+      return;
+    }
+
+    successEl.textContent = 'Permisos actualizados correctamente';
+    successEl.classList.add('show');
+    setTimeout(() => { closeModal('permModal'); loadStudents(); }, 1000);
+  } catch {
+    alertEl.textContent = 'Error de conexión';
+    alertEl.classList.add('show');
+  }
 }
 
 // ── Toggle student active status ──

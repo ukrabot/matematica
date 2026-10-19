@@ -522,6 +522,162 @@
   /* ── Change password modal ── */
   .pwd-modal { }
 
+  /* ===================== DATA TABLE ===================== */
+  .data-table-wrap {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .data-table th {
+    text-align: left;
+    padding: 12px 16px;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--fg-muted);
+    background: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .data-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: var(--accent-soft); }
+
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .badge-active   { background: rgba(22,163,74,0.1);  color: var(--success); }
+  .badge-inactive { background: rgba(220,38,38,0.1);  color: var(--danger); }
+
+  /* Toggle switch */
+  .toggle-switch {
+    position: relative;
+    width: 42px;
+    height: 24px;
+    cursor: pointer;
+  }
+  .toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: var(--border);
+    border-radius: 24px;
+    transition: background 0.2s;
+  }
+  .toggle-slider::before {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    left: 3px;
+    bottom: 3px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.2s;
+  }
+  .toggle-switch input:checked + .toggle-slider {
+    background: var(--success);
+  }
+  .toggle-switch input:checked + .toggle-slider::before {
+    transform: translateX(18px);
+  }
+
+  /* Search bar */
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    font-size: 14px;
+    color: var(--fg);
+    max-width: 320px;
+    width: 100%;
+  }
+  .search-bar input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--fg);
+    flex: 1;
+    min-width: 0;
+  }
+  .search-bar input::placeholder { color: var(--fg-muted); }
+
+  /* Student result cards */
+  .result-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .result-stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    text-align: center;
+  }
+  .result-stat-card .stat-value {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .result-stat-card .stat-label {
+    font-size: 13px;
+    color: var(--fg-muted);
+  }
+  .stat-correctas  { color: var(--success); }
+  .stat-incorrectas { color: var(--danger); }
+  .stat-omitidas   { color: var(--gold); }
+  .stat-intentos   { color: var(--accent); }
+
+  /* Back button */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--accent);
+    cursor: pointer;
+    margin-bottom: 16px;
+    background: none;
+    border: none;
+    font-family: var(--font-body);
+    padding: 0;
+  }
+  .back-link:hover { text-decoration: underline; }
+
+  /* Section visibility */
+  .section-hidden { display: none; }
+
   /* ===================== MOBILE ===================== */
   .menu-toggle {
     display: none;
@@ -538,6 +694,8 @@
     .main { margin-left: 0; padding: 20px 16px; }
     .menu-toggle { display: block; }
     .materials-grid { grid-template-columns: 1fr; }
+    .data-table-wrap { overflow-x: auto; }
+    .result-summary-grid { grid-template-columns: repeat(2, 1fr); }
   }
   </style>
 </head>
@@ -571,9 +729,13 @@
 <!-- ====== SIDEBAR ====== -->
 <div class="sidebar" id="sidebar">
   <div class="nav-section-label">Menú</div>
-  <div class="nav-item active" data-section="materiales">
+  <div class="nav-item active" data-section="materiales" onclick="switchSection('materiales')">
     <span class="nav-icon">📚</span>
     <span>Subir Material</span>
+  </div>
+  <div class="nav-item" data-section="estudiantes" onclick="switchSection('estudiantes')">
+    <span class="nav-icon">👥</span>
+    <span>Estudiantes</span>
   </div>
 </div>
 
@@ -603,6 +765,72 @@
         <p>Aún no has subido materiales. Haz clic en "Nuevo Material" para comenzar.</p>
       </div>
       <div class="materials-grid" id="materialsGrid"></div>
+    </div>
+  </div>
+
+  <!-- ====== ESTUDIANTES SECTION ====== -->
+  <div id="estudiantesSection" class="section-hidden">
+    <div class="section-header">
+      <h3>Lista de Estudiantes</h3>
+      <div class="search-bar">
+        <span>🔍</span>
+        <input type="text" id="searchEstudiantes" placeholder="Buscar por nombre, email o RUT..." oninput="filterEstudiantes()">
+      </div>
+    </div>
+
+    <div class="alert alert-success" id="estSuccessAlert"></div>
+    <div class="alert alert-error" id="estErrorAlert"></div>
+
+    <div class="data-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>RUT</th>
+            <th>Colegio</th>
+            <th>Estado</th>
+            <th>Activo</th>
+            <th>Resultados</th>
+          </tr>
+        </thead>
+        <tbody id="estudiantesBody"></tbody>
+      </table>
+    </div>
+    <div class="empty-state" id="estEmptyState" style="display:none;">
+      <div class="empty-icon">👥</div>
+      <h4>Sin estudiantes</h4>
+      <p>No hay estudiantes registrados en la plataforma.</p>
+    </div>
+  </div>
+
+  <!-- ====== STUDENT RESULTS VIEW ====== -->
+  <div id="resultadosSection" class="section-hidden">
+    <button class="back-link" onclick="backToEstudiantes()">← Volver a Estudiantes</button>
+    <h3 id="resultStudentName" style="font-family:var(--font-display);font-size:20px;font-weight:700;margin-bottom:20px;"></h3>
+
+    <div class="result-summary-grid" id="resultSummary"></div>
+
+    <div class="data-table-wrap" id="resultTableWrap" style="display:none;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Tema</th>
+            <th>Correctas</th>
+            <th>Incorrectas</th>
+            <th>Omitidas</th>
+            <th>Total</th>
+            <th>Tiempo</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+        <tbody id="resultBody"></tbody>
+      </table>
+    </div>
+    <div class="empty-state" id="resultEmptyState" style="display:none;">
+      <div class="empty-icon">📊</div>
+      <h4>Sin resultados</h4>
+      <p>Este estudiante aún no ha completado ejercicios.</p>
     </div>
   </div>
 
@@ -695,6 +923,8 @@ let profesor = null;
 let materiales = [];
 let editingId = null;
 let deletingId = null;
+let estudiantes = [];
+let currentSection = 'materiales';
 
 // ── Auth check ──
 async function checkAuth() {
@@ -944,6 +1174,197 @@ document.addEventListener('click', e => {
     document.getElementById('sidebar').classList.remove('open');
   }
 });
+
+// ── Section switching ──
+function switchSection(section) {
+  currentSection = section;
+  // Hide all sections
+  document.getElementById('materialesSection').classList.add('section-hidden');
+  document.getElementById('estudiantesSection').classList.add('section-hidden');
+  document.getElementById('resultadosSection').classList.add('section-hidden');
+  // Update welcome card text
+  const wc = document.getElementById('welcomeCard');
+  const wp = wc.querySelector('p');
+  // Show target section
+  if (section === 'materiales') {
+    document.getElementById('materialesSection').classList.remove('section-hidden');
+    wp.textContent = 'Sube materiales y recursos para que tus estudiantes puedan acceder a ellos.';
+  } else if (section === 'estudiantes') {
+    document.getElementById('estudiantesSection').classList.remove('section-hidden');
+    wp.textContent = 'Gestiona y revisa el progreso de tus estudiantes.';
+    if (estudiantes.length === 0) loadEstudiantes();
+  } else if (section === 'resultados') {
+    document.getElementById('resultadosSection').classList.remove('section-hidden');
+    wc.style.display = 'none';
+  }
+  if (section !== 'resultados') wc.style.display = '';
+  // Update nav active state
+  document.querySelectorAll('.nav-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.section === section);
+  });
+  // Close mobile sidebar
+  document.getElementById('sidebar').classList.remove('open');
+}
+
+// ── Estudiantes ──
+async function loadEstudiantes() {
+  try {
+    const res = await fetch('/api/profesor/estudiantes');
+    const data = await res.json();
+    if (data.ok) {
+      estudiantes = data.estudiantes;
+      renderEstudiantes();
+    }
+  } catch {
+    showAlert('estErrorAlert', 'Error al cargar estudiantes');
+  }
+}
+
+function renderEstudiantes() {
+  const query = (document.getElementById('searchEstudiantes').value || '').toLowerCase();
+  const filtered = estudiantes.filter(e => {
+    const full = `${e.nombre} ${e.apellido} ${e.email} ${e.rut || ''}`.toLowerCase();
+    return full.includes(query);
+  });
+
+  const tbody = document.getElementById('estudiantesBody');
+  const empty = document.getElementById('estEmptyState');
+  const wrap = tbody.closest('.data-table-wrap');
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = '';
+    wrap.style.display = 'none';
+    empty.style.display = 'block';
+    return;
+  }
+
+  empty.style.display = 'none';
+  wrap.style.display = '';
+
+  tbody.innerHTML = filtered.map(e => `
+    <tr>
+      <td><strong>${esc(e.nombre)} ${esc(e.apellido)}</strong></td>
+      <td>${esc(e.email)}</td>
+      <td>${esc(e.rut || '—')}</td>
+      <td>${esc(e.colegio || '—')}</td>
+      <td><span class="badge ${e.activo ? 'badge-active' : 'badge-inactive'}">${e.activo ? 'Activo' : 'Inactivo'}</span></td>
+      <td>
+        <label class="toggle-switch" title="${e.activo ? 'Desactivar' : 'Activar'}">
+          <input type="checkbox" ${e.activo ? 'checked' : ''} onchange="toggleEstudiante(${e.id}, this.checked)">
+          <span class="toggle-slider"></span>
+        </label>
+      </td>
+      <td><button class="btn btn-sm btn-outline" onclick="viewResultados(${e.id})">📊 Ver</button></td>
+    </tr>
+  `).join('');
+}
+
+function filterEstudiantes() {
+  renderEstudiantes();
+}
+
+async function toggleEstudiante(id, activo) {
+  try {
+    const res = await fetch(`/api/profesor/estudiantes/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ activo })
+    });
+    const data = await res.json();
+    if (data.ok) {
+      // Update local state
+      const est = estudiantes.find(e => e.id === id);
+      if (est) est.activo = activo ? 1 : 0;
+      renderEstudiantes();
+      showAlert('estSuccessAlert', `Estudiante ${activo ? 'activado' : 'desactivado'}`);
+    } else {
+      showAlert('estErrorAlert', data.error || 'Error al actualizar');
+      loadEstudiantes(); // Reload to revert toggle
+    }
+  } catch {
+    showAlert('estErrorAlert', 'Error de conexión');
+    loadEstudiantes();
+  }
+}
+
+// ── Student Results view ──
+async function viewResultados(studentId) {
+  switchSection('resultados');
+  document.getElementById('resultStudentName').textContent = 'Cargando...';
+  document.getElementById('resultSummary').innerHTML = '';
+  document.getElementById('resultBody').innerHTML = '';
+  document.getElementById('resultTableWrap').style.display = 'none';
+  document.getElementById('resultEmptyState').style.display = 'none';
+
+  try {
+    const res = await fetch(`/api/profesor/estudiantes/${studentId}/resultados`);
+    const data = await res.json();
+    if (!data.ok) {
+      document.getElementById('resultStudentName').textContent = 'Error';
+      return;
+    }
+
+    const est = data.estudiante;
+    const r = data.resumen;
+    document.getElementById('resultStudentName').textContent = `Resultados de ${esc(est.nombre)} ${esc(est.apellido)}`;
+
+    // Summary cards
+    document.getElementById('resultSummary').innerHTML = `
+      <div class="result-stat-card">
+        <div class="stat-value stat-intentos">${r.intentos}</div>
+        <div class="stat-label">Intentos</div>
+      </div>
+      <div class="result-stat-card">
+        <div class="stat-value stat-correctas">${r.totalCorrectas}</div>
+        <div class="stat-label">Correctas</div>
+      </div>
+      <div class="result-stat-card">
+        <div class="stat-value stat-incorrectas">${r.totalIncorrectas}</div>
+        <div class="stat-label">Incorrectas</div>
+      </div>
+      <div class="result-stat-card">
+        <div class="stat-value stat-omitidas">${r.totalOmitidas}</div>
+        <div class="stat-label">Omitidas</div>
+      </div>
+    `;
+
+    // Results table
+    if (data.resultados.length === 0) {
+      document.getElementById('resultEmptyState').style.display = 'block';
+      return;
+    }
+
+    document.getElementById('resultTableWrap').style.display = '';
+    const topicNames = {
+      'numeros-enteros-racionales': 'Números enteros y racionales',
+      'porcentaje': 'Porcentaje',
+      'potencias-raices': 'Potencias y raíces enésimas'
+    };
+
+    document.getElementById('resultBody').innerHTML = data.resultados.map(r => {
+      const mins = Math.floor(r.tiempo_usado / 60);
+      const secs = r.tiempo_usado % 60;
+      return `
+        <tr>
+          <td>${esc(topicNames[r.topic] || r.topic)}</td>
+          <td style="color:var(--success);font-weight:600">${r.correctas}</td>
+          <td style="color:var(--danger);font-weight:600">${r.incorrectas}</td>
+          <td style="color:var(--gold);font-weight:600">${r.omitidas}</td>
+          <td>${r.total}</td>
+          <td>${mins}m ${secs.toString().padStart(2,'0')}s</td>
+          <td>${formatDate(r.created_at)}</td>
+        </tr>
+      `;
+    }).join('');
+
+  } catch (err) {
+    document.getElementById('resultStudentName').textContent = 'Error al cargar resultados';
+  }
+}
+
+function backToEstudiantes() {
+  switchSection('estudiantes');
+}
 
 // ── Init ──
 checkAuth();

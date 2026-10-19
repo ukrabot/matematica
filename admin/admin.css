@@ -572,6 +572,8 @@ tbody tr:hover { background: var(--accent-soft); }
   border-top: 1px solid var(--border);
 }
 .setting-info { flex: 1; }
+.perm-grid .setting-item { padding: 12px 0; }
+.perm-grid .setting-label { font-size: .88rem; }
 .setting-label {
   font-weight: 600;
   font-size: .92rem;

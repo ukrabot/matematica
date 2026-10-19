@@ -35,7 +35,14 @@ export async function onRequestPut(context) {
     }
 
     // Only allow known settings
-    const allowedKeys = ['registro_habilitado'];
+    const allowedKeys = [
+      'registro_habilitado',
+      'global_perm_tutor',
+      'global_perm_evaluacion',
+      'global_perm_ejercicios',
+      'global_perm_materiales',
+      'global_perm_resultados'
+    ];
     if (!allowedKeys.includes(key)) {
       return error('Configuración no válida');
     }

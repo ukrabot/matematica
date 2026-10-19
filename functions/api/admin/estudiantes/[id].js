@@ -7,7 +7,7 @@ export async function onRequestGet(context) {
 
   const id = context.params.id;
   const { results } = await context.env.DB.prepare(
-    'SELECT id, nombre, apellido, email, telefono, colegio, rut, activo, created_at FROM users WHERE id = ?'
+    'SELECT id, nombre, apellido, email, telefono, colegio, rut, activo, perm_tutor, perm_evaluacion, perm_ejercicios, perm_materiales, perm_resultados, created_at FROM users WHERE id = ?'
   ).bind(id).all();
 
   if (!results[0]) return error('Estudiante no encontrado', 404);
@@ -23,7 +23,8 @@ export async function onRequestPut(context) {
 
   try {
     const body = await context.request.json();
-    const { nombre, apellido, email, telefono, colegio, rut, newPassword, activo } = body;
+    const { nombre, apellido, email, telefono, colegio, rut, newPassword, activo,
+            perm_tutor, perm_evaluacion, perm_ejercicios, perm_materiales, perm_resultados } = body;
 
     // If password update requested
     if (newPassword) {
@@ -38,7 +39,9 @@ export async function onRequestPut(context) {
     }
 
     // If info update requested
-    if (nombre || apellido || email || telefono || colegio || rut !== undefined || activo !== undefined) {
+    if (nombre || apellido || email || telefono || colegio || rut !== undefined || activo !== undefined
+        || perm_tutor !== undefined || perm_evaluacion !== undefined || perm_ejercicios !== undefined
+        || perm_materiales !== undefined || perm_resultados !== undefined) {
       const fields = [];
       const values = [];
 
@@ -49,6 +52,11 @@ export async function onRequestPut(context) {
       if (colegio)  { fields.push('colegio = ?');  values.push(colegio); }
       if (rut !== undefined) { fields.push('rut = ?'); values.push(rut || ''); }
       if (activo !== undefined) { fields.push('activo = ?'); values.push(activo ? 1 : 0); }
+      if (perm_tutor !== undefined)     { fields.push('perm_tutor = ?');     values.push(perm_tutor ? 1 : 0); }
+      if (perm_evaluacion !== undefined) { fields.push('perm_evaluacion = ?'); values.push(perm_evaluacion ? 1 : 0); }
+      if (perm_ejercicios !== undefined) { fields.push('perm_ejercicios = ?'); values.push(perm_ejercicios ? 1 : 0); }
+      if (perm_materiales !== undefined) { fields.push('perm_materiales = ?'); values.push(perm_materiales ? 1 : 0); }
+      if (perm_resultados !== undefined) { fields.push('perm_resultados = ?'); values.push(perm_resultados ? 1 : 0); }
 
       if (fields.length > 0) {
         fields.push('updated_at = CURRENT_TIMESTAMP');
