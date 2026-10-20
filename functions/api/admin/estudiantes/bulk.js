@@ -29,6 +29,7 @@ export async function onRequestPost(context) {
         const email = (s.email || '').trim().toLowerCase();
         const telefono = (s.telefono || '').toString().trim();
         const colegio = (s.colegio || '').trim();
+        const curso = (s.curso || '').trim();
         const rut = (s.rut || '').toString().trim();
         const password = (s.password || s.contraseña || '').toString().trim();
 
@@ -65,8 +66,8 @@ export async function onRequestPost(context) {
 
         // Insert
         await context.env.DB.prepare(
-          'INSERT INTO users (nombre, apellido, email, telefono, colegio, rut, password_hash, salt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
-        ).bind(nombre, apellido, email, telefono, colegio, rut, hash, salt).run();
+          'INSERT INTO users (nombre, apellido, email, telefono, colegio, curso, rut, password_hash, salt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
+        ).bind(nombre, apellido, email, telefono, colegio, curso, rut, hash, salt).run();
 
         results.created++;
       } catch (err) {

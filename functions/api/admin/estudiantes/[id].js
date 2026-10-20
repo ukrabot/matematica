@@ -7,7 +7,7 @@ export async function onRequestGet(context) {
 
   const id = context.params.id;
   const { results } = await context.env.DB.prepare(
-    'SELECT id, nombre, apellido, email, telefono, colegio, rut, activo, perm_tutor, perm_evaluacion, perm_ejercicios, perm_materiales, perm_resultados, created_at FROM users WHERE id = ?'
+    'SELECT id, nombre, apellido, email, telefono, colegio, curso, rut, activo, perm_tutor, perm_evaluacion, perm_ejercicios, perm_materiales, perm_resultados, created_at FROM users WHERE id = ?'
   ).bind(id).all();
 
   if (!results[0]) return error('Estudiante no encontrado', 404);
@@ -23,7 +23,7 @@ export async function onRequestPut(context) {
 
   try {
     const body = await context.request.json();
-    const { nombre, apellido, email, telefono, colegio, rut, newPassword, activo,
+    const { nombre, apellido, email, telefono, colegio, curso, rut, newPassword, activo,
             perm_tutor, perm_evaluacion, perm_ejercicios, perm_materiales, perm_resultados } = body;
 
     // If password update requested
@@ -39,7 +39,7 @@ export async function onRequestPut(context) {
     }
 
     // If info update requested
-    if (nombre || apellido || email || telefono || colegio || rut !== undefined || activo !== undefined
+    if (nombre || apellido || email || telefono || colegio || curso !== undefined || rut !== undefined || activo !== undefined
         || perm_tutor !== undefined || perm_evaluacion !== undefined || perm_ejercicios !== undefined
         || perm_materiales !== undefined || perm_resultados !== undefined) {
       const fields = [];
@@ -50,6 +50,7 @@ export async function onRequestPut(context) {
       if (email)    { fields.push('email = ?');    values.push(email); }
       if (telefono) { fields.push('telefono = ?'); values.push(telefono); }
       if (colegio)  { fields.push('colegio = ?');  values.push(colegio); }
+      if (curso !== undefined) { fields.push('curso = ?'); values.push(curso || ''); }
       if (rut !== undefined) { fields.push('rut = ?'); values.push(rut || ''); }
       if (activo !== undefined) { fields.push('activo = ?'); values.push(activo ? 1 : 0); }
       if (perm_tutor !== undefined)     { fields.push('perm_tutor = ?');     values.push(perm_tutor ? 1 : 0); }

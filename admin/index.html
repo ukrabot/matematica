@@ -113,6 +113,7 @@
               <tr>
                 <th>Estudiante</th>
                 <th>RUT</th>
+                <th>Curso</th>
                 <th>Colegio</th>
                 <th>Teléfono</th>
                 <th>Fecha registro</th>
@@ -302,9 +303,23 @@
         <input type="text" id="createApellido" placeholder="Apellido">
       </div>
     </div>
-    <div class="form-group">
-      <label for="createRut">RUT</label>
-      <input type="text" id="createRut" placeholder="12.345.678-9" maxlength="12">
+    <div class="form-row-2">
+      <div class="form-group">
+        <label for="createRut">RUT</label>
+        <input type="text" id="createRut" placeholder="12.345.678-9" maxlength="12">
+      </div>
+      <div class="form-group">
+        <label for="createCurso">Curso</label>
+        <select id="createCurso">
+          <option value="">Sin asignar</option>
+          <option value="7° Básico">7° Básico</option>
+          <option value="8° Básico">8° Básico</option>
+          <option value="1° Medio">1° Medio</option>
+          <option value="2° Medio">2° Medio</option>
+          <option value="3° Medio">3° Medio</option>
+          <option value="4° Medio">4° Medio</option>
+        </select>
+      </div>
     </div>
     <div class="form-group">
       <label for="createEmail">Correo electrónico *</label>
@@ -356,6 +371,7 @@
         <span class="col-tag required">apellido *</span>
         <span class="col-tag required">email *</span>
         <span class="col-tag">rut</span>
+        <span class="col-tag">curso</span>
         <span class="col-tag">telefono</span>
         <span class="col-tag">colegio</span>
         <span class="col-tag">password</span>
@@ -426,9 +442,23 @@
       <label for="editTelefono">Teléfono</label>
       <input type="tel" id="editTelefono">
     </div>
-    <div class="form-group">
-      <label for="editColegio">Colegio</label>
-      <input type="text" id="editColegio">
+    <div class="form-row-2">
+      <div class="form-group">
+        <label for="editColegio">Colegio</label>
+        <input type="text" id="editColegio">
+      </div>
+      <div class="form-group">
+        <label for="editCurso">Curso</label>
+        <select id="editCurso">
+          <option value="">Sin asignar</option>
+          <option value="7° Básico">7° Básico</option>
+          <option value="8° Básico">8° Básico</option>
+          <option value="1° Medio">1° Medio</option>
+          <option value="2° Medio">2° Medio</option>
+          <option value="3° Medio">3° Medio</option>
+          <option value="4° Medio">4° Medio</option>
+        </select>
+      </div>
     </div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeModal('editModal')">Cancelar</button>
@@ -751,7 +781,7 @@ async function loadStudents() {
     updateStats(allStudents);
   } catch {
     document.getElementById('studentsList').innerHTML = `
-      <tr><td colspan="7"><div class="empty-state"><p>Error al cargar estudiantes</p></div></td></tr>
+      <tr><td colspan="8"><div class="empty-state"><p>Error al cargar estudiantes</p></div></td></tr>
     `;
   }
 }
@@ -761,7 +791,7 @@ function renderStudents(students) {
 
   if (students.length === 0) {
     tbody.innerHTML = `
-      <tr><td colspan="7"><div class="empty-state">
+      <tr><td colspan="8"><div class="empty-state">
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
         <p>No hay estudiantes registrados</p>
       </div></td></tr>
@@ -785,6 +815,7 @@ function renderStudents(students) {
           <span class="student-email">${esc(s.email)}</span>
         </td>
         <td>${esc(s.rut || '—')}</td>
+        <td>${esc(s.curso || '—')}</td>
         <td>${esc(s.colegio)}</td>
         <td>${esc(s.telefono)}</td>
         <td>${date}</td>
@@ -832,7 +863,7 @@ function filterStudents() {
   if (!q) return renderStudents(allStudents);
 
   const filtered = allStudents.filter(s =>
-    (s.nombre + ' ' + s.apellido + ' ' + s.email + ' ' + s.colegio + ' ' + (s.rut || '')).toLowerCase().includes(q)
+    (s.nombre + ' ' + s.apellido + ' ' + s.email + ' ' + s.colegio + ' ' + (s.rut || '') + ' ' + (s.curso || '')).toLowerCase().includes(q)
   );
   renderStudents(filtered);
 }
@@ -849,6 +880,7 @@ async function createStudent() {
     nombre: document.getElementById('createNombre').value.trim(),
     apellido: document.getElementById('createApellido').value.trim(),
     rut: document.getElementById('createRut').value.trim(),
+    curso: document.getElementById('createCurso').value,
     email: document.getElementById('createEmail').value.trim(),
     telefono: document.getElementById('createTelefono').value.trim(),
     colegio: document.getElementById('createColegio').value.trim(),
@@ -894,7 +926,7 @@ async function createStudent() {
     successEl.classList.add('show');
 
     // Clear form
-    ['createNombre','createApellido','createRut','createEmail','createTelefono','createColegio','createPassword','createPassword2'].forEach(id => document.getElementById(id).value = '');
+    ['createNombre','createApellido','createRut','createCurso','createEmail','createTelefono','createColegio','createPassword','createPassword2'].forEach(id => document.getElementById(id).value = '');
 
     setTimeout(() => { closeModal('createModal'); loadStudents(); }, 1200);
   } catch {
@@ -965,6 +997,7 @@ function processFile(file) {
           apellido: normalized.apellido || normalized.apellidos || normalized.last_name || '',
           email: normalized.email || normalized.correo || normalized.mail || '',
           rut: normalized.rut || '',
+          curso: normalized.curso || normalized.grade || '',
           telefono: normalized.telefono || normalized.phone || normalized.celular || '',
           colegio: normalized.colegio || normalized.school || normalized.institucion || '',
           password: normalized.password || normalized.contrasena || normalized.clave || ''
@@ -989,7 +1022,7 @@ function showPreview(fileName, data) {
   document.getElementById('bulkFileName').textContent = fileName;
   document.getElementById('bulkRowCount').textContent = data.length + ' estudiantes';
 
-  const cols = ['nombre', 'apellido', 'email', 'rut', 'telefono', 'colegio'];
+  const cols = ['nombre', 'apellido', 'email', 'rut', 'curso', 'telefono', 'colegio'];
   document.getElementById('previewHead').innerHTML = '<tr>' + cols.map(c => '<th>' + c + '</th>').join('') + '</tr>';
 
   const preview = data.slice(0, 10);
@@ -1235,6 +1268,7 @@ function openEdit(student) {
   document.getElementById('editNombre').value = student.nombre;
   document.getElementById('editApellido').value = student.apellido;
   document.getElementById('editRut').value = student.rut || '';
+  document.getElementById('editCurso').value = student.curso || '';
   document.getElementById('editEmail').value = student.email;
   document.getElementById('editTelefono').value = student.telefono;
   document.getElementById('editColegio').value = student.colegio;
@@ -1252,6 +1286,7 @@ async function saveStudent() {
     nombre: document.getElementById('editNombre').value.trim(),
     apellido: document.getElementById('editApellido').value.trim(),
     rut: document.getElementById('editRut').value.trim(),
+    curso: document.getElementById('editCurso').value,
     email: document.getElementById('editEmail').value.trim(),
     telefono: document.getElementById('editTelefono').value.trim(),
     colegio: document.getElementById('editColegio').value.trim()

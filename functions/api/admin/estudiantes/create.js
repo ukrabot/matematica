@@ -7,7 +7,7 @@ export async function onRequestPost(context) {
 
   try {
     const body = await context.request.json();
-    const { nombre, apellido, email, telefono, colegio, rut, password } = body;
+    const { nombre, apellido, email, telefono, colegio, curso, rut, password } = body;
 
     if (!nombre?.trim() || !apellido?.trim() || !email?.trim() || !password) {
       return error('Nombre, apellido, correo y contraseña son obligatorios');
@@ -43,13 +43,14 @@ export async function onRequestPost(context) {
 
     // Insert user
     const result = await context.env.DB.prepare(
-      'INSERT INTO users (nombre, apellido, email, telefono, colegio, rut, password_hash, salt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+      'INSERT INTO users (nombre, apellido, email, telefono, colegio, curso, rut, password_hash, salt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
     ).bind(
       nombre.trim(),
       apellido.trim(),
       email.toLowerCase().trim(),
       (telefono || '').trim(),
       (colegio || '').trim(),
+      (curso || '').trim(),
       (rut || '').trim(),
       hash,
       salt

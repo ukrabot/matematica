@@ -9,7 +9,7 @@ export async function onRequestGet(context) {
 
   try {
     const { results } = await context.env.DB.prepare(
-      'SELECT id, nombre, apellido, email, telefono, colegio, rut, activo, created_at FROM users WHERE id = ?'
+      'SELECT id, nombre, apellido, email, telefono, colegio, curso, rut, activo, created_at FROM users WHERE id = ?'
     ).bind(id).all();
 
     if (!results.length) return error('Estudiante no encontrado', 404);

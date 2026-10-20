@@ -13,7 +13,7 @@ export async function onRequestPost(context) {
     } catch {}
 
     const body = await context.request.json();
-    const { nombre, apellido, email, telefono, colegio, rut, password } = body;
+    const { nombre, apellido, email, telefono, colegio, curso, rut, password } = body;
 
     // Validate required fields
     if (!nombre?.trim() || !apellido?.trim() || !email?.trim() || !telefono?.trim() || !colegio?.trim() || !password) {
@@ -46,9 +46,9 @@ export async function onRequestPost(context) {
 
     // Insert user
     const result = await db.prepare(
-      'INSERT INTO users (nombre, apellido, email, telefono, colegio, rut, password_hash, salt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+      'INSERT INTO users (nombre, apellido, email, telefono, colegio, curso, rut, password_hash, salt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
     ).bind(
-      nombre.trim(), apellido.trim(), email.toLowerCase().trim(), telefono.trim(), colegio.trim(), (rut || '').trim(), password_hash, salt
+      nombre.trim(), apellido.trim(), email.toLowerCase().trim(), telefono.trim(), colegio.trim(), (curso || '').trim(), (rut || '').trim(), password_hash, salt
     ).run();
 
     const userId = result.meta.last_row_id;
