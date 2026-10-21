@@ -7,16 +7,30 @@ export async function onRequestPost(context) {
     const { email, password } = await request.json();
 
     if (!email || !password) {
-      return error('Email y contraseña son obligatorios');
+      return error('Email/RUT y contraseña son obligatorios');
     }
 
-    const { results } = await env.DB.prepare(
-      'SELECT id, nombre, apellido, email, especialidad, password_hash, salt, activo FROM teachers WHERE email = ?'
-    ).bind(email.toLowerCase().trim()).all();
+    const identifier = email.trim().toLowerCase();
 
-    const teacher = results[0];
+    // Check if identifier is RUT or email
+    const isRut = /^[0-9]{7,9}[0-9kK]?$/.test(identifier.replace(/[.\-]/g, ''));
+    const cleanRut = identifier.replace(/[.\-]/g, '');
+
+    let teacher;
+    if (isRut) {
+      const { results } = await env.DB.prepare(
+        'SELECT id, nombre, apellido, email, especialidad, password_hash, salt, activo FROM teachers WHERE rut = ?'
+      ).bind(cleanRut).all();
+      teacher = results[0];
+    } else {
+      const { results } = await env.DB.prepare(
+        'SELECT id, nombre, apellido, email, especialidad, password_hash, salt, activo FROM teachers WHERE email = ?'
+      ).bind(identifier).all();
+      teacher = results[0];
+    }
+
     if (!teacher) {
-      return error('Email o contraseña incorrectos', 401);
+      return error('Credenciales incorrectas', 401);
     }
 
     if (teacher.activo === 0) {
@@ -25,7 +39,7 @@ export async function onRequestPost(context) {
 
     const valid = await verifyPassword(password, teacher.salt, teacher.password_hash);
     if (!valid) {
-      return error('Email o contraseña incorrectos', 401);
+      return error('Credenciales incorrectas', 401);
     }
 
     const token = await createJWT(

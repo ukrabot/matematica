@@ -6,16 +6,29 @@ export async function onRequestPost(context) {
     const { email, password } = body;
 
     if (!email?.trim() || !password) {
-      return error('Email y contraseña son obligatorios');
+      return error('Email/RUT y contraseña son obligatorios');
     }
 
     const db = context.env.DB;
-    const user = await db.prepare(
-      'SELECT id, nombre, apellido, email, telefono, colegio, password_hash, salt, activo FROM users WHERE email = ?'
-    ).bind(email.toLowerCase().trim()).first();
+    const identifier = email.trim().toLowerCase();
+
+    // Determine if identifier is RUT or email
+    const isRut = /^[0-9]{7,9}[0-9kK]?$/.test(identifier.replace(/[.\-]/g, ''));
+    const cleanRut = identifier.replace(/[.\-]/g, '');
+
+    let user;
+    if (isRut) {
+      user = await db.prepare(
+        'SELECT id, nombre, apellido, email, telefono, colegio, password_hash, salt, activo FROM users WHERE rut = ?'
+      ).bind(cleanRut).first();
+    } else {
+      user = await db.prepare(
+        'SELECT id, nombre, apellido, email, telefono, colegio, password_hash, salt, activo FROM users WHERE email = ?'
+      ).bind(identifier).first();
+    }
 
     if (!user) {
-      return error('Email o contraseña incorrectos', 401);
+      return error('Credenciales incorrectas', 401);
     }
 
     // Check if student account is disabled
@@ -25,7 +38,7 @@ export async function onRequestPost(context) {
 
     const valid = await verifyPassword(password, user.salt, user.password_hash);
     if (!valid) {
-      return error('Email o contraseña incorrectos', 401);
+      return error('Credenciales incorrectas', 401);
     }
 
     // Create JWT

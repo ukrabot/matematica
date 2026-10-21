@@ -10,11 +10,31 @@ export async function onRequestPost(context) {
       return Response.json({ ok: false, error: 'Usuario y contraseña son obligatorios' }, { status: 400 });
     }
 
-    const { results } = await env.DB.prepare(
-      'SELECT id, username, password_hash, salt FROM admins WHERE username = ?'
-    ).bind(username).all();
+    const identifier = username.trim();
 
-    const admin = results[0];
+    // Check if identifier is RUT, email, or username
+    const isRut = /^[0-9]{7,9}[0-9kK]?$/.test(identifier.replace(/[.\-]/g, ''));
+    const cleanRut = identifier.replace(/[.\-]/g, '');
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
+
+    let admin;
+    if (isRut) {
+      const { results } = await env.DB.prepare(
+        'SELECT id, username, password_hash, salt FROM admins WHERE rut = ?'
+      ).bind(cleanRut).all();
+      admin = results[0];
+    } else if (isEmail) {
+      const { results } = await env.DB.prepare(
+        'SELECT id, username, password_hash, salt FROM admins WHERE email = ?'
+      ).bind(identifier.toLowerCase()).all();
+      admin = results[0];
+    } else {
+      const { results } = await env.DB.prepare(
+        'SELECT id, username, password_hash, salt FROM admins WHERE username = ?'
+      ).bind(identifier).all();
+      admin = results[0];
+    }
+
     if (!admin) {
       return Response.json({ ok: false, error: 'Credenciales incorrectas' }, { status: 401 });
     }

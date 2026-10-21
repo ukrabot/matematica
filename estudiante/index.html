@@ -1378,6 +1378,128 @@
     z-index: 85;
   }
 
+  /* ===================== PROFILE ===================== */
+  .profile-container {
+    display: grid;
+    gap: 20px;
+    max-width: 700px;
+  }
+  .profile-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow);
+  }
+  .profile-card h3 {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--fg);
+  }
+  .profile-photo-area {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .profile-photo-preview {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 3px solid var(--accent);
+    flex-shrink: 0;
+  }
+  .profile-photo-preview span {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .profile-photo-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .profile-photo-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .profile-photo-hint {
+    font-size: 12px;
+    color: var(--fg-muted);
+  }
+  .profile-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .profile-info-item label {
+    display: block;
+    font-size: 12px;
+    color: var(--fg-muted);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+  }
+  .profile-info-item span {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--fg);
+  }
+  .btn-sm {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+  .profile-card .form-group {
+    margin-bottom: 14px;
+  }
+  .profile-card .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--fg);
+  }
+  .profile-card .form-group input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    color: var(--fg);
+    font-size: 14px;
+    font-family: var(--font-body);
+  }
+  .profile-card .form-group input:focus {
+    border-color: var(--accent);
+    outline: none;
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  .profile-card .alert {
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    margin-bottom: 12px;
+    display: none;
+  }
+  .profile-card .alert.show { display: block; }
+  .profile-card .alert-error { background: rgba(220,38,38,0.08); color: var(--danger); border: 1px solid rgba(220,38,38,0.2); }
+  .profile-card .alert-success { background: rgba(22,163,74,0.08); color: var(--success); border: 1px solid rgba(22,163,74,0.2); }
+
+  @media (max-width: 520px) {
+    .profile-info-grid { grid-template-columns: 1fr; }
+    .profile-photo-area { flex-direction: column; text-align: center; }
+  }
+
   /* ===================== RESPONSIVE ===================== */
   @media (max-width: 900px) {
     .hamburger { display: block; }
@@ -1431,6 +1553,10 @@
     <div class="user-dropdown">
       <div class="dropdown-greeting" id="dropdownGreeting">¡Hola!</div>
       <div class="dropdown-divider"></div>
+      <button class="dropdown-item" id="goToProfileBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Mi Perfil
+      </button>
       <button class="dropdown-item" id="changePasswordBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         Cambiar contraseña
@@ -1466,6 +1592,12 @@
     <a href="#resultados" class="nav-item" data-section="resultados">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
       Resultados
+    </a>
+
+    <div class="nav-section" style="margin-top:16px;">Cuenta</div>
+    <a href="#perfil" class="nav-item" data-section="perfil">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Mi Perfil
     </a>
   </nav>
 </aside>
@@ -2061,6 +2193,96 @@
         <p>Esta sección estará disponible próximamente.</p>
       </div>
     </div>
+
+    <!-- PERFIL SECTION -->
+    <div id="perfilSection" style="display:none;">
+      <div class="profile-container">
+        <!-- Photo card -->
+        <div class="profile-card profile-photo-card">
+          <h3>Foto de perfil</h3>
+          <div class="profile-photo-area">
+            <div class="profile-photo-preview" id="profilePhotoPreview">
+              <span id="profilePhotoInitials">?</span>
+              <img id="profilePhotoImg" style="display:none;" alt="Foto de perfil">
+            </div>
+            <div class="profile-photo-actions">
+              <label class="btn btn-secondary btn-sm" for="photoInput">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                Subir foto
+              </label>
+              <input type="file" id="photoInput" accept="image/png,image/jpeg,image/webp" style="display:none;">
+              <button class="btn btn-secondary btn-sm" id="removePhotoBtn" style="display:none;">Eliminar</button>
+              <p class="profile-photo-hint">JPG, PNG o WebP. Máximo 500KB.</p>
+            </div>
+          </div>
+          <div class="alert alert-error" id="photoError"></div>
+          <div class="alert alert-success" id="photoSuccess"></div>
+        </div>
+
+        <!-- Info card -->
+        <div class="profile-card">
+          <h3>Información personal</h3>
+          <div class="profile-info-grid">
+            <div class="profile-info-item">
+              <label>Nombre</label>
+              <span id="profileNombre">-</span>
+            </div>
+            <div class="profile-info-item">
+              <label>Apellido</label>
+              <span id="profileApellido">-</span>
+            </div>
+            <div class="profile-info-item">
+              <label>RUT</label>
+              <span id="profileRut">-</span>
+            </div>
+            <div class="profile-info-item">
+              <label>Teléfono</label>
+              <span id="profileTelefono">-</span>
+            </div>
+            <div class="profile-info-item">
+              <label>Colegio</label>
+              <span id="profileColegio">-</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email card -->
+        <div class="profile-card">
+          <h3>Correo electrónico</h3>
+          <form id="emailForm">
+            <div class="form-group">
+              <label for="profileEmail">Email actual</label>
+              <input type="email" id="profileEmail" required>
+            </div>
+            <div class="alert alert-error" id="emailError"></div>
+            <div class="alert alert-success" id="emailSuccess"></div>
+            <button type="submit" class="btn btn-primary btn-sm">Guardar email</button>
+          </form>
+        </div>
+
+        <!-- Password card -->
+        <div class="profile-card">
+          <h3>Cambiar contraseña</h3>
+          <form id="profilePasswordForm">
+            <div class="form-group">
+              <label for="profCurrentPw">Contraseña actual</label>
+              <input type="password" id="profCurrentPw" required>
+            </div>
+            <div class="form-group">
+              <label for="profNewPw">Nueva contraseña</label>
+              <input type="password" id="profNewPw" required minlength="6" placeholder="Mínimo 6 caracteres">
+            </div>
+            <div class="form-group">
+              <label for="profConfirmPw">Confirmar nueva contraseña</label>
+              <input type="password" id="profConfirmPw" required>
+            </div>
+            <div class="alert alert-error" id="pwError"></div>
+            <div class="alert alert-success" id="pwSuccess"></div>
+            <button type="submit" class="btn btn-primary btn-sm">Cambiar contraseña</button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </main>
 
@@ -2119,7 +2341,12 @@ checkAuth().then(data => {
   const initials = (user.nombre[0] + user.apellido[0]).toUpperCase();
 
   document.getElementById('userName').textContent = fullName;
-  document.getElementById('userAvatar').textContent = initials;
+  const avatarEl = document.getElementById('userAvatar');
+  if (user.foto) {
+    avatarEl.innerHTML = '<img src="' + user.foto + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" alt="">';
+  } else {
+    avatarEl.textContent = initials;
+  }
   document.getElementById('dropdownGreeting').textContent = '¡Hola, ' + user.nombre + '!';
   document.getElementById('welcomeTitle').textContent = '¡Bienvenido, ' + user.nombre + '!';
 
@@ -2201,7 +2428,8 @@ const sectionLabels = {
   evaluacion: 'Full Evaluación',
   ejercicios: 'Full Ejercicios',
   materiales: 'Materiales',
-  resultados: 'Resultados'
+  resultados: 'Resultados',
+  perfil: 'Mi Perfil'
 };
 
 navItems.forEach(item => {
@@ -2219,6 +2447,7 @@ navItems.forEach(item => {
     document.getElementById('quizSection').style.display = 'none';
     document.getElementById('resultadosSection').style.display = 'none';
     document.getElementById('otherSection').style.display = 'none';
+    document.getElementById('perfilSection').style.display = 'none';
 
     if (section === 'tutor') {
       document.getElementById('tutorSection').style.display = 'flex';
@@ -2230,6 +2459,9 @@ navItems.forEach(item => {
     } else if (section === 'resultados') {
       document.getElementById('resultadosSection').style.display = 'block';
       loadResultados();
+    } else if (section === 'perfil') {
+      document.getElementById('perfilSection').style.display = 'block';
+      loadProfile();
     } else {
       document.getElementById('otherSection').style.display = 'block';
     }
@@ -3132,6 +3364,14 @@ async function loadResultados() {
   }
 }
 
+// --- Go to profile from dropdown ---
+document.getElementById('goToProfileBtn').addEventListener('click', () => {
+  userMenu.classList.remove('open');
+  // Simulate clicking the profile nav item
+  const perfilNav = document.querySelector('.nav-item[data-section="perfil"]');
+  if (perfilNav) perfilNav.click();
+});
+
 // --- Logout ---
 document.getElementById('logoutBtn').addEventListener('click', async () => {
   await fetch('/api/auth/logout', { method: 'POST' });
@@ -3204,6 +3444,213 @@ changePasswordForm.addEventListener('submit', async (e) => {
     okEl.classList.add('show');
     changePasswordForm.reset();
     setTimeout(() => passwordModal.classList.remove('show'), 1500);
+  } catch {
+    errEl.textContent = 'Error de conexión';
+    errEl.classList.add('show');
+  }
+});
+
+// ===================== PROFILE =====================
+
+function loadProfile() {
+  if (!currentUser) return;
+  document.getElementById('profileNombre').textContent = currentUser.nombre || '-';
+  document.getElementById('profileApellido').textContent = currentUser.apellido || '-';
+  document.getElementById('profileRut').textContent = currentUser.rut || 'No registrado';
+  document.getElementById('profileTelefono').textContent = currentUser.telefono || '-';
+  document.getElementById('profileColegio').textContent = currentUser.colegio || '-';
+  document.getElementById('profileEmail').value = currentUser.email || '';
+
+  // Photo
+  const img = document.getElementById('profilePhotoImg');
+  const initials = document.getElementById('profilePhotoInitials');
+  const removeBtn = document.getElementById('removePhotoBtn');
+
+  if (currentUser.foto) {
+    img.src = currentUser.foto;
+    img.style.display = 'block';
+    initials.style.display = 'none';
+    removeBtn.style.display = 'inline-flex';
+  } else {
+    img.style.display = 'none';
+    initials.style.display = 'flex';
+    initials.textContent = (currentUser.nombre[0] + currentUser.apellido[0]).toUpperCase();
+    removeBtn.style.display = 'none';
+  }
+}
+
+// Photo upload
+document.getElementById('photoInput').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const errEl = document.getElementById('photoError');
+  const okEl = document.getElementById('photoSuccess');
+  errEl.classList.remove('show');
+  okEl.classList.remove('show');
+
+  if (!file.type.match(/^image\/(png|jpeg|webp)$/)) {
+    errEl.textContent = 'Solo se permiten imágenes JPG, PNG o WebP';
+    errEl.classList.add('show');
+    return;
+  }
+
+  if (file.size > 500000) {
+    errEl.textContent = 'La imagen es muy grande. Máximo 500KB.';
+    errEl.classList.add('show');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = async (ev) => {
+    const dataUri = ev.target.result;
+    try {
+      const res = await fetch('/api/auth/update-foto', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ foto: dataUri })
+      });
+      const data = await res.json();
+
+      if (!data.ok) {
+        errEl.textContent = data.error || 'Error al subir foto';
+        errEl.classList.add('show');
+        return;
+      }
+
+      currentUser.foto = dataUri;
+      loadProfile();
+      // Update header avatar
+      const avatarEl = document.getElementById('userAvatar');
+      avatarEl.innerHTML = '<img src="' + dataUri + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" alt="">';
+
+      okEl.textContent = 'Foto actualizada correctamente';
+      okEl.classList.add('show');
+      setTimeout(() => okEl.classList.remove('show'), 3000);
+    } catch {
+      errEl.textContent = 'Error de conexión';
+      errEl.classList.add('show');
+    }
+  };
+  reader.readAsDataURL(file);
+  e.target.value = '';
+});
+
+// Remove photo
+document.getElementById('removePhotoBtn').addEventListener('click', async () => {
+  const errEl = document.getElementById('photoError');
+  const okEl = document.getElementById('photoSuccess');
+  errEl.classList.remove('show');
+  okEl.classList.remove('show');
+
+  try {
+    const res = await fetch('/api/auth/update-foto', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ foto: '' })
+    });
+    const data = await res.json();
+    // Even if error removing, reset locally
+    currentUser.foto = '';
+    loadProfile();
+    const avatarEl = document.getElementById('userAvatar');
+    avatarEl.textContent = (currentUser.nombre[0] + currentUser.apellido[0]).toUpperCase();
+
+    okEl.textContent = 'Foto eliminada';
+    okEl.classList.add('show');
+    setTimeout(() => okEl.classList.remove('show'), 3000);
+  } catch {
+    errEl.textContent = 'Error de conexión';
+    errEl.classList.add('show');
+  }
+});
+
+// Email update
+document.getElementById('emailForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const errEl = document.getElementById('emailError');
+  const okEl = document.getElementById('emailSuccess');
+  errEl.classList.remove('show');
+  okEl.classList.remove('show');
+
+  const newEmail = document.getElementById('profileEmail').value.trim();
+
+  if (!newEmail) {
+    errEl.textContent = 'El email es obligatorio';
+    errEl.classList.add('show');
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/auth/update-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: newEmail })
+    });
+    const data = await res.json();
+
+    if (!data.ok) {
+      errEl.textContent = data.error || 'Error al actualizar email';
+      errEl.classList.add('show');
+      return;
+    }
+
+    currentUser.email = data.email || newEmail;
+    okEl.textContent = 'Email actualizado correctamente';
+    okEl.classList.add('show');
+    setTimeout(() => okEl.classList.remove('show'), 3000);
+  } catch {
+    errEl.textContent = 'Error de conexión';
+    errEl.classList.add('show');
+  }
+});
+
+// Profile password change
+document.getElementById('profilePasswordForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const errEl = document.getElementById('pwError');
+  const okEl = document.getElementById('pwSuccess');
+  errEl.classList.remove('show');
+  okEl.classList.remove('show');
+
+  const currentPassword = document.getElementById('profCurrentPw').value;
+  const newPassword = document.getElementById('profNewPw').value;
+  const confirm = document.getElementById('profConfirmPw').value;
+
+  if (!currentPassword || !newPassword) {
+    errEl.textContent = 'Completa todos los campos';
+    errEl.classList.add('show');
+    return;
+  }
+  if (newPassword.length < 6) {
+    errEl.textContent = 'La nueva contraseña debe tener al menos 6 caracteres';
+    errEl.classList.add('show');
+    return;
+  }
+  if (newPassword !== confirm) {
+    errEl.textContent = 'Las contraseñas no coinciden';
+    errEl.classList.add('show');
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/auth/change-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ currentPassword, newPassword })
+    });
+    const data = await res.json();
+
+    if (!data.ok) {
+      errEl.textContent = data.error || 'Error al cambiar la contraseña';
+      errEl.classList.add('show');
+      return;
+    }
+
+    okEl.textContent = '¡Contraseña actualizada correctamente!';
+    okEl.classList.add('show');
+    document.getElementById('profilePasswordForm').reset();
+    setTimeout(() => okEl.classList.remove('show'), 3000);
   } catch {
     errEl.textContent = 'Error de conexión';
     errEl.classList.add('show');

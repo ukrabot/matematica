@@ -125,7 +125,7 @@ export async function getUser(request, env) {
   const secret = env.JWT_SECRET || 'dev-secret-change-me';
   const payload = await verifyJWT(token, secret);
   if (!payload) return null;
-  const { results } = await env.DB.prepare('SELECT id, nombre, apellido, email, telefono, colegio, perm_tutor, perm_evaluacion, perm_ejercicios, perm_materiales, perm_resultados FROM users WHERE id = ?').bind(payload.sub).all();
+  const { results } = await env.DB.prepare('SELECT id, nombre, apellido, email, telefono, colegio, rut, foto, perm_tutor, perm_evaluacion, perm_ejercicios, perm_materiales, perm_resultados FROM users WHERE id = ?').bind(payload.sub).all();
   return results[0] || null;
 }
 
