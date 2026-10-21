@@ -34,6 +34,12 @@
         </a>
       </li>
       <li>
+        <a href="#" data-section="materiales" onclick="switchSection('materiales', this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+          Materiales
+        </a>
+      </li>
+      <li>
         <a href="#" data-section="configuracion" onclick="switchSection('configuracion', this)">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
           Configuración
@@ -184,6 +190,68 @@
             </tbody>
           </table>
         </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <!-- SECTION: Materiales                         -->
+    <!-- ════════════════════════════════════════════ -->
+    <div id="section-materiales" style="display:none;">
+      <div class="action-bar">
+        <button class="btn btn-primary" onclick="openMatModal()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          Nuevo Material
+        </button>
+      </div>
+
+      <div class="alert alert-success" id="matSuccess"></div>
+      <div class="alert alert-error" id="matError"></div>
+
+      <div id="matEmptyState" class="empty-state-card" style="display:none;">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+        <p>No hay materiales. Haz clic en "Nuevo Material" para comenzar.</p>
+      </div>
+
+      <div class="materials-grid" id="matGrid"></div>
+    </div>
+
+    <!-- ════════════════════════════════════════════ -->
+    <!-- SECTION: Resultados (student detail view)   -->
+    <!-- ════════════════════════════════════════════ -->
+    <div id="section-resultados" style="display:none;">
+      <button class="btn btn-secondary" onclick="backFromResultados()" style="margin-bottom:16px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Volver a Estudiantes
+      </button>
+      <h2 id="resStudentName" style="margin-bottom:20px;"></h2>
+
+      <div class="stats-row" id="resSummary"></div>
+
+      <div class="table-card" id="resTableCard" style="display:none;">
+        <div class="table-header">
+          <h2>Historial de Ejercicios</h2>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Tema</th>
+                <th>Correctas</th>
+                <th>Incorrectas</th>
+                <th>Omitidas</th>
+                <th>Total</th>
+                <th>Tiempo</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody id="resBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="empty-state-card" id="resEmptyState" style="display:none;">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <p>Este estudiante aún no ha completado ejercicios.</p>
       </div>
     </div>
 
@@ -733,6 +801,61 @@
   </div>
 </div>
 
+<!-- ══════════════════════════════════════════════ -->
+<!-- Modal: Crear/Editar Material                  -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="modal-overlay" id="matModal">
+  <div class="modal">
+    <h2 id="matModalTitle">Nuevo Material</h2>
+    <div class="alert alert-error" id="matModalAlert"></div>
+    <div class="form-group">
+      <label for="matTitulo">Título *</label>
+      <input type="text" id="matTitulo" placeholder="Ej: Guía de funciones cuadráticas">
+    </div>
+    <div class="form-group">
+      <label for="matTipo">Tipo</label>
+      <select id="matTipo">
+        <option value="link">Enlace</option>
+        <option value="video">Video</option>
+        <option value="documento">Documento</option>
+        <option value="presentacion">Presentación</option>
+        <option value="otro">Otro</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="matUrl">URL *</label>
+      <input type="url" id="matUrl" placeholder="https://drive.google.com/... o https://youtube.com/...">
+    </div>
+    <div class="form-group">
+      <label for="matDesc">Descripción (opcional)</label>
+      <textarea id="matDesc" rows="3" placeholder="Breve descripción del material..." style="resize:vertical;"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('matModal')">Cancelar</button>
+      <button class="btn btn-primary" id="matSaveBtn" onclick="saveMaterial()">
+        <span class="spinner"></span>
+        <span class="btn-text">Guardar</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Eliminar Material -->
+<div class="modal-overlay" id="matDeleteModal">
+  <div class="modal">
+    <h2>Eliminar Material</h2>
+    <p style="margin-bottom:8px;">¿Estás seguro de que deseas eliminar "<strong id="matDeleteName"></strong>"?</p>
+    <p style="color:var(--fg-muted); font-size:.85rem;">Esta acción no se puede deshacer.</p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('matDeleteModal')">Cancelar</button>
+      <button class="btn btn-danger" onclick="confirmDeleteMaterial()">
+        <span class="spinner"></span>
+        <span class="btn-text">Eliminar</span>
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- SheetJS for Excel parsing (loaded from CDN) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
@@ -758,22 +881,29 @@ function switchSection(section, el) {
   // Hide all sections
   document.getElementById('section-estudiantes').style.display = 'none';
   document.getElementById('section-profesores').style.display = 'none';
+  document.getElementById('section-materiales').style.display = 'none';
+  document.getElementById('section-resultados').style.display = 'none';
   document.getElementById('section-configuracion').style.display = 'none';
 
   // Show selected
   document.getElementById('section-' + section).style.display = '';
 
   // Update title
-  const titles = { estudiantes: 'Estudiantes', profesores: 'Profesores', configuracion: 'Configuración' };
+  const titles = { estudiantes: 'Estudiantes', profesores: 'Profesores', materiales: 'Materiales', resultados: 'Resultados', configuracion: 'Configuración' };
   document.getElementById('sectionTitle').textContent = titles[section] || section;
 
-  // Update active nav
+  // Update active nav (resultados uses estudiantes nav highlight)
   document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
-  if (el) el.classList.add('active');
+  if (el) {
+    el.classList.add('active');
+  } else if (section === 'resultados') {
+    document.querySelector('.sidebar-nav a[data-section="estudiantes"]').classList.add('active');
+  }
 
   // Load data for section
   if (section === 'configuracion') loadSettings();
   if (section === 'profesores') loadProfesores();
+  if (section === 'materiales') loadMateriales();
 
   // Close mobile sidebar
   document.getElementById('sidebar').classList.remove('open');
@@ -846,6 +976,9 @@ function renderStudents(students) {
             </button>
             <button class="btn-icon delete" title="Eliminar" onclick='openDelete(${s.id}, "${esc(s.nombre)} ${esc(s.apellido)}")'>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+            </button>
+            <button class="btn-icon" title="Ver Resultados" onclick='viewResultados(${s.id})'>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
             </button>
           </div>
         </td>
@@ -1748,6 +1881,265 @@ async function confirmDeleteProf() {
   } catch {
     window.alert('Error de conexión');
   }
+}
+
+// ════════════════════════════════════════════════
+// MATERIALES
+// ════════════════════════════════════════════════
+
+let allMateriales = [];
+let matEditingId = null;
+let matDeletingId = null;
+
+async function loadMateriales() {
+  try {
+    const res = await fetch('/api/admin/materiales');
+    const data = await res.json();
+    if (data.ok) {
+      allMateriales = data.materiales;
+      renderMateriales();
+    }
+  } catch {
+    showMatAlert('matError', 'Error al cargar materiales');
+  }
+}
+
+function renderMateriales() {
+  const grid = document.getElementById('matGrid');
+  const empty = document.getElementById('matEmptyState');
+
+  if (allMateriales.length === 0) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+
+  empty.style.display = 'none';
+  grid.innerHTML = allMateriales.map(m => {
+    const tipoLabels = { link: 'Enlace', video: 'Video', documento: 'Documento', presentacion: 'Presentación', otro: 'Otro' };
+    const date = m.created_at ? new Date(m.created_at).toLocaleDateString('es-CL', { day: '2-digit', month: 'short', year: 'numeric' }) : '';
+    let urlDisplay = m.url;
+    try {
+      const u = new URL(m.url);
+      const path = u.pathname.length > 30 ? u.pathname.slice(0, 30) + '…' : u.pathname;
+      urlDisplay = u.hostname + path;
+    } catch {}
+    return `
+      <div class="mat-card">
+        <div class="mat-card-header">
+          <div class="mat-card-title">${esc(m.titulo)}</div>
+          <span class="mat-tipo mat-tipo-${m.tipo}">${tipoLabels[m.tipo] || m.tipo}</span>
+        </div>
+        ${m.descripcion ? `<div class="mat-card-desc">${esc(m.descripcion)}</div>` : ''}
+        <a href="${esc(m.url)}" target="_blank" rel="noopener" class="mat-card-url">🔗 ${esc(urlDisplay)}</a>
+        <div class="mat-card-meta">
+          <span>${date}</span>
+          <span style="color:var(--fg-muted);font-size:.8rem;">por ${esc(m.autor || 'Admin')}</span>
+        </div>
+        <div class="mat-card-actions">
+          <button class="btn-icon" title="Editar" onclick="openEditMat(${m.id})">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+          <button class="btn-icon delete" title="Eliminar" onclick="openDeleteMat(${m.id})">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+          </button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function showMatAlert(id, msg) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 4000);
+}
+
+function openMatModal() {
+  matEditingId = null;
+  document.getElementById('matModalTitle').textContent = 'Nuevo Material';
+  document.getElementById('matTitulo').value = '';
+  document.getElementById('matTipo').value = 'link';
+  document.getElementById('matUrl').value = '';
+  document.getElementById('matDesc').value = '';
+  document.getElementById('matModalAlert').classList.remove('show');
+  openModal('matModal');
+}
+
+function openEditMat(id) {
+  const m = allMateriales.find(x => x.id === id);
+  if (!m) return;
+  matEditingId = id;
+  document.getElementById('matModalTitle').textContent = 'Editar Material';
+  document.getElementById('matTitulo').value = m.titulo;
+  document.getElementById('matTipo').value = m.tipo;
+  document.getElementById('matUrl').value = m.url;
+  document.getElementById('matDesc').value = m.descripcion || '';
+  document.getElementById('matModalAlert').classList.remove('show');
+  openModal('matModal');
+}
+
+async function saveMaterial() {
+  const alertEl = document.getElementById('matModalAlert');
+  alertEl.classList.remove('show');
+
+  const titulo = document.getElementById('matTitulo').value.trim();
+  const tipo = document.getElementById('matTipo').value;
+  const url = document.getElementById('matUrl').value.trim();
+  const descripcion = document.getElementById('matDesc').value.trim();
+
+  if (!titulo) {
+    alertEl.textContent = 'El título es obligatorio';
+    alertEl.classList.add('show');
+    return;
+  }
+  if (!url) {
+    alertEl.textContent = 'La URL es obligatoria';
+    alertEl.classList.add('show');
+    return;
+  }
+
+  const body = { titulo, tipo, url, descripcion };
+  const btn = document.getElementById('matSaveBtn');
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  try {
+    let res;
+    if (matEditingId) {
+      res = await fetch(`/api/admin/materiales/${matEditingId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+    } else {
+      res = await fetch('/api/admin/materiales', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+    }
+
+    const data = await res.json();
+    if (data.ok) {
+      closeModal('matModal');
+      showMatAlert('matSuccess', matEditingId ? 'Material actualizado' : 'Material creado');
+      loadMateriales();
+    } else {
+      alertEl.textContent = data.error || 'Error al guardar';
+      alertEl.classList.add('show');
+    }
+  } catch {
+    alertEl.textContent = 'Error de conexión';
+    alertEl.classList.add('show');
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+}
+
+function openDeleteMat(id) {
+  const m = allMateriales.find(x => x.id === id);
+  if (!m) return;
+  matDeletingId = id;
+  document.getElementById('matDeleteName').textContent = m.titulo;
+  openModal('matDeleteModal');
+}
+
+async function confirmDeleteMaterial() {
+  if (!matDeletingId) return;
+  try {
+    const res = await fetch(`/api/admin/materiales/${matDeletingId}`, { method: 'DELETE' });
+    const data = await res.json();
+    if (data.ok) {
+      closeModal('matDeleteModal');
+      showMatAlert('matSuccess', 'Material eliminado');
+      loadMateriales();
+    } else {
+      showMatAlert('matError', data.error || 'Error al eliminar');
+    }
+  } catch {
+    showMatAlert('matError', 'Error de conexión');
+  }
+}
+
+// ════════════════════════════════════════════════
+// RESULTADOS (student detail view)
+// ════════════════════════════════════════════════
+
+async function viewResultados(studentId) {
+  switchSection('resultados');
+  document.getElementById('resStudentName').textContent = 'Cargando...';
+  document.getElementById('resSummary').innerHTML = '';
+  document.getElementById('resBody').innerHTML = '';
+  document.getElementById('resTableCard').style.display = 'none';
+  document.getElementById('resEmptyState').style.display = 'none';
+
+  try {
+    const res = await fetch(`/api/admin/estudiantes/${studentId}/resultados`);
+    const data = await res.json();
+    if (!data.ok) {
+      document.getElementById('resStudentName').textContent = 'Error al cargar';
+      return;
+    }
+
+    const est = data.estudiante;
+    const r = data.resumen;
+    document.getElementById('resStudentName').textContent = `Resultados de ${esc(est.nombre)} ${esc(est.apellido)}`;
+
+    // Summary stat cards
+    document.getElementById('resSummary').innerHTML = `
+      <div class="stat-card">
+        <div class="stat-label">Intentos</div>
+        <div class="stat-value">${r.intentos}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Correctas</div>
+        <div class="stat-value" style="color:var(--success)">${r.totalCorrectas}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Incorrectas</div>
+        <div class="stat-value" style="color:var(--danger)">${r.totalIncorrectas}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Omitidas</div>
+        <div class="stat-value" style="color:var(--warning, #eab308)">${r.totalOmitidas}</div>
+      </div>
+    `;
+
+    // Results table
+    if (data.resultados.length === 0) {
+      document.getElementById('resEmptyState').style.display = 'block';
+      return;
+    }
+
+    document.getElementById('resTableCard').style.display = '';
+    document.getElementById('resBody').innerHTML = data.resultados.map(r => {
+      const mins = Math.floor(r.tiempo_usado / 60);
+      const secs = r.tiempo_usado % 60;
+      const date = r.created_at ? new Date(r.created_at).toLocaleDateString('es-CL', { day: '2-digit', month: 'short', year: 'numeric' }) : '';
+      const topicDisplay = r.topic.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+      return `
+        <tr>
+          <td>${esc(topicDisplay)}</td>
+          <td style="color:var(--success);font-weight:600">${r.correctas}</td>
+          <td style="color:var(--danger);font-weight:600">${r.incorrectas}</td>
+          <td style="color:var(--warning, #eab308);font-weight:600">${r.omitidas}</td>
+          <td>${r.total}</td>
+          <td>${mins}m ${secs.toString().padStart(2,'0')}s</td>
+          <td>${date}</td>
+        </tr>
+      `;
+    }).join('');
+
+  } catch (err) {
+    document.getElementById('resStudentName').textContent = 'Error al cargar resultados';
+  }
+}
+
+function backFromResultados() {
+  switchSection('estudiantes', document.querySelector('.sidebar-nav a[data-section="estudiantes"]'));
 }
 
 // ── RUT formatting ──
