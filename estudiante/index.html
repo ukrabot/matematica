@@ -1557,6 +1557,7 @@
 
     <!-- EJERCICIOS SECTION -->
     <div id="ejerciciosSection" style="display:none;">
+      <div id="seccionM1">
       <div class="ej-header">
         <div class="ej-header-badge">M1</div>
         <div class="ej-header-text">
@@ -1711,8 +1712,10 @@
         </div>
 
       </div>
+      </div>
 
       <!-- M2 SEPARATOR -->
+      <div id="seccionM2">
       <div class="ej-header" style="margin-top:36px;">
         <div class="ej-header-badge" style="background:var(--teal);">M2</div>
         <div class="ej-header-text">
@@ -1862,8 +1865,10 @@
         </div>
 
       </div>
+      </div>
 
       <!-- 7° BÁSICO SEPARATOR -->
+      <div id="seccion7B">
       <div class="ej-header" style="margin-top:36px;">
         <div class="ej-header-badge" style="background:var(--coral);">7°</div>
         <div class="ej-header-text">
@@ -2033,6 +2038,7 @@
         </div>
 
       </div>
+      </div>
     </div>
 
     <!-- QUIZ VIEW (replaces ejercicios menu when active) -->
@@ -2096,7 +2102,7 @@ async function checkAuth() {
       window.location.href = '/auth/login.html';
       return null;
     }
-    return data.user;
+    return data;
   } catch {
     window.location.href = '/auth/login.html';
     return null;
@@ -2105,8 +2111,9 @@ async function checkAuth() {
 
 let currentUser = null;
 
-checkAuth().then(user => {
-  if (!user) return;
+checkAuth().then(data => {
+  if (!data) return;
+  const user = data.user;
   currentUser = user;
   const fullName = user.nombre + ' ' + user.apellido;
   const initials = (user.nombre[0] + user.apellido[0]).toUpperCase();
@@ -2134,6 +2141,21 @@ checkAuth().then(user => {
       if (!firstAllowed) firstAllowed = section;
     }
   });
+
+  // --- Apply exercise section visibility from global settings ---
+  const ss = data.sectionSettings || {};
+  if (ss.global_seccion_m1 === 'false') {
+    const el = document.getElementById('seccionM1');
+    if (el) el.style.display = 'none';
+  }
+  if (ss.global_seccion_m2 === 'false') {
+    const el = document.getElementById('seccionM2');
+    if (el) el.style.display = 'none';
+  }
+  if (ss.global_seccion_7b === 'false') {
+    const el = document.getElementById('seccion7B');
+    if (el) el.style.display = 'none';
+  }
 
   // If current default section (tutor) is disabled, switch to the first allowed one
   if (permMap.tutor === 0 && firstAllowed) {

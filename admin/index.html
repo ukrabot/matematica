@@ -279,6 +279,47 @@
 
         <div class="alert alert-success" id="globalPermSuccess"></div>
       </div>
+
+      <!-- Visibility of Exercise Sections -->
+      <div class="settings-card" style="margin-top: 24px;">
+        <h2>Visibilidad de Secciones de Ejercicios</h2>
+        <p class="settings-desc">Habilita o deshabilita secciones completas de ejercicios para <strong>todos</strong> los estudiantes. Si una sección está deshabilitada, no será visible en Full Ejercicios.</p>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-label">📘 Matemática 1 (M1)</div>
+            <div class="setting-help">Competencia Matemática 1 — PAES</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="globalSeccionM1" checked onchange="toggleSeccionSetting('m1', this.checked)">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-label">📗 Matemática 2 (M2)</div>
+            <div class="setting-help">Competencia Matemática 2 — PAES</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="globalSeccionM2" checked onchange="toggleSeccionSetting('m2', this.checked)">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="setting-item">
+          <div class="setting-info">
+            <div class="setting-label">📙 Matemática para 7° Básico</div>
+            <div class="setting-help">Objetivos de Aprendizaje — Currículum Nacional</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="globalSeccion7b" checked onchange="toggleSeccionSetting('7b', this.checked)">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div class="alert alert-success" id="seccionSuccess"></div>
+      </div>
     </div>
 
   </main>
@@ -1080,6 +1121,10 @@ async function loadSettings() {
       document.getElementById('globalPermEjercicios').checked = data.settings.global_perm_ejercicios !== 'false';
       document.getElementById('globalPermMateriales').checked = data.settings.global_perm_materiales !== 'false';
       document.getElementById('globalPermResultados').checked = data.settings.global_perm_resultados !== 'false';
+      // Section visibility toggles
+      document.getElementById('globalSeccionM1').checked = data.settings.global_seccion_m1 !== 'false';
+      document.getElementById('globalSeccionM2').checked = data.settings.global_seccion_m2 !== 'false';
+      document.getElementById('globalSeccion7b').checked = data.settings.global_seccion_7b !== 'false';
     }
   } catch {}
 }
@@ -1098,6 +1143,26 @@ async function toggleRegistro(enabled) {
 
     if (data.ok) {
       successEl.textContent = enabled ? 'Registro público habilitado' : 'Registro público deshabilitado';
+      successEl.classList.add('show');
+      setTimeout(() => successEl.classList.remove('show'), 3000);
+    }
+  } catch {}
+}
+
+// ── Section visibility toggle (M1, M2, 7B) ──
+async function toggleSeccionSetting(section, enabled) {
+  const successEl = document.getElementById('seccionSuccess');
+  successEl.classList.remove('show');
+  try {
+    const res = await fetch('/api/admin/settings', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key: 'global_seccion_' + section, value: enabled ? 'true' : 'false' })
+    });
+    const data = await res.json();
+    if (data.ok) {
+      const labels = { m1: 'Matemática 1 (M1)', m2: 'Matemática 2 (M2)', '7b': 'Matemática 7° Básico' };
+      successEl.textContent = (labels[section] || section) + (enabled ? ' habilitada' : ' deshabilitada');
       successEl.classList.add('show');
       setTimeout(() => successEl.classList.remove('show'), 3000);
     }
