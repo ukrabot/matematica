@@ -702,6 +702,32 @@
     white-space: nowrap;
     flex-shrink: 0;
   }
+  .ej-intentos {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: rgba(79,70,229,0.1);
+    color: var(--accent);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .ej-agotado {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: rgba(240,96,80,0.1);
+    color: var(--danger, #f06050);
+    flex-shrink: 0;
+  }
+  .ej-topic.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+  }
   @media (max-width: 520px) {
     .ej-topic-list { padding-left: 20px; }
     .ej-axis-btn { padding: 14px 16px; gap: 10px; }
@@ -1711,17 +1737,17 @@
           </button>
           <div class="ej-axis-topics">
             <div class="ej-topic-list">
-              <button class="ej-topic" onclick="openTopic('numeros-enteros-racionales')">
+              <button class="ej-topic" data-slug="numeros-enteros-racionales" onclick="openTopic('numeros-enteros-racionales')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Conjunto de los números enteros y racionales</span>
                 <span class="ej-available">Disponible</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('porcentaje')">
+              <button class="ej-topic" data-slug="porcentaje" onclick="openTopic('porcentaje')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Porcentaje</span>
                 <span class="ej-coming">Pronto</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('potencias-raices')">
+              <button class="ej-topic" data-slug="potencias-raices" onclick="openTopic('potencias-raices')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Potencias y raíces enésimas</span>
                 <span class="ej-coming">Pronto</span>
@@ -1742,32 +1768,32 @@
           </button>
           <div class="ej-axis-topics">
             <div class="ej-topic-list">
-              <button class="ej-topic" onclick="openTopic('expresiones-algebraicas')">
+              <button class="ej-topic" data-slug="expresiones-algebraicas" onclick="openTopic('expresiones-algebraicas')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Expresiones algebraicas</span>
                 <span class="ej-coming">Pronto</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('proporcionalidad')">
+              <button class="ej-topic" data-slug="proporcionalidad" onclick="openTopic('proporcionalidad')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Proporcionalidad</span>
                 <span class="ej-coming">Pronto</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('ecuaciones-inecuaciones-1er-grado')">
+              <button class="ej-topic" data-slug="ecuaciones-inecuaciones-1er-grado" onclick="openTopic('ecuaciones-inecuaciones-1er-grado')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Ecuaciones e inecuaciones de primer grado</span>
                 <span class="ej-coming">Pronto</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('sistemas-ecuaciones-2x2')">
+              <button class="ej-topic" data-slug="sistemas-ecuaciones-2x2" onclick="openTopic('sistemas-ecuaciones-2x2')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Sistemas de ecuaciones lineales (2×2)</span>
                 <span class="ej-coming">Pronto</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('funcion-lineal-afin')">
+              <button class="ej-topic" data-slug="funcion-lineal-afin" onclick="openTopic('funcion-lineal-afin')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Función lineal y afín</span>
                 <span class="ej-coming">Pronto</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('funcion-cuadratica')">
+              <button class="ej-topic" data-slug="funcion-cuadratica" onclick="openTopic('funcion-cuadratica')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Función cuadrática</span>
                 <span class="ej-coming">Pronto</span>
@@ -1788,22 +1814,22 @@
           </button>
           <div class="ej-axis-topics">
             <div class="ej-topic-list">
-              <button class="ej-topic" onclick="openTopic('figuras-geometricas')">
+              <button class="ej-topic" data-slug="figuras-geometricas" onclick="openTopic('figuras-geometricas')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Figuras geométricas</span>
                 <span class="ej-coming">Pronto</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('cuerpos-geometricos')">
+              <button class="ej-topic" data-slug="cuerpos-geometricos" onclick="openTopic('cuerpos-geometricos')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Cuerpos geométricos</span>
                 <span class="ej-coming">Pronto</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('transformaciones-isometricas')">
+              <button class="ej-topic" data-slug="transformaciones-isometricas" onclick="openTopic('transformaciones-isometricas')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Transformaciones isométricas</span>
                 <span class="ej-coming">Pronto</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('semejanza-proporcionalidad')">
+              <button class="ej-topic" data-slug="semejanza-proporcionalidad" onclick="openTopic('semejanza-proporcionalidad')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Semejanza y proporcionalidad de figuras</span>
                 <span class="ej-coming">Pronto</span>
@@ -1824,17 +1850,17 @@
           </button>
           <div class="ej-axis-topics">
             <div class="ej-topic-list">
-              <button class="ej-topic" onclick="openTopic('tablas-graficos')">
+              <button class="ej-topic" data-slug="tablas-graficos" onclick="openTopic('tablas-graficos')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Representación de datos a través de tablas y gráficos</span>
                 <span class="ej-coming">Pronto</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('medidas-posicion')">
+              <button class="ej-topic" data-slug="medidas-posicion" onclick="openTopic('medidas-posicion')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Medidas de posición</span>
                 <span class="ej-coming">Pronto</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('reglas-probabilidades')">
+              <button class="ej-topic" data-slug="reglas-probabilidades" onclick="openTopic('reglas-probabilidades')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Reglas de las probabilidades</span>
                 <span class="ej-coming">Pronto</span>
@@ -1869,17 +1895,17 @@
           </button>
           <div class="ej-axis-topics">
             <div class="ej-topic-list">
-              <button class="ej-topic" onclick="openTopic('m2-numeros-reales')">
+              <button class="ej-topic" data-slug="m2-numeros-reales" onclick="openTopic('m2-numeros-reales')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Conjunto de los números reales</span>
                 <span class="ej-coming">Pronto</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('m2-matematica-financiera')">
+              <button class="ej-topic" data-slug="m2-matematica-financiera" onclick="openTopic('m2-matematica-financiera')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Matemática financiera</span>
                 <span class="ej-coming">Pronto</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('m2-logaritmos')">
+              <button class="ej-topic" data-slug="m2-logaritmos" onclick="openTopic('m2-logaritmos')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Logaritmos</span>
                 <span class="ej-coming">Pronto</span>
@@ -1900,17 +1926,17 @@
           </button>
           <div class="ej-axis-topics">
             <div class="ej-topic-list">
-              <button class="ej-topic" onclick="openTopic('m2-sistemas-ecuaciones-2x2')">
+              <button class="ej-topic" data-slug="m2-sistemas-ecuaciones-2x2" onclick="openTopic('m2-sistemas-ecuaciones-2x2')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Sistemas de ecuaciones lineales (2×2)</span>
                 <span class="ej-coming">Pronto</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('m2-funcion-potencia-exp-log')">
+              <button class="ej-topic" data-slug="m2-funcion-potencia-exp-log" onclick="openTopic('m2-funcion-potencia-exp-log')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Función potencia, exponencial y logarítmica</span>
                 <span class="ej-coming">Pronto</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('m2-funciones-trigonometricas')">
+              <button class="ej-topic" data-slug="m2-funciones-trigonometricas" onclick="openTopic('m2-funciones-trigonometricas')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Funciones trigonométricas</span>
                 <span class="ej-coming">Pronto</span>
@@ -1931,27 +1957,27 @@
           </button>
           <div class="ej-axis-topics">
             <div class="ej-topic-list">
-              <button class="ej-topic" onclick="openTopic('m2-homotecia')">
+              <button class="ej-topic" data-slug="m2-homotecia" onclick="openTopic('m2-homotecia')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Homotecia de figuras planas</span>
                 <span class="ej-coming">Pronto</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('m2-razones-trigonometricas')">
+              <button class="ej-topic" data-slug="m2-razones-trigonometricas" onclick="openTopic('m2-razones-trigonometricas')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Razones trigonométricas en triángulos rectángulos</span>
                 <span class="ej-coming">Pronto</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('m2-relaciones-circunferencia')">
+              <button class="ej-topic" data-slug="m2-relaciones-circunferencia" onclick="openTopic('m2-relaciones-circunferencia')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Relaciones métricas en la circunferencia</span>
                 <span class="ej-coming">Pronto</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('m2-esferas-superficie-volumen')">
+              <button class="ej-topic" data-slug="m2-esferas-superficie-volumen" onclick="openTopic('m2-esferas-superficie-volumen')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Esferas, superficie y volumen</span>
                 <span class="ej-coming">Pronto</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('m2-rectas-plano')">
+              <button class="ej-topic" data-slug="m2-rectas-plano" onclick="openTopic('m2-rectas-plano')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Rectas en el plano</span>
                 <span class="ej-coming">Pronto</span>
@@ -1972,22 +1998,22 @@
           </button>
           <div class="ej-axis-topics">
             <div class="ej-topic-list">
-              <button class="ej-topic" onclick="openTopic('m2-medidas-dispersion')">
+              <button class="ej-topic" data-slug="m2-medidas-dispersion" onclick="openTopic('m2-medidas-dispersion')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Medidas de dispersión</span>
                 <span class="ej-coming">Pronto</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('m2-probabilidad-condicional')">
+              <button class="ej-topic" data-slug="m2-probabilidad-condicional" onclick="openTopic('m2-probabilidad-condicional')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Probabilidad condicional</span>
                 <span class="ej-coming">Pronto</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('m2-permutacion-combinatoria')">
+              <button class="ej-topic" data-slug="m2-permutacion-combinatoria" onclick="openTopic('m2-permutacion-combinatoria')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Permutación y combinatoria</span>
                 <span class="ej-coming">Pronto</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('m2-modelos-probabilisticos')">
+              <button class="ej-topic" data-slug="m2-modelos-probabilisticos" onclick="openTopic('m2-modelos-probabilisticos')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Modelos probabilísticos</span>
                 <span class="ej-coming">Pronto</span>
@@ -2022,27 +2048,27 @@
           </button>
           <div class="ej-axis-topics">
             <div class="ej-topic-list">
-              <button class="ej-topic" onclick="openTopic('7b-adicion-sustraccion-enteros')">
+              <button class="ej-topic" data-slug="7b-adicion-sustraccion-enteros" onclick="openTopic('7b-adicion-sustraccion-enteros')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Adición y sustracción de números enteros</span>
                 <span class="ej-available">Disponible</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('7b-multiplicacion-division-fracciones')">
+              <button class="ej-topic" data-slug="7b-multiplicacion-division-fracciones" onclick="openTopic('7b-multiplicacion-division-fracciones')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Multiplicación y división de fracciones positivas</span>
                 <span class="ej-available">Disponible</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('7b-problemas-fracciones-decimales')">
+              <button class="ej-topic" data-slug="7b-problemas-fracciones-decimales" onclick="openTopic('7b-problemas-fracciones-decimales')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Resolución de problemas con fracciones y decimales</span>
                 <span class="ej-available">Disponible</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('7b-concepto-porcentaje')">
+              <button class="ej-topic" data-slug="7b-concepto-porcentaje" onclick="openTopic('7b-concepto-porcentaje')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Concepto de porcentaje</span>
                 <span class="ej-available">Disponible</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('7b-potencias-base10-notacion-cientifica')">
+              <button class="ej-topic" data-slug="7b-potencias-base10-notacion-cientifica" onclick="openTopic('7b-potencias-base10-notacion-cientifica')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Potencias de base 10 con exponente natural y notación científica</span>
                 <span class="ej-available">Disponible</span>
@@ -2063,22 +2089,22 @@
           </button>
           <div class="ej-axis-topics">
             <div class="ej-topic-list">
-              <button class="ej-topic" onclick="openTopic('7b-lenguaje-algebraico')">
+              <button class="ej-topic" data-slug="7b-lenguaje-algebraico" onclick="openTopic('7b-lenguaje-algebraico')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Lenguaje algebraico para generalizar relaciones</span>
                 <span class="ej-available">Disponible</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('7b-reduccion-expresiones-algebraicas')">
+              <button class="ej-topic" data-slug="7b-reduccion-expresiones-algebraicas" onclick="openTopic('7b-reduccion-expresiones-algebraicas')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Reducción de expresiones algebraicas (términos semejantes)</span>
                 <span class="ej-available">Disponible</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('7b-proporciones-directas-inversas')">
+              <button class="ej-topic" data-slug="7b-proporciones-directas-inversas" onclick="openTopic('7b-proporciones-directas-inversas')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Proporciones directas e inversas</span>
                 <span class="ej-available">Disponible</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('7b-ecuaciones-inecuaciones-lineales')">
+              <button class="ej-topic" data-slug="7b-ecuaciones-inecuaciones-lineales" onclick="openTopic('7b-ecuaciones-inecuaciones-lineales')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Ecuaciones e inecuaciones lineales</span>
                 <span class="ej-available">Disponible</span>
@@ -2099,27 +2125,27 @@
           </button>
           <div class="ej-axis-topics">
             <div class="ej-topic-list">
-              <button class="ej-topic" onclick="openTopic('7b-angulos-poligonos')">
+              <button class="ej-topic" data-slug="7b-angulos-poligonos" onclick="openTopic('7b-angulos-poligonos')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Ángulos interiores y exteriores de polígonos</span>
                 <span class="ej-available">Disponible</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('7b-circulo-radio-diametro-area')">
+              <button class="ej-topic" data-slug="7b-circulo-radio-diametro-area" onclick="openTopic('7b-circulo-radio-diametro-area')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">El círculo: radio, diámetro, perímetro, área y π</span>
                 <span class="ej-available">Disponible</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('7b-construcciones-geometricas')">
+              <button class="ej-topic" data-slug="7b-construcciones-geometricas" onclick="openTopic('7b-construcciones-geometricas')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Construcciones geométricas (perpendiculares, paralelas, bisectrices)</span>
                 <span class="ej-available">Disponible</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('7b-area-triangulos-paralelogramos-trapecios')">
+              <button class="ej-topic" data-slug="7b-area-triangulos-paralelogramos-trapecios" onclick="openTopic('7b-area-triangulos-paralelogramos-trapecios')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Área de triángulos, paralelogramos y trapecios</span>
                 <span class="ej-available">Disponible</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('7b-plano-cartesiano-vectores')">
+              <button class="ej-topic" data-slug="7b-plano-cartesiano-vectores" onclick="openTopic('7b-plano-cartesiano-vectores')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Plano cartesiano, pares ordenados y vectores</span>
                 <span class="ej-available">Disponible</span>
@@ -2140,27 +2166,27 @@
           </button>
           <div class="ej-axis-topics">
             <div class="ej-topic-list">
-              <button class="ej-topic" onclick="openTopic('7b-muestreo-estimacion')">
+              <button class="ej-topic" data-slug="7b-muestreo-estimacion" onclick="openTopic('7b-muestreo-estimacion')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Muestreo y estimación de porcentajes poblacionales</span>
                 <span class="ej-available">Disponible</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('7b-tablas-frecuencias-graficos')">
+              <button class="ej-topic" data-slug="7b-tablas-frecuencias-graficos" onclick="openTopic('7b-tablas-frecuencias-graficos')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Tablas de frecuencias absolutas y relativas, gráficos</span>
                 <span class="ej-available">Disponible</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('7b-medidas-tendencia-central')">
+              <button class="ej-topic" data-slug="7b-medidas-tendencia-central" onclick="openTopic('7b-medidas-tendencia-central')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Medidas de tendencia central y rango</span>
                 <span class="ej-available">Disponible</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('7b-probabilidad-experimental')">
+              <button class="ej-topic" data-slug="7b-probabilidad-experimental" onclick="openTopic('7b-probabilidad-experimental')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Probabilidad experimental (frecuencias relativas)</span>
                 <span class="ej-available">Disponible</span>
               </button>
-              <button class="ej-topic" onclick="openTopic('7b-probabilidad-experimental-teorica')">
+              <button class="ej-topic" data-slug="7b-probabilidad-experimental-teorica" onclick="openTopic('7b-probabilidad-experimental-teorica')">
                 <span class="ej-topic-dot"></span>
                 <span class="ej-topic-name">Comparación entre probabilidad experimental y teórica (diagramas de árbol)</span>
                 <span class="ej-available">Disponible</span>
@@ -2452,6 +2478,7 @@ navItems.forEach(item => {
       loadMateriales();
     } else if (section === 'ejercicios') {
       document.getElementById('ejerciciosSection').style.display = 'block';
+      loadIntentos();
     } else if (section === 'resultados') {
       document.getElementById('resultadosSection').style.display = 'block';
       loadResultados();
@@ -2927,11 +2954,56 @@ const exerciseBank = {
 // ===================== QUIZ ENGINE =====================
 let quizState = null;
 let quizTimer = null;
+let intentosData = {}; // topic -> attempt count
+const MAX_INTENTOS = 2;
+
+// Load attempt counts and update topic badges
+async function loadIntentos() {
+  try {
+    const res = await fetch('/api/ejercicios/intentos');
+    const data = await res.json();
+    if (data.ok) {
+      intentosData = data.intentos || {};
+      updateTopicBadges();
+    }
+  } catch {}
+}
+
+function updateTopicBadges() {
+  document.querySelectorAll('.ej-topic[data-slug]').forEach(btn => {
+    const slug = btn.dataset.slug;
+    const used = intentosData[slug] || 0;
+    const badge = btn.querySelector('.ej-intentos, .ej-agotado, .ej-available');
+
+    // Only update topics that have exerciseBank entries (available topics)
+    if (!exerciseBank[slug]) return;
+
+    if (used >= MAX_INTENTOS) {
+      btn.classList.add('disabled');
+      if (badge) {
+        badge.className = 'ej-agotado';
+        badge.textContent = 'Agotado (0/' + MAX_INTENTOS + ')';
+      }
+    } else {
+      btn.classList.remove('disabled');
+      if (badge) {
+        badge.className = used > 0 ? 'ej-intentos' : 'ej-available';
+        badge.textContent = used > 0 ? (MAX_INTENTOS - used) + '/' + MAX_INTENTOS + ' intentos' : 'Disponible';
+      }
+    }
+  });
+}
 
 function openTopic(slug) {
   const bank = exerciseBank[slug];
   if (!bank) {
     // Topic not yet available
+    return;
+  }
+  // Check attempt limit
+  const used = intentosData[slug] || 0;
+  if (used >= MAX_INTENTOS) {
+    alert('Has alcanzado el máximo de ' + MAX_INTENTOS + ' intentos para este tema. Contacta a tu administrador para reiniciar los intentos.');
     return;
   }
   startQuiz(slug, bank);
@@ -3182,7 +3254,7 @@ async function submitQuiz(timeUp) {
 
   // Save results to backend
   try {
-    await fetch('/api/ejercicios/submit', {
+    const submitRes = await fetch('/api/ejercicios/submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -3194,13 +3266,42 @@ async function submitQuiz(timeUp) {
         tiempo_usado: elapsed
       })
     });
+    const submitData = await submitRes.json();
+
+    // Update local intentos data
+    const slug = quizState.slug;
+    intentosData[slug] = (intentosData[slug] || 0) + 1;
+
+    // Update retry button based on remaining attempts
+    const retryBtn = document.querySelector('.qr-btn-primary[onclick="retryQuiz()"]');
+    if (retryBtn) {
+      const used = intentosData[slug] || 0;
+      if (used >= MAX_INTENTOS) {
+        retryBtn.textContent = 'Sin intentos restantes';
+        retryBtn.disabled = true;
+        retryBtn.style.opacity = '0.5';
+        retryBtn.style.cursor = 'not-allowed';
+        retryBtn.onclick = null;
+      } else {
+        retryBtn.textContent = `Intentar de nuevo (${MAX_INTENTOS - used}/${MAX_INTENTOS})`;
+      }
+    }
+
     // Invalidate resultados cache
     resultadosLoaded = false;
+
+    // Update topic badges
+    updateTopicBadges();
   } catch {}
 }
 
 function retryQuiz() {
   const slug = quizState.slug;
+  const used = intentosData[slug] || 0;
+  if (used >= MAX_INTENTOS) {
+    alert('Has alcanzado el máximo de ' + MAX_INTENTOS + ' intentos para este tema.');
+    return;
+  }
   const bank = exerciseBank[slug];
   clearInterval(quizTimer);
   quizState = null;

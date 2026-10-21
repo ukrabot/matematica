@@ -277,6 +277,22 @@
         <div class="alert alert-success" id="settingsSuccess"></div>
       </div>
 
+      <!-- Reset Intentos Global -->
+      <div class="settings-card" style="margin-top: 24px;">
+        <h2>Intentos de Ejercicios</h2>
+        <p class="settings-desc">Cada estudiante tiene un máximo de <strong>2 intentos</strong> por tema de ejercicio. Puedes reiniciar los intentos de todos los estudiantes a la vez o individualmente desde la tabla de estudiantes.</p>
+
+        <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+          <button class="btn btn-primary" onclick="resetIntentosGlobal()" id="resetIntentosBtn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+            Reiniciar intentos de todos
+          </button>
+          <span class="settings-desc" style="display:inline;">Esto permitirá a todos los estudiantes volver a realizar los ejercicios</span>
+        </div>
+
+        <div class="alert alert-success" id="resetIntentosSuccess"></div>
+      </div>
+
       <!-- Global Section Access Controls -->
       <div class="settings-card" style="margin-top: 24px;">
         <h2>Acceso a Secciones (Global)</h2>
@@ -980,6 +996,9 @@ function renderStudents(students) {
             <button class="btn-icon" title="Ver Resultados" onclick='viewResultados(${s.id})'>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
             </button>
+            <button class="btn-icon" title="Reiniciar Intentos" onclick='resetIntentosEstudiante(${s.id}, "${esc(s.nombre)} ${esc(s.apellido)}")'>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>
+            </button>
           </div>
         </td>
       </tr>
@@ -1300,6 +1319,57 @@ async function toggleSeccionSetting(section, enabled) {
       setTimeout(() => successEl.classList.remove('show'), 3000);
     }
   } catch {}
+}
+
+// ── Reset Intentos Global ──
+async function resetIntentosGlobal() {
+  if (!window.confirm('¿Estás seguro? Esto reiniciará los intentos de ejercicios para TODOS los estudiantes.')) return;
+
+  const successEl = document.getElementById('resetIntentosSuccess');
+  const btn = document.getElementById('resetIntentosBtn');
+  successEl.classList.remove('show');
+  btn.disabled = true;
+
+  try {
+    const now = new Date().toISOString();
+    const res = await fetch('/api/admin/settings', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ key: 'global_attempts_reset_at', value: now })
+    });
+    const data = await res.json();
+
+    if (data.ok) {
+      successEl.textContent = 'Intentos reiniciados para todos los estudiantes';
+      successEl.classList.add('show');
+      setTimeout(() => successEl.classList.remove('show'), 4000);
+    }
+  } catch {
+    alert('Error al reiniciar intentos');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+// ── Reset Intentos per student ──
+async function resetIntentosEstudiante(id, nombre) {
+  if (!window.confirm('¿Reiniciar los intentos de ejercicios de ' + nombre + '?')) return;
+
+  try {
+    const res = await fetch('/api/admin/estudiantes/' + id + '/reset-intentos', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    const data = await res.json();
+
+    if (data.ok) {
+      alert('Intentos reiniciados para ' + nombre);
+    } else {
+      alert(data.error || 'Error al reiniciar intentos');
+    }
+  } catch {
+    alert('Error de conexión');
+  }
 }
 
 // ── Global permission toggle (save individual setting) ──
