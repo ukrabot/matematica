@@ -42,6 +42,38 @@
 const form = document.getElementById('loginForm');
 const alertEl = document.getElementById('alert');
 const btn = document.getElementById('submitBtn');
+const usernameInput = document.getElementById('username');
+
+// Auto-format RUT as user types
+function formatRut(value) {
+  let clean = value.replace(/[^0-9kK]/g, '');
+  if (clean.length < 2) return clean;
+  const dv = clean.slice(-1);
+  let body = clean.slice(0, -1);
+  let formatted = '';
+  while (body.length > 3) {
+    formatted = '.' + body.slice(-3) + formatted;
+    body = body.slice(0, -3);
+  }
+  formatted = body + formatted + '-' + dv;
+  return formatted;
+}
+
+function looksLikeRut(val) {
+  const clean = val.replace(/[.\-]/g, '');
+  return /^[0-9]{1,9}[0-9kK]?$/.test(clean) && !val.includes('@');
+}
+
+usernameInput.addEventListener('input', function() {
+  const val = this.value;
+  if (looksLikeRut(val) && val.replace(/[^0-9kK]/g, '').length >= 2) {
+    const pos = this.selectionStart;
+    const before = val.length;
+    this.value = formatRut(val);
+    const after = this.value.length;
+    this.setSelectionRange(pos + (after - before), pos + (after - before));
+  }
+});
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();

@@ -2232,10 +2232,6 @@
               <span id="profileApellido">-</span>
             </div>
             <div class="profile-info-item">
-              <label>RUT</label>
-              <span id="profileRut">-</span>
-            </div>
-            <div class="profile-info-item">
               <label>Teléfono</label>
               <span id="profileTelefono">-</span>
             </div>
@@ -3456,7 +3452,6 @@ function loadProfile() {
   if (!currentUser) return;
   document.getElementById('profileNombre').textContent = currentUser.nombre || '-';
   document.getElementById('profileApellido').textContent = currentUser.apellido || '-';
-  document.getElementById('profileRut').textContent = currentUser.rut || 'No registrado';
   document.getElementById('profileTelefono').textContent = currentUser.telefono || '-';
   document.getElementById('profileColegio').textContent = currentUser.colegio || '-';
   document.getElementById('profileEmail').value = currentUser.email || '';
