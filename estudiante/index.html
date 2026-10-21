@@ -702,32 +702,6 @@
     white-space: nowrap;
     flex-shrink: 0;
   }
-  .ej-intentos {
-    font-size: 10px;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 10px;
-    background: rgba(79,70,229,0.1);
-    color: var(--accent);
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .ej-agotado {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    padding: 2px 8px;
-    border-radius: 10px;
-    background: rgba(240,96,80,0.1);
-    color: var(--danger, #f06050);
-    flex-shrink: 0;
-  }
-  .ej-topic.disabled {
-    opacity: 0.5;
-    pointer-events: none;
-    cursor: not-allowed;
-  }
   @media (max-width: 520px) {
     .ej-topic-list { padding-left: 20px; }
     .ej-axis-btn { padding: 14px 16px; gap: 10px; }
@@ -2478,7 +2452,6 @@ navItems.forEach(item => {
       loadMateriales();
     } else if (section === 'ejercicios') {
       document.getElementById('ejerciciosSection').style.display = 'block';
-      loadIntentos();
     } else if (section === 'resultados') {
       document.getElementById('resultadosSection').style.display = 'block';
       loadResultados();
@@ -2954,56 +2927,10 @@ const exerciseBank = {
 // ===================== QUIZ ENGINE =====================
 let quizState = null;
 let quizTimer = null;
-let intentosData = {}; // topic -> attempt count
-const MAX_INTENTOS = 2;
-
-// Load attempt counts and update topic badges
-async function loadIntentos() {
-  try {
-    const res = await fetch('/api/ejercicios/intentos');
-    const data = await res.json();
-    if (data.ok) {
-      intentosData = data.intentos || {};
-      updateTopicBadges();
-    }
-  } catch {}
-}
-
-function updateTopicBadges() {
-  document.querySelectorAll('.ej-topic[data-slug]').forEach(btn => {
-    const slug = btn.dataset.slug;
-    const used = intentosData[slug] || 0;
-    const badge = btn.querySelector('.ej-intentos, .ej-agotado, .ej-available');
-
-    // Only update topics that have exerciseBank entries (available topics)
-    if (!exerciseBank[slug]) return;
-
-    if (used >= MAX_INTENTOS) {
-      btn.classList.add('disabled');
-      if (badge) {
-        badge.className = 'ej-agotado';
-        badge.textContent = 'Agotado (0/' + MAX_INTENTOS + ')';
-      }
-    } else {
-      btn.classList.remove('disabled');
-      if (badge) {
-        badge.className = used > 0 ? 'ej-intentos' : 'ej-available';
-        badge.textContent = used > 0 ? (MAX_INTENTOS - used) + '/' + MAX_INTENTOS + ' intentos' : 'Disponible';
-      }
-    }
-  });
-}
-
 function openTopic(slug) {
   const bank = exerciseBank[slug];
   if (!bank) {
     // Topic not yet available
-    return;
-  }
-  // Check attempt limit
-  const used = intentosData[slug] || 0;
-  if (used >= MAX_INTENTOS) {
-    alert('Has alcanzado el máximo de ' + MAX_INTENTOS + ' intentos para este tema. Contacta a tu administrador para reiniciar los intentos.');
     return;
   }
   startQuiz(slug, bank);
@@ -3268,40 +3195,13 @@ async function submitQuiz(timeUp) {
     });
     const submitData = await submitRes.json();
 
-    // Update local intentos data
-    const slug = quizState.slug;
-    intentosData[slug] = (intentosData[slug] || 0) + 1;
-
-    // Update retry button based on remaining attempts
-    const retryBtn = document.querySelector('.qr-btn-primary[onclick="retryQuiz()"]');
-    if (retryBtn) {
-      const used = intentosData[slug] || 0;
-      if (used >= MAX_INTENTOS) {
-        retryBtn.textContent = 'Sin intentos restantes';
-        retryBtn.disabled = true;
-        retryBtn.style.opacity = '0.5';
-        retryBtn.style.cursor = 'not-allowed';
-        retryBtn.onclick = null;
-      } else {
-        retryBtn.textContent = `Intentar de nuevo (${MAX_INTENTOS - used}/${MAX_INTENTOS})`;
-      }
-    }
-
     // Invalidate resultados cache
     resultadosLoaded = false;
-
-    // Update topic badges
-    updateTopicBadges();
   } catch {}
 }
 
 function retryQuiz() {
   const slug = quizState.slug;
-  const used = intentosData[slug] || 0;
-  if (used >= MAX_INTENTOS) {
-    alert('Has alcanzado el máximo de ' + MAX_INTENTOS + ' intentos para este tema.');
-    return;
-  }
   const bank = exerciseBank[slug];
   clearInterval(quizTimer);
   quizState = null;

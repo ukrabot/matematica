@@ -44,8 +44,7 @@ export async function onRequestPut(context) {
       'global_perm_resultados',
       'global_seccion_m1',
       'global_seccion_m2',
-      'global_seccion_7b',
-      'global_attempts_reset_at'
+      'global_seccion_7b'
     ];
     if (!allowedKeys.includes(key)) {
       return error('Configuración no válida');
