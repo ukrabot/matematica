@@ -1557,7 +1557,6 @@
 
     <!-- EJERCICIOS SECTION -->
     <div id="ejerciciosSection" style="display:none;">
-      <div id="ejerciciosM1M2">
       <div class="ej-header">
         <div class="ej-header-badge">M1</div>
         <div class="ej-header-text">
@@ -1863,9 +1862,7 @@
         </div>
 
       </div>
-      </div><!-- /ejerciciosM1M2 -->
 
-      <div id="ejercicios7B">
       <!-- 7° BÁSICO SEPARATOR -->
       <div class="ej-header" style="margin-top:36px;">
         <div class="ej-header-badge" style="background:var(--coral);">7°</div>
@@ -2036,7 +2033,6 @@
         </div>
 
       </div>
-      </div><!-- /ejercicios7B -->
     </div>
 
     <!-- QUIZ VIEW (replaces ejercicios menu when active) -->
@@ -2148,21 +2144,6 @@ checkAuth().then(user => {
   if (!firstAllowed) {
     document.getElementById('dynamicContent').innerHTML = '<div style="text-align:center; padding:60px 20px; color:var(--fg-muted);"><p style="font-size:1.1rem;">No tienes acceso a ninguna sección actualmente.</p><p style="font-size:.9rem; margin-top:8px;">Contacta a tu administrador para más información.</p></div>';
   }
-
-  // --- Apply course-based exercise filtering ---
-  const curso = user.curso || '';
-  const m1m2El = document.getElementById('ejerciciosM1M2');
-  const b7El = document.getElementById('ejercicios7B');
-  if (curso === '7° Básico' || curso === '8° Básico') {
-    // Basic education: show only 7° Básico exercises
-    if (m1m2El) m1m2El.style.display = 'none';
-    if (b7El) b7El.style.display = '';
-  } else if (curso) {
-    // 1° to 4° Medio: show only M1 and M2
-    if (m1m2El) m1m2El.style.display = '';
-    if (b7El) b7El.style.display = 'none';
-  }
-  // If no curso set, show everything (default)
 });
 
 // --- User dropdown ---

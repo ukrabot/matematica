@@ -788,7 +788,6 @@
             <th>Nombre</th>
             <th>Email</th>
             <th>RUT</th>
-            <th>Curso</th>
             <th>Colegio</th>
             <th>Estado</th>
             <th>Activo</th>
@@ -1224,7 +1223,7 @@ async function loadEstudiantes() {
 function renderEstudiantes() {
   const query = (document.getElementById('searchEstudiantes').value || '').toLowerCase();
   const filtered = estudiantes.filter(e => {
-    const full = `${e.nombre} ${e.apellido} ${e.email} ${e.rut || ''} ${e.curso || ''}`.toLowerCase();
+    const full = `${e.nombre} ${e.apellido} ${e.email} ${e.rut || ''}`.toLowerCase();
     return full.includes(query);
   });
 
@@ -1247,7 +1246,6 @@ function renderEstudiantes() {
       <td><strong>${esc(e.nombre)} ${esc(e.apellido)}</strong></td>
       <td>${esc(e.email)}</td>
       <td>${esc(e.rut || '—')}</td>
-      <td>${esc(e.curso || '—')}</td>
       <td>${esc(e.colegio || '—')}</td>
       <td><span class="badge ${e.activo ? 'badge-active' : 'badge-inactive'}">${e.activo ? 'Activo' : 'Inactivo'}</span></td>
       <td>
