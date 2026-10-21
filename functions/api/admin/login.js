@@ -11,17 +11,15 @@ export async function onRequestPost(context) {
     }
 
     const identifier = username.trim();
-
-    // Check if identifier is RUT, email, or username
-    const isRut = /^[0-9]{7,9}[0-9kK]?$/.test(identifier.replace(/[.\-]/g, ''));
     const cleanRut = identifier.replace(/[.\-]/g, '');
+    const isRut = /^[0-9]{7,9}[0-9kK]?$/.test(cleanRut);
     const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier);
 
     let admin;
     if (isRut) {
       const { results } = await env.DB.prepare(
-        'SELECT id, username, password_hash, salt FROM admins WHERE rut = ?'
-      ).bind(cleanRut).all();
+        'SELECT id, username, password_hash, salt FROM admins WHERE rut = ? OR rut = ? OR rut = ?'
+      ).bind(cleanRut, identifier, identifier.toLowerCase()).all();
       admin = results[0];
     } else if (isEmail) {
       const { results } = await env.DB.prepare(

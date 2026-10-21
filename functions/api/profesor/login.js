@@ -10,22 +10,20 @@ export async function onRequestPost(context) {
       return error('Email/RUT y contraseña son obligatorios');
     }
 
-    const identifier = email.trim().toLowerCase();
-
-    // Check if identifier is RUT or email
-    const isRut = /^[0-9]{7,9}[0-9kK]?$/.test(identifier.replace(/[.\-]/g, ''));
+    const identifier = email.trim();
     const cleanRut = identifier.replace(/[.\-]/g, '');
+    const isRut = /^[0-9]{7,9}[0-9kK]?$/.test(cleanRut);
 
     let teacher;
     if (isRut) {
       const { results } = await env.DB.prepare(
-        'SELECT id, nombre, apellido, email, especialidad, password_hash, salt, activo FROM teachers WHERE rut = ?'
-      ).bind(cleanRut).all();
+        "SELECT id, nombre, apellido, email, especialidad, password_hash, salt, activo FROM teachers WHERE rut = ? OR rut = ? OR rut = ?"
+      ).bind(cleanRut, identifier, identifier.toLowerCase()).all();
       teacher = results[0];
     } else {
       const { results } = await env.DB.prepare(
         'SELECT id, nombre, apellido, email, especialidad, password_hash, salt, activo FROM teachers WHERE email = ?'
-      ).bind(identifier).all();
+      ).bind(identifier.toLowerCase()).all();
       teacher = results[0];
     }
 

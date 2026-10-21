@@ -10,28 +10,28 @@ export async function onRequestPost(context) {
     }
 
     const db = context.env.DB;
-    const identifier = email.trim().toLowerCase();
+    const identifier = email.trim();
 
-    // Determine if identifier is RUT or email
-    const isRut = /^[0-9]{7,9}[0-9kK]?$/.test(identifier.replace(/[.\-]/g, ''));
+    // Determine if identifier looks like a RUT (digits, dots, dash, optional K)
     const cleanRut = identifier.replace(/[.\-]/g, '');
+    const isRut = /^[0-9]{7,9}[0-9kK]?$/.test(cleanRut);
 
     let user;
     if (isRut) {
+      // Search by RUT - try both clean and original format since storage may vary
       user = await db.prepare(
-        'SELECT id, nombre, apellido, email, telefono, colegio, password_hash, salt, activo FROM users WHERE rut = ?'
-      ).bind(cleanRut).first();
+        "SELECT id, nombre, apellido, email, telefono, colegio, password_hash, salt, activo FROM users WHERE rut = ? OR rut = ? OR rut = ?"
+      ).bind(cleanRut, identifier, identifier.toLowerCase()).first();
     } else {
       user = await db.prepare(
         'SELECT id, nombre, apellido, email, telefono, colegio, password_hash, salt, activo FROM users WHERE email = ?'
-      ).bind(identifier).first();
+      ).bind(identifier.toLowerCase()).first();
     }
 
     if (!user) {
       return error('Credenciales incorrectas', 401);
     }
 
-    // Check if student account is disabled
     if (user.activo === 0) {
       return error('Tu cuenta está deshabilitada. Contacta al administrador.', 403);
     }
@@ -41,7 +41,6 @@ export async function onRequestPost(context) {
       return error('Credenciales incorrectas', 401);
     }
 
-    // Create JWT
     const secret = context.env.JWT_SECRET || 'dev-secret-change-me';
     const token = await createJWT({ sub: user.id, email: user.email }, secret);
 
