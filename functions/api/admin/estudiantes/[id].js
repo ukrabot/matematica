@@ -84,7 +84,8 @@ export async function onRequestDelete(context) {
   const id = context.params.id;
 
   try {
-    // Delete password resets first (FK)
+    // Delete related records first (FK constraints)
+    await context.env.DB.prepare('DELETE FROM exercise_results WHERE user_id = ?').bind(id).run();
     await context.env.DB.prepare('DELETE FROM password_resets WHERE user_id = ?').bind(id).run();
     // Delete user
     const result = await context.env.DB.prepare('DELETE FROM users WHERE id = ?').bind(id).run();
