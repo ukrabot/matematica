@@ -75,7 +75,7 @@ export async function onRequestPost(context) {
       generationConfig: {
         temperature: 0.7,
         topP: 0.95,
-        maxOutputTokens: 4096
+        maxOutputTokens: 8192
       }
     };
 
@@ -84,36 +84,108 @@ export async function onRequestPost(context) {
       return Response.json({ ok: false, error: 'API key no configurada' }, { status: 500 });
     }
 
-    const geminiRes = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(geminiBody)
-      }
-    );
-
-    if (!geminiRes.ok) {
-      const errData = await geminiRes.text();
-      console.error('Gemini API error:', errData);
-      // Return the actual error for debugging
-      let detail = 'Error al contactar el tutor IA';
-      try {
-        const parsed = JSON.parse(errData);
-        detail = parsed.error?.message || detail;
-      } catch {}
-      return Response.json({ ok: false, error: detail }, { status: 502 });
+    const result = await callGeminiWithFallback(env, apiKey, geminiBody);
+    if (result.ok) {
+      return Response.json({ ok: true, response: result.text, model: result.model });
     }
-
-    const geminiData = await geminiRes.json();
-
-    // Extract response text
-    const responseText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || 'No pude generar una respuesta. Intenta de nuevo.';
-
-    return Response.json({ ok: true, response: responseText });
+    return Response.json({ ok: false, error: result.error }, { status: result.status || 502 });
 
   } catch (err) {
     console.error('Tutor chat error:', err);
     return Response.json({ ok: false, error: 'Error interno del servidor' }, { status: 500 });
   }
+}
+
+// ── Gemini call with retries + fallback models ──
+// Order matters: first the main model, then lighter ones that are usually less congested.
+// Can be overridden with a GEMINI_MODELS env var (comma-separated).
+const DEFAULT_MODELS = ['gemini-3.8-flash', 'gemini-3.6-flash', 'gemini-3.5-flash-lite'];
+const TRIES_PER_MODEL = 2;
+const REQUEST_TIMEOUT_MS = 25000;
+const TOTAL_BUDGET_MS = 55000;
+
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+async function callGeminiWithFallback(env, apiKey, body) {
+  const models = (env.GEMINI_MODELS || '').split(',').map(m => m.trim()).filter(Boolean);
+  const chain = models.length ? models : DEFAULT_MODELS;
+  const started = Date.now();
+  let lastStatus = 0;
+  let lastMessage = '';
+
+  for (const model of chain) {
+    for (let attempt = 1; attempt <= TRIES_PER_MODEL; attempt++) {
+      const remaining = TOTAL_BUDGET_MS - (Date.now() - started);
+      if (remaining < 3000) break;
+
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), Math.min(REQUEST_TIMEOUT_MS, remaining));
+      let res;
+      try {
+        res = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+            signal: ctrl.signal
+          }
+        );
+      } catch (err) {
+        clearTimeout(timer);
+        lastStatus = 504;
+        lastMessage = err.name === 'AbortError' ? 'tiempo de espera agotado' : err.message;
+        console.error(`Gemini ${model} intento ${attempt}: ${lastMessage}`);
+        await sleep(backoff(attempt));
+        continue;
+      }
+      clearTimeout(timer);
+
+      if (res.ok) {
+        const data = await res.json();
+        const parts = data.candidates?.[0]?.content?.parts || [];
+        const text = parts.filter(p => p.text && !p.thought).map(p => p.text).join('').trim();
+        if (text) return { ok: true, text, model };
+
+        // Blocked by safety filters: retrying won't help
+        const reason = data.candidates?.[0]?.finishReason || data.promptFeedback?.blockReason;
+        if (reason === 'SAFETY' || reason === 'PROHIBITED_CONTENT' || data.promptFeedback?.blockReason) {
+          return { ok: false, status: 400, error: 'No puedo responder ese mensaje. Intenta reformular tu pregunta de matemáticas.' };
+        }
+        lastStatus = 502;
+        lastMessage = 'respuesta vacía' + (reason ? ` (${reason})` : '');
+        console.error(`Gemini ${model} intento ${attempt}: ${lastMessage}`);
+        continue;
+      }
+
+      const errText = await res.text();
+      let detail = errText;
+      try { detail = JSON.parse(errText).error?.message || errText; } catch {}
+      lastStatus = res.status;
+      lastMessage = detail;
+      console.error(`Gemini ${model} intento ${attempt}: ${res.status} ${detail}`);
+
+      // 400 = bad request (e.g. unreadable image), 401/403 = bad API key: no point retrying
+      if (res.status === 400 || res.status === 401 || res.status === 403) {
+        return { ok: false, status: res.status, error: friendlyError(res.status, detail) };
+      }
+      // 404 = model not available: jump straight to the next model
+      if (res.status === 404) break;
+      // 429 / 5xx: wait and retry, then move to the next model
+      if (attempt < TRIES_PER_MODEL) await sleep(backoff(attempt));
+    }
+  }
+
+  return { ok: false, status: 503, error: friendlyError(lastStatus, lastMessage) };
+}
+
+function backoff(attempt) {
+  return 1000 * 2 ** (attempt - 1) + Math.floor(Math.random() * 500);
+}
+
+function friendlyError(status, detail) {
+  if (status === 400) return 'No pude leer tu mensaje o la imagen. Prueba con otra foto o escribe el ejercicio.';
+  if (status === 401 || status === 403) return 'El tutor no está bien configurado. Avisa al administrador.';
+  if (status === 429) return 'El tutor está recibiendo muchas preguntas en este momento. Espera un minuto e intenta de nuevo. (código 429)';
+  return `El tutor tiene mucha demanda en este momento. Espera unos segundos e intenta de nuevo. (código ${status || 'red'})`;
 }

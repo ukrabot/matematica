@@ -3944,19 +3944,29 @@ async function sendMessage() {
     const data = await res.json();
 
     if (!data.ok) {
-      addMessage('assistant', 'Error: ' + (data.error || 'No pude procesar tu mensaje. Intenta de nuevo.'));
+      addMessage('assistant', '⚠️ ' + (data.error || 'No pude procesar tu mensaje. Intenta de nuevo.'));
+      restoreFailedMessage(text);
     } else {
       addMessage('assistant', data.response);
       chatHistory.push({ role: 'assistant', text: data.response });
     }
   } catch (err) {
     removeTyping();
-    addMessage('assistant', 'Error de conexión. Verifica tu internet e intenta de nuevo.');
+    addMessage('assistant', '⚠️ Error de conexión. Verifica tu internet e intenta de nuevo.');
+    restoreFailedMessage(text);
   }
 
   isSending = false;
   sendBtn.disabled = false;
   chatInput.focus();
+}
+
+// When the tutor fails, drop the unanswered question from the history (so the next
+// request stays clean) and put the text back in the box so the student can resend it.
+function restoreFailedMessage(text) {
+  const last = chatHistory[chatHistory.length - 1];
+  if (last && last.role === 'user') chatHistory.pop();
+  if (text && !chatInput.value) chatInput.value = text;
 }
 </script>
 </body>
