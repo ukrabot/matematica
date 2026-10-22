@@ -1192,25 +1192,54 @@ async function uploadBulk() {
   alertEl.classList.remove('show');
   successEl.classList.remove('show');
 
-  btn.classList.add('loading');
   btn.disabled = true;
+  const originalBtnHtml = btn.innerHTML;
+
+  const CHUNK = 10;
+  const results = { created: 0, skipped: 0, errors: [] };
+  const total = bulkData.length;
+
+  async function sendChunk(chunk, startRow) {
+    // Up to 3 tries per chunk in case of a transient network/server error
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        const res = await fetch('/api/admin/estudiantes/bulk', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ students: chunk, startRow })
+        });
+        const data = await res.json();
+        if (data.ok) return data.results;
+        if (res.status === 401) throw new Error('Sesión expirada. Vuelve a iniciar sesión.');
+        if (attempt === 3) throw new Error(data.error || 'Error al procesar');
+      } catch (err) {
+        if (attempt === 3 || err.message.startsWith('Sesión')) throw err;
+      }
+      await new Promise(r => setTimeout(r, 1000 * attempt));
+    }
+  }
 
   try {
-    const res = await fetch('/api/admin/estudiantes/bulk', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ students: bulkData })
-    });
-    const data = await res.json();
-
-    if (!data.ok) {
-      alertEl.textContent = data.error || 'Error al procesar';
-      alertEl.classList.add('show');
-      return;
+    for (let i = 0; i < total; i += CHUNK) {
+      btn.textContent = `Subiendo ${Math.min(i + CHUNK, total)} de ${total}...`;
+      const chunk = bulkData.slice(i, i + CHUNK);
+      try {
+        const r = await sendChunk(chunk, i + 2); // +2: header is row 1
+        results.created += r.created;
+        results.skipped += r.skipped;
+        results.errors.push(...r.errors);
+      } catch (err) {
+        if (err.message.startsWith('Sesión')) {
+          alertEl.textContent = err.message;
+          alertEl.classList.add('show');
+          break;
+        }
+        results.skipped += chunk.length;
+        results.errors.push({ error: `Filas ${i + 2}–${i + 1 + chunk.length}: no se pudieron subir (${err.message}). Vuelve a cargar el archivo para reintentarlas.` });
+      }
     }
 
     // Show results
-    const results = data.results;
     document.getElementById('bulkResults').style.display = '';
 
     let summaryHtml = `<div class="result-badge success">${results.created} registrados</div>`;
@@ -1228,7 +1257,7 @@ async function uploadBulk() {
     }
 
     if (results.created > 0) {
-      successEl.textContent = data.message;
+      successEl.textContent = `${results.created} estudiantes registrados, ${results.skipped} omitidos`;
       successEl.classList.add('show');
       loadStudents();
     }
@@ -1236,7 +1265,7 @@ async function uploadBulk() {
     alertEl.textContent = 'Error de conexión';
     alertEl.classList.add('show');
   } finally {
-    btn.classList.remove('loading');
+    btn.innerHTML = originalBtnHtml;
     btn.disabled = false;
   }
 }
