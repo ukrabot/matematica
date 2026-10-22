@@ -53,3 +53,20 @@ export async function onRequestGet(context) {
     return error('Error al obtener resultados', 500);
   }
 }
+
+// DELETE /api/admin/estudiantes/:id/resultados — clear all exercise results of a student
+// (attempts are counted from these rows, so this also gives the student their attempts back)
+export async function onRequestDelete(context) {
+  const admin = await getAdmin(context.request, context.env);
+  if (!admin) return error('No autorizado', 401);
+
+  try {
+    const result = await context.env.DB.prepare(
+      'DELETE FROM exercise_results WHERE user_id = ?'
+    ).bind(context.params.id).run();
+
+    return json({ ok: true, eliminados: result.meta.changes, message: 'Resultados eliminados' });
+  } catch (err) {
+    return error('Error al limpiar resultados', 500);
+  }
+}

@@ -224,7 +224,13 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
         Volver a Estudiantes
       </button>
-      <h2 id="resStudentName" style="margin-bottom:20px;"></h2>
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:20px;">
+        <h2 id="resStudentName" style="margin:0;"></h2>
+        <button class="btn btn-danger" id="resClearBtn" onclick="clearResultados()" style="display:none;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+          Limpiar resultados
+        </button>
+      </div>
 
       <div class="stats-row" id="resSummary"></div>
 
@@ -2181,8 +2187,12 @@ async function confirmDeleteMaterial() {
 // RESULTADOS (student detail view)
 // ════════════════════════════════════════════════
 
+let resStudent = null; // { id, nombre } of the student whose results are shown
+
 async function viewResultados(studentId) {
   switchSection('resultados');
+  resStudent = null;
+  document.getElementById('resClearBtn').style.display = 'none';
   document.getElementById('resStudentName').textContent = 'Cargando...';
   document.getElementById('resSummary').innerHTML = '';
   document.getElementById('resBody').innerHTML = '';
@@ -2199,7 +2209,9 @@ async function viewResultados(studentId) {
 
     const est = data.estudiante;
     const r = data.resumen;
-    document.getElementById('resStudentName').textContent = `Resultados de ${esc(est.nombre)} ${esc(est.apellido)}`;
+    document.getElementById('resStudentName').textContent = `Resultados de ${est.nombre} ${est.apellido}`;
+    resStudent = { id: studentId, nombre: `${est.nombre} ${est.apellido}` };
+    document.getElementById('resClearBtn').style.display = data.resultados.length ? '' : 'none';
 
     // Summary stat cards
     document.getElementById('resSummary').innerHTML = `
@@ -2248,6 +2260,27 @@ async function viewResultados(studentId) {
 
   } catch (err) {
     document.getElementById('resStudentName').textContent = 'Error al cargar resultados';
+  }
+}
+
+async function clearResultados() {
+  if (!resStudent) return;
+  if (!window.confirm(`¿Borrar todos los resultados de ${resStudent.nombre}?\n\nEsto no se puede deshacer y también reinicia sus intentos de ejercicios.`)) return;
+
+  const btn = document.getElementById('resClearBtn');
+  btn.disabled = true;
+  try {
+    const res = await fetch(`/api/admin/estudiantes/${resStudent.id}/resultados`, { method: 'DELETE' });
+    const data = await res.json();
+    if (!data.ok) {
+      alert(data.error || 'Error al limpiar resultados');
+      return;
+    }
+    await viewResultados(resStudent.id);
+  } catch {
+    alert('Error de conexión');
+  } finally {
+    btn.disabled = false;
   }
 }
 
