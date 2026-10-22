@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mi Zona — PreuOnline Matemáticas</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+  <!-- Tutor IA: Markdown + fórmulas (KaTeX) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/marked@15.0.12/lib/marked.umd.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
   <style>
   :root {
     --bg: #fafbfe;
@@ -1154,6 +1159,28 @@
     border-bottom-left-radius: 4px;
     border: 1px solid var(--border);
   }
+  /* Tutor answers rendered from Markdown */
+  .msg-bubble .md { white-space: normal; }
+  .msg-bubble .md > :first-child { margin-top: 0; }
+  .msg-bubble .md > :last-child { margin-bottom: 0; }
+  .msg-bubble .md p { margin: 0 0 0.7em; }
+  .msg-bubble .md h1, .msg-bubble .md h2, .msg-bubble .md h3, .msg-bubble .md h4 {
+    font-family: var(--font-display, inherit); font-size: 15px; font-weight: 700;
+    margin: 1em 0 0.4em; color: var(--fg); text-wrap: balance;
+  }
+  .msg-bubble .md h1, .msg-bubble .md h2 { font-size: 16px; }
+  .msg-bubble .md hr { border: 0; border-top: 1px solid var(--border); margin: 0.9em 0; }
+  .msg-bubble .md ul, .msg-bubble .md ol { margin: 0 0 0.7em; padding-left: 1.4em; }
+  .msg-bubble .md li { margin: 0.2em 0; }
+  .msg-bubble .md blockquote { margin: 0 0 0.7em; padding: 0.3em 0.9em; border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 6px 6px 0; }
+  .msg-bubble .md code { background: var(--accent-soft); padding: 2px 6px; border-radius: 4px; font-family: var(--font-mono, monospace); font-size: 13px; }
+  .msg-bubble .md pre { overflow-x: auto; background: var(--accent-soft); padding: 10px 12px; border-radius: 8px; }
+  .msg-bubble .md pre code { background: none; padding: 0; }
+  .msg-bubble .md table { border-collapse: collapse; margin: 0 0 0.7em; display: block; overflow-x: auto; }
+  .msg-bubble .md th, .msg-bubble .md td { border: 1px solid var(--border); padding: 4px 10px; text-align: center; }
+  .msg-bubble .katex { font-size: 1.08em; }
+  .msg-bubble .katex-display { margin: 0.6em 0; overflow-x: auto; overflow-y: hidden; padding: 4px 0; }
+  .msg-bubble .md p:has(> .katex-display:only-child) { margin: 0; }
   .msg-bubble img.attached-img {
     max-width: 240px;
     max-height: 180px;
@@ -3825,7 +3852,38 @@ function escHtml(str) {
   return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
+// Renders the tutor's answer: Markdown (titles, lists, separators) + LaTeX formulas with KaTeX.
+// Falls back to the simple formatter if the libraries didn't load.
 function formatMath(text) {
+  if (!window.marked || !window.katex || !window.DOMPurify) return formatBasic(text);
+  try {
+    const math = [];
+    const stash = (tex, display) => {
+      math.push({ tex: tex.trim(), display });
+      const ph = '@@MATH' + (math.length - 1) + '@@';
+      return display ? '\n\n' + ph + '\n\n' : ph; // display formulas get their own paragraph
+    };
+    let src = String(text).replace(/\r\n/g, '\n');
+    src = src.replace(/\$\$([\s\S]+?)\$\$/g, (_, t) => stash(t, true));
+    src = src.replace(/\\\[([\s\S]+?)\\\]/g, (_, t) => stash(t, true));
+    src = src.replace(/\\\(([\s\S]+?)\\\)/g, (_, t) => stash(t, false));
+    // Inline $...$ — the $ must hug the formula and the closing $ can't be followed by a digit,
+    // so amounts like "$12.000 y $5.000" stay as text
+    src = src.replace(/(^|[^\\$])\$(?![\s$])((?:\\\$|[^$\n])+?)(?<![\s\\])\$(?!\d)/g, (_, pre, t) => pre + stash(t, false));
+
+    let html = DOMPurify.sanitize(marked.parse(src, { breaks: true, gfm: true }));
+    html = html.replace(/@@MATH(\d+)@@/g, (_, i) => {
+      const m = math[+i];
+      if (!m) return '';
+      return katex.renderToString(m.tex, { displayMode: m.display, throwOnError: false, output: 'html' });
+    });
+    return '<div class="md">' + html + '</div>';
+  } catch (e) {
+    return formatBasic(text);
+  }
+}
+
+function formatBasic(text) {
   // Bold: **text**
   let html = escHtml(text);
   html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
