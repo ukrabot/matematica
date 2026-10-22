@@ -1,4 +1,4 @@
-import { verifyPassword, createJWT, setAuthCookie, json, error } from './_helpers.js';
+import { verifyPassword, createJWT, setAuthCookie, json, error, touchLastLogin } from './_helpers.js';
 
 export async function onRequestPost(context) {
   try {
@@ -40,6 +40,8 @@ export async function onRequestPost(context) {
     if (!valid) {
       return error('Credenciales incorrectas', 401);
     }
+
+    await touchLastLogin(context.env, user.id);
 
     const secret = context.env.JWT_SECRET || 'dev-secret-change-me';
     const token = await createJWT({ sub: user.id, email: user.email }, secret);

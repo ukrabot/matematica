@@ -129,6 +129,37 @@ export async function getUser(request, env) {
   return results[0] || null;
 }
 
+// --- Auto-migration: make sure optional columns exist (runs once per isolate) ---
+
+let schemaReady = null;
+export function ensureSchema(env) {
+  if (!schemaReady) {
+    schemaReady = (async () => {
+      const { results } = await env.DB.prepare('PRAGMA table_info(users)').all();
+      const cols = new Set(results.map(c => c.name));
+      const missing = [];
+      if (!cols.has('attempts_reset_at')) missing.push("ALTER TABLE users ADD COLUMN attempts_reset_at TEXT DEFAULT ''");
+      if (!cols.has('last_login')) missing.push('ALTER TABLE users ADD COLUMN last_login TEXT');
+      for (const sql of missing) {
+        try { await env.DB.prepare(sql).run(); } catch (e) {
+          if (!/duplicate column/i.test(e.message)) throw e;
+        }
+      }
+    })().catch(err => { schemaReady = null; throw err; });
+  }
+  return schemaReady;
+}
+
+// Record student activity (throttled to one write every 5 minutes)
+export async function touchLastLogin(env, userId) {
+  try {
+    await ensureSchema(env);
+    await env.DB.prepare(
+      "UPDATE users SET last_login = datetime('now') WHERE id = ? AND (last_login IS NULL OR last_login < datetime('now', '-5 minutes'))"
+    ).bind(userId).run();
+  } catch {}
+}
+
 // --- Helpers ---
 
 function bufToHex(buf) {

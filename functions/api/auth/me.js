@@ -1,4 +1,4 @@
-import { getUser, json, error } from './_helpers.js';
+import { getUser, json, error, touchLastLogin } from './_helpers.js';
 
 export async function onRequestGet(context) {
   try {
@@ -6,6 +6,9 @@ export async function onRequestGet(context) {
     if (!user) {
       return error('No autenticado', 401);
     }
+
+    // Track last connection (students with a saved session don't log in again)
+    context.waitUntil(touchLastLogin(context.env, user.id));
 
     // Fetch section visibility settings
     let sectionSettings = {};
