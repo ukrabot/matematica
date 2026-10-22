@@ -739,6 +739,89 @@
     .ej-axis-icon { width: 32px; height: 32px; font-size: 15px; }
   }
 
+  /* ===================== TOPIC VIEW (material + ejercicios) ===================== */
+  .ej-guia {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 10.5px; font-weight: 700; letter-spacing: 0.3px;
+    padding: 2px 8px; border-radius: 10px;
+    background: rgba(10,158,138,0.12); color: var(--teal);
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .topic-tabs {
+    display: flex; gap: 6px; padding: 5px;
+    background: var(--bg-alt); border: 1px solid var(--border);
+    border-radius: 12px; margin-bottom: 20px; width: fit-content; max-width: 100%;
+  }
+  .topic-tab {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 0; background: none; cursor: pointer;
+    font-family: var(--font-body); font-size: 14px; font-weight: 600; color: var(--fg-muted);
+    padding: 9px 16px; border-radius: 9px; transition: background .15s, color .15s;
+  }
+  .topic-tab:hover { color: var(--fg); }
+  .topic-tab.active { background: var(--bg-card); color: var(--accent); box-shadow: var(--shadow); }
+  .topic-tab .tab-count {
+    font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 10px;
+    background: var(--accent-soft); color: var(--accent);
+  }
+  #topicSection { scroll-margin-top: 80px; }
+  .topic-kicker { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--fg-muted); }
+  .guia-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    padding: 18px 22px; margin-bottom: 18px;
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+  }
+  .guia-head h3 { font-family: var(--font-display); font-size: 17px; margin: 0 0 4px; }
+  .guia-head p { margin: 0; font-size: 13.5px; color: var(--fg-muted); }
+  .guia-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn-guia {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-body); font-size: 13.5px; font-weight: 600;
+    padding: 9px 16px; border-radius: var(--radius-sm); cursor: pointer; text-decoration: none;
+    border: 1px solid var(--border); background: var(--bg-card); color: var(--fg);
+    transition: border-color .15s, color .15s, background .15s;
+  }
+  .btn-guia:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-guia.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn-guia.primary:hover { background: var(--accent-hover); color: #fff; }
+  .guia-pages { display: flex; flex-direction: column; gap: 16px; max-width: 980px; margin: 0 auto; }
+  .guia-page {
+    position: relative; border-radius: 12px; overflow: hidden;
+    border: 1px solid var(--border); background: #fff; box-shadow: var(--shadow);
+    aspect-ratio: 16 / 9; max-width: 100%;
+  }
+  .guia-page img { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .guia-page .pg {
+    position: absolute; right: 10px; bottom: 10px;
+    font-size: 11px; font-weight: 700; color: #fff; background: rgba(11,14,42,.55);
+    padding: 2px 8px; border-radius: 10px;
+  }
+  .guia-end { text-align: center; padding: 26px 16px 8px; }
+  .guia-end p { color: var(--fg-muted); font-size: 14px; margin: 0 0 12px; }
+  .ej-start {
+    max-width: 620px; padding: 26px 28px;
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius);
+  }
+  .ej-start h3 { font-family: var(--font-display); font-size: 20px; margin: 0 0 14px; text-wrap: balance; }
+  .ej-start-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
+  .ej-start-stat { background: var(--bg-alt); border-radius: 10px; padding: 12px 14px; }
+  .ej-start-stat b { display: block; font-family: var(--font-display); font-size: 22px; font-variant-numeric: tabular-nums; }
+  .ej-start-stat span { font-size: 12px; color: var(--fg-muted); }
+  .ej-start-stat.agotado b { color: var(--coral); }
+  .ej-start-tip {
+    font-size: 13.5px; line-height: 1.5; color: var(--fg); margin: 0 0 18px;
+    padding: 10px 14px; border-left: 3px solid var(--teal); background: rgba(10,158,138,0.08); border-radius: 0 8px 8px 0;
+  }
+  .ej-start-tip a { color: var(--accent); font-weight: 600; cursor: pointer; }
+  .ej-start .quiz-submit-btn[disabled] { opacity: .5; cursor: not-allowed; }
+  @media (max-width: 520px) {
+    .topic-tab { padding: 8px 12px; font-size: 13px; }
+    .tab-long { display: none; }
+    .ej-start { padding: 20px; }
+    .ej-start-stat b { font-size: 19px; }
+    .guia-page .pg { display: none; }
+  }
+
   /* ===================== QUIZ VIEW ===================== */
   .quiz-topbar {
     display: flex;
@@ -2235,6 +2318,7 @@
     </div>
 
     <!-- QUIZ VIEW (replaces ejercicios menu when active) -->
+    <div id="topicSection" style="display:none;"></div>
     <div id="quizSection" style="display:none;"></div>
 
     <!-- RESULTADOS SECTION -->
@@ -2502,6 +2586,7 @@ navItems.forEach(item => {
     document.getElementById('materialesSection').style.display = 'none';
     document.getElementById('ejerciciosSection').style.display = 'none';
     document.getElementById('quizSection').style.display = 'none';
+    document.getElementById('topicSection').style.display = 'none';
     document.getElementById('resultadosSection').style.display = 'none';
     document.getElementById('otherSection').style.display = 'none';
     document.getElementById('perfilSection').style.display = 'none';
@@ -3014,7 +3099,8 @@ function updateTopicBadges() {
     if (!exerciseBank[slug]) return;
 
     if (used >= MAX_INTENTOS) {
-      btn.classList.add('disabled');
+      // Topics with a study guide stay clickable so the student can still read it
+      if (!MATERIAL_APOYO[slug]) btn.classList.add('disabled');
       if (badge) {
         badge.className = 'ej-agotado';
         badge.textContent = 'Agotado (0/' + MAX_INTENTOS + ')';
@@ -3029,10 +3115,142 @@ function updateTopicBadges() {
   });
 }
 
+// ===================== MATERIAL DE APOYO =====================
+// Study guides shown in a tab next to the exercises. Files live in /materiales/<slug>/
+// (01.webp … NN.webp, one image per page, plus guia.pdf for download).
+const MATERIAL_APOYO = {
+  '7b-adicion-sustraccion-enteros': { paginas: 18, minutos: 15 }
+};
+
+function markTopicsWithGuide() {
+  Object.keys(MATERIAL_APOYO).forEach(slug => {
+    const btn = document.querySelector(`.ej-topic[data-slug="${slug}"]`);
+    if (!btn || btn.querySelector('.ej-guia')) return;
+    const tag = document.createElement('span');
+    tag.className = 'ej-guia';
+    tag.title = 'Tiene material de apoyo';
+    tag.innerHTML = '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 016.5 17H20V3H6.5A2.5 2.5 0 004 5.5v14z"/></svg>Guía';
+    const badge = btn.querySelector('.ej-intentos, .ej-agotado, .ej-available');
+    btn.insertBefore(tag, badge || null);
+  });
+}
+markTopicsWithGuide();
+
+let topicView = null; // { slug, tab }
+
+function showTopicPage(slug, tab) {
+  const bank = exerciseBank[slug];
+  const mat = MATERIAL_APOYO[slug];
+  topicView = { slug, tab };
+
+  document.getElementById('ejerciciosSection').style.display = 'none';
+  document.getElementById('quizSection').style.display = 'none';
+  const sec = document.getElementById('topicSection');
+  sec.style.display = 'block';
+  document.getElementById('sectionTitle').textContent = bank.title;
+
+  const used = intentosData[slug] || 0;
+  const left = Math.max(0, MAX_INTENTOS - used);
+  const base = `/materiales/${slug}/`;
+
+  let content = '';
+  if (tab === 'material') {
+    let pages = '';
+    for (let i = 1; i <= mat.paginas; i++) {
+      const n = String(i).padStart(2, '0');
+      pages += `<div class="guia-page"><img src="${base}${n}.webp" alt="Página ${i} de la guía" loading="${i <= 2 ? 'eager' : 'lazy'}" decoding="async"><span class="pg">${i} / ${mat.paginas}</span></div>`;
+    }
+    content = `
+      <div class="guia-head">
+        <div>
+          <h3>Guía de estudio</h3>
+          <p>${mat.paginas} páginas · unos ${mat.minutos} minutos · incluye práctica con soluciones</p>
+        </div>
+        <div class="guia-actions">
+          <a class="btn-guia" href="${base}guia.pdf" download="Guia - ${escHtml(bank.title)}.pdf">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Descargar PDF
+          </a>
+        </div>
+      </div>
+      <div class="guia-pages">${pages}</div>
+      <div class="guia-end">
+        <p>¿Terminaste de repasar?</p>
+        <button class="btn-guia primary" onclick="showTopicPage('${slug}', 'ejercicios')">Ir a los ejercicios →</button>
+      </div>`;
+  } else {
+    const agotado = left === 0;
+    content = `
+      <div class="ej-start">
+        <h3>${agotado ? 'Intentos agotados' : '¿Listo para practicar?'}</h3>
+        <div class="ej-start-stats">
+          <div class="ej-start-stat"><b>${bank.questions.length}</b><span>preguntas</span></div>
+          <div class="ej-start-stat"><b>30</b><span>minutos</span></div>
+          <div class="ej-start-stat${agotado ? ' agotado' : ''}"><b>${left}/${MAX_INTENTOS}</b><span>intentos disponibles</span></div>
+        </div>
+        ${agotado
+          ? `<p class="ej-start-tip" style="border-left-color:var(--coral); background:rgba(232,69,48,0.08)">Ya usaste tus ${MAX_INTENTOS} intentos en este tema. Puedes seguir repasando la guía; para volver a intentarlo, pídele a tu administrador que reinicie tus intentos.</p>`
+          : `<p class="ej-start-tip">Tienes solo ${MAX_INTENTOS} intentos. Si aún no lo has hecho, <a onclick="showTopicPage('${slug}', 'material')">revisa el material de apoyo</a> antes de comenzar.</p>`}
+        <button class="quiz-submit-btn" ${agotado ? 'disabled' : ''} onclick="beginQuizFromTopic('${slug}')">Comenzar ejercicios</button>
+      </div>`;
+  }
+
+  sec.innerHTML = `
+    <div class="quiz-topbar">
+      <div class="quiz-topbar-left">
+        <button class="quiz-back" onclick="closeTopicPage()">← Volver</button>
+        <span class="topic-kicker">${topicGroupLabel(slug)}</span>
+      </div>
+    </div>
+    <div class="topic-tabs" role="tablist">
+      <button class="topic-tab${tab === 'material' ? ' active' : ''}" role="tab" onclick="showTopicPage('${slug}', 'material')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+        <span>Material<span class="tab-long"> de apoyo</span></span>
+      </button>
+      <button class="topic-tab${tab === 'ejercicios' ? ' active' : ''}" role="tab" onclick="showTopicPage('${slug}', 'ejercicios')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        Ejercicios <span class="tab-count">${left}/${MAX_INTENTOS}</span>
+      </button>
+    </div>
+    ${content}`;
+  sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// "7° básico · Números" style label, read from the topic list itself
+function topicGroupLabel(slug) {
+  const btn = document.querySelector(`.ej-topic[data-slug="${slug}"]`);
+  const axis = btn?.closest('.ej-axis')?.querySelector('.ej-axis-label strong')?.textContent || '';
+  const level = slug.startsWith('7b-') ? '7° básico' : slug.startsWith('m2-') ? 'PAES M2' : 'PAES M1';
+  const axisName = axis.replace(/\s*\(.*\)\s*/, '').trim();
+  const pretty = axisName ? axisName.charAt(0) + axisName.slice(1).toLowerCase() : '';
+  return escHtml(pretty ? `${level} · ${pretty}` : level);
+}
+
+function closeTopicPage() {
+  topicView = null;
+  const sec = document.getElementById('topicSection');
+  sec.style.display = 'none';
+  sec.innerHTML = '';
+  document.getElementById('ejerciciosSection').style.display = 'block';
+  document.getElementById('sectionTitle').textContent = 'Full Ejercicios';
+}
+
+function beginQuizFromTopic(slug) {
+  const used = intentosData[slug] || 0;
+  if (used >= MAX_INTENTOS) return;
+  document.getElementById('topicSection').style.display = 'none';
+  startQuiz(slug, exerciseBank[slug]);
+}
+
 function openTopic(slug) {
   const bank = exerciseBank[slug];
   if (!bank) {
     // Topic not yet available
+    return;
+  }
+  // Topics with a study guide open on their own page (material + ejercicios)
+  if (MATERIAL_APOYO[slug]) {
+    showTopicPage(slug, 'material');
     return;
   }
   // Check attempt limit
@@ -3180,10 +3398,15 @@ function exitQuiz() {
     if (!confirm('¿Seguro que quieres salir? Perderás tu progreso.')) return;
   }
   clearInterval(quizTimer);
+  const slug = quizState && quizState.slug;
   quizState = null;
 
   document.getElementById('quizSection').style.display = 'none';
   document.getElementById('quizSection').innerHTML = '';
+  if (slug && MATERIAL_APOYO[slug]) {
+    showTopicPage(slug, 'ejercicios');
+    return;
+  }
   document.getElementById('ejerciciosSection').style.display = 'block';
   document.getElementById('sectionTitle').textContent = 'Full Ejercicios';
 }
