@@ -22,6 +22,14 @@ TEMAS QUE DOMINAS:
 - Cálculo (límites, derivadas, integrales básicas)
 - Lógica y conjuntos`;
 
+// Limits for what a student can send to the tutor
+const MAX_REQUEST_BYTES = 6 * 1024 * 1024;       // whole request
+const MAX_IMAGE_BASE64 = Math.ceil(2 * 1024 * 1024 * 4 / 3); // ~2 MB per image (base64 is ~4/3 bigger)
+const MAX_IMAGES = 3;                               // images included in one request
+const MAX_MESSAGES = 30;                            // conversation turns sent to the model
+const MAX_TEXT_CHARS = 4000;                        // per message
+const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif'];
+
 export async function onRequestPost(context) {
   const { request, env } = context;
 
@@ -35,12 +43,46 @@ export async function onRequestPost(context) {
     return Response.json({ ok: false, error: 'Sesión expirada' }, { status: 401 });
   }
 
+  // Reject oversized requests before reading them
+  const contentLength = Number(request.headers.get('Content-Length') || 0);
+  if (contentLength > MAX_REQUEST_BYTES) {
+    return Response.json({ ok: false, error: 'El mensaje es demasiado pesado. Adjunta una imagen más liviana.' }, { status: 413 });
+  }
+
   try {
-    const body = await request.json();
-    const { messages, image } = body;
+    const raw = await request.text();
+    if (raw.length > MAX_REQUEST_BYTES) {
+      return Response.json({ ok: false, error: 'El mensaje es demasiado pesado. Adjunta una imagen más liviana.' }, { status: 413 });
+    }
+    const body = JSON.parse(raw);
+    let { messages } = body;
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
       return Response.json({ ok: false, error: 'Mensaje vacío' }, { status: 400 });
+    }
+
+    // Keep only the most recent part of long conversations
+    messages = messages.slice(-MAX_MESSAGES);
+    while (messages.length && messages[0].role === 'assistant') messages.shift();
+
+    let imageCount = 0;
+    for (const msg of messages) {
+      if (typeof msg.text === 'string' && msg.text.length > MAX_TEXT_CHARS) {
+        msg.text = msg.text.slice(0, MAX_TEXT_CHARS);
+      }
+      if (msg.image) {
+        imageCount++;
+        const { mimeType, data } = msg.image;
+        if (!ALLOWED_IMAGE_TYPES.includes(mimeType) || typeof data !== 'string') {
+          return Response.json({ ok: false, error: 'Solo se aceptan imágenes JPG, PNG o WEBP.' }, { status: 400 });
+        }
+        if (data.length > MAX_IMAGE_BASE64) {
+          return Response.json({ ok: false, error: 'La imagen es demasiado pesada. Prueba recortándola solo al ejercicio.' }, { status: 413 });
+        }
+      }
+    }
+    if (imageCount > MAX_IMAGES) {
+      return Response.json({ ok: false, error: `Máximo ${MAX_IMAGES} imágenes por conversación. Recarga la página para empezar una nueva.` }, { status: 400 });
     }
 
     // Build Gemini request
