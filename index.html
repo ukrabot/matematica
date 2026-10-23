@@ -523,6 +523,10 @@ a { color: inherit; text-decoration: none; }
 .trust-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); flex: none; }
 .faq-card h4 { font-family: var(--font-display, inherit); font-size: 1.02rem; margin: 0 0 8px; }
 .faq-card p { margin: 0; color: var(--fg-muted, inherit); line-height: 1.6; font-size: .95rem; }
+a.blog-card { text-decoration: none; color: inherit; transition: border-color .2s, transform .2s; }
+a.blog-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+a.blog-card h4 { color: var(--fg); }
+.blog-all .topic-icon { background: var(--accent); color: #fff; }
 .test-stars { color: var(--gold); font-size: .85rem; letter-spacing: 2px; margin-bottom: 14px; }
 .test-card blockquote {
   margin: 0 0 18px; font-size: .9rem; line-height: 1.65;
@@ -674,6 +678,7 @@ a { color: inherit; text-decoration: none; }
       <li><a href="#contenidos">Contenidos</a></li>
       <li><a href="#metodo">Cómo funciona</a></li>
       <li><a href="#paes">PAES</a></li>
+      <li><a href="/blog/">Blog</a></li>
       <li><a href="#preguntas">Preguntas</a></li>
       <li><a href="/auth/login.html" class="nav-cta">Iniciar Sesión</a></li>
     </ul>
@@ -696,6 +701,7 @@ a { color: inherit; text-decoration: none; }
     <li><a href="#contenidos" onclick="document.getElementById('mm').classList.remove('open')">Contenidos</a></li>
     <li><a href="#metodo" onclick="document.getElementById('mm').classList.remove('open')">Cómo funciona</a></li>
     <li><a href="#paes" onclick="document.getElementById('mm').classList.remove('open')">PAES</a></li>
+    <li><a href="/blog/">Blog</a></li>
     <li><a href="#preguntas" onclick="document.getElementById('mm').classList.remove('open')">Preguntas</a></li>
   </ul>
   <div class="mm-cta"><a href="/auth/login.html" class="btn-primary" style="width:100%;justify-content:center" onclick="document.getElementById('mm').classList.remove('open')">Iniciar Sesión</a></div>
@@ -988,6 +994,59 @@ a { color: inherit; text-decoration: none; }
   </div>
 </section>
 
+<!-- BLOG -->
+<section class="topics" id="blog">
+  <div class="container">
+    <div class="section-eyebrow">// Blog</div>
+    <h2 class="section-title">Aprende gratis con nuestros artículos</h2>
+    <p class="section-desc">Explicaciones paso a paso, errores frecuentes y ejercicios resueltos. Cada artículo trae su guía de estudio para descargar.</p>
+    <div class="topics-grid">
+      <a class="topic-card blog-card" href="/blog/suma-y-resta-de-numeros-enteros/">
+        <div class="topic-icon">±</div>
+        <div class="topic-body">
+          <h4>Suma y resta de números enteros: reglas, ejemplos y ejercicios</h4>
+          <p>Las dos reglas para sumar, cómo restar sumando el opuesto, signos seguidos y problemas de temperatura, pisos y dinero.</p>
+        </div>
+      </a>
+      <a class="topic-card blog-card" href="/blog/multiplicacion-y-division-de-fracciones/">
+        <div class="topic-icon">½</div>
+        <div class="topic-body">
+          <h4>Multiplicación y división de fracciones: cómo se hace, con ejemplos</h4>
+          <p>La regla para multiplicar y dividir, el modelo de área, el recíproco, cuándo simplificar y cómo saber si multiplicar o dividir en un problema.</p>
+        </div>
+      </a>
+      <a class="topic-card blog-card" href="/blog/fracciones-y-decimales-problemas-resueltos/">
+        <div class="topic-icon">0,5</div>
+        <div class="topic-body">
+          <h4>Fracciones y decimales: convertir, ordenar y resolver problemas</h4>
+          <p>Fracción a decimal y al revés, decimales periódicos, ordenar, sumar fracciones, la fracción de una cantidad y un método de 4 pasos.</p>
+        </div>
+      </a>
+      <a class="topic-card blog-card" href="/blog/como-calcular-porcentajes/">
+        <div class="topic-icon">%</div>
+        <div class="topic-body">
+          <h4>Cómo calcular porcentajes: fórmula, descuentos e IVA</h4>
+          <p>La fórmula, cálculo mental, qué porcentaje es una parte, descuentos, aumentos y cómo calcular el IVA del 19% en Chile.</p>
+        </div>
+      </a>
+      <a class="topic-card blog-card" href="/blog/notacion-cientifica/">
+        <div class="topic-icon">10ⁿ</div>
+        <div class="topic-body">
+          <h4>Notación científica: qué es, cómo se escribe y ejercicios</h4>
+          <p>Potencias de 10, por qué 10⁰ = 1, cómo mover la coma, escribir y comparar números en notación científica, y números muy pequeños.</p>
+        </div>
+      </a>
+      <a class="topic-card blog-card blog-all" href="/blog/">
+        <div class="topic-icon">→</div>
+        <div class="topic-body">
+          <h4>Ver todos los artículos</h4>
+          <p>Explicaciones, ejemplos y ejercicios resueltos de 7° básico y la PAES.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
 <!-- FAQ -->
 <section class="testimonials" id="preguntas">
   <div class="container">
@@ -1077,6 +1136,7 @@ a { color: inherit; text-decoration: none; }
           <li><a href="https://portaldemre.demre.cl/publicaciones/pdf/2026-25-03-20-temario-paes-regular-m1.pdf" target="_blank" rel="noopener">Temario oficial PAES M1</a></li>
           <li><a href="https://portaldemre.demre.cl/publicaciones/pdf/2026-25-03-20-temario-paes-regular-m2.pdf" target="_blank" rel="noopener">Temario oficial PAES M2</a></li>
           <li><a href="#contenidos">Ejes temáticos</a></li>
+          <li><a href="/blog/">Blog de matemáticas</a></li>
           <li><a href="#preguntas">Preguntas frecuentes</a></li>
         </ul>
       </div>
