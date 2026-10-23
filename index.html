@@ -1,5 +1,6 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>PreuOnline Matemáticas</title>
+<title>AprendeMate — Matemáticas PAES y 7° básico</title>
+<meta name="description" content="Guías de estudio, ejercicios tipo PAES con corrección inmediata y Tutor IA para Matemática M1, M2 y 7° básico.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <style>
 /* Layout: full-width sections, math-centric palette — deep navy + electric indigo accent */
@@ -498,6 +499,9 @@ a { color: inherit; text-decoration: none; }
   background: var(--bg-card); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 26px;
 }
+.trust-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); flex: none; }
+.faq-card h4 { font-family: var(--font-display, inherit); font-size: 1.02rem; margin: 0 0 8px; }
+.faq-card p { margin: 0; color: var(--fg-muted, inherit); line-height: 1.6; font-size: .95rem; }
 .test-stars { color: var(--gold); font-size: .85rem; letter-spacing: 2px; margin-bottom: 14px; }
 .test-card blockquote {
   margin: 0 0 18px; font-size: .9rem; line-height: 1.65;
@@ -638,15 +642,15 @@ a { color: inherit; text-decoration: none; }
   <div class="container nav-inner">
     <a href="#" class="nav-logo">
       <div class="logo-icon">∑</div>
-      PreuOnline
-      <span class="logo-math">Matemáticas</span>
+      AprendeMate
+      <span class="logo-math">PAES</span>
     </a>
     <ul class="nav-links">
-      <li><a href="#programas">Programas</a></li>
+      <li><a href="#programas">Qué incluye</a></li>
       <li><a href="#contenidos">Contenidos</a></li>
-      <li><a href="#metodo">Método</a></li>
+      <li><a href="#metodo">Cómo funciona</a></li>
       <li><a href="#paes">PAES</a></li>
-      <li><a href="#testimonios">Testimonios</a></li>
+      <li><a href="#preguntas">Preguntas</a></li>
       <li><a href="/auth/login.html" class="nav-cta">Iniciar Sesión</a></li>
     </ul>
     <button class="hamburger" aria-label="Abrir menú" onclick="document.getElementById('mm').classList.add('open')">
@@ -658,17 +662,17 @@ a { color: inherit; text-decoration: none; }
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mm">
   <div class="mm-header">
-    <a href="#" class="nav-logo"><div class="logo-icon">∑</div>PreuOnline <span class="logo-math">Matemáticas</span></a>
+    <a href="#" class="nav-logo"><div class="logo-icon">∑</div>AprendeMate <span class="logo-math">PAES</span></a>
     <button class="mm-close" aria-label="Cerrar menú" onclick="document.getElementById('mm').classList.remove('open')">
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
     </button>
   </div>
   <ul class="mm-links">
-    <li><a href="#programas" onclick="document.getElementById('mm').classList.remove('open')">Programas</a></li>
+    <li><a href="#programas" onclick="document.getElementById('mm').classList.remove('open')">Qué incluye</a></li>
     <li><a href="#contenidos" onclick="document.getElementById('mm').classList.remove('open')">Contenidos</a></li>
-    <li><a href="#metodo" onclick="document.getElementById('mm').classList.remove('open')">Método</a></li>
+    <li><a href="#metodo" onclick="document.getElementById('mm').classList.remove('open')">Cómo funciona</a></li>
     <li><a href="#paes" onclick="document.getElementById('mm').classList.remove('open')">PAES</a></li>
-    <li><a href="#testimonios" onclick="document.getElementById('mm').classList.remove('open')">Testimonios</a></li>
+    <li><a href="#preguntas" onclick="document.getElementById('mm').classList.remove('open')">Preguntas</a></li>
   </ul>
   <div class="mm-cta"><a href="/auth/login.html" class="btn-primary" style="width:100%;justify-content:center" onclick="document.getElementById('mm').classList.remove('open')">Iniciar Sesión</a></div>
 </div>
@@ -678,31 +682,26 @@ a { color: inherit; text-decoration: none; }
   <div class="hero-grid-bg"></div>
   <div class="container hero-inner">
     <div>
-      <div class="hero-badge"><span class="dot"></span> Matrículas PAES 2027 abiertas</div>
+      <div class="hero-badge"><span class="dot"></span> Plataforma nueva · Pruébala gratis</div>
       <h1>Domina las <em>Matemáticas</em> y conquista tu puntaje PAES</h1>
-      <p class="hero-sub">Preparación especializada en Competencia Matemática M1 y M2. Clases en vivo, miles de ejercicios resueltos y ensayos con corrección en tiempo real.</p>
+      <p class="hero-sub">Guías de estudio por tema, ejercicios con corrección inmediata y un Tutor IA que te explica paso a paso, incluso desde una foto de tu cuaderno.</p>
       <div class="hero-actions">
-        <a href="#inscripcion" class="btn-primary">Clase de prueba gratis →</a>
-        <a href="#" class="btn-ghost">
+        <a href="/auth/register.html" class="btn-primary">Crear cuenta gratis →</a>
+        <a href="#metodo" class="btn-ghost">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="9.5,7.5 16.5,12 9.5,16.5"/></svg>
-          Ver metodología
+          Ver cómo funciona
         </a>
       </div>
       <div class="hero-trust">
-        <div class="hero-trust-avatars">
-          <span style="background:var(--accent)">SC</span>
-          <span style="background:var(--teal)">MR</span>
-          <span style="background:var(--coral)">FJ</span>
-          <span style="background:var(--gold)">IV</span>
-        </div>
-        +12.000 alumnos preparados en matemáticas
+        <span class="trust-dot"></span>
+        Sé de los primeros en probarla: 7° básico y PAES M1 y M2
       </div>
     </div>
     <div class="hero-visual">
       <div class="math-board">
         <div class="math-board-header">
-          <h3>Clase en vivo</h3>
-          <span class="math-live-tag">En vivo</span>
+          <h3>Tu avance por eje</h3>
+          <span class="math-live-tag">Ejemplo</span>
         </div>
         <div class="math-eq">
           <span class="hl-accent">f</span>(<span class="hl-teal">x</span>) = <span class="hl-gold">2x²</span> + 3x − 5
@@ -710,31 +709,31 @@ a { color: inherit; text-decoration: none; }
         <div class="math-eq-label">Función cuadrática — Vértice y raíces</div>
         <div class="math-topics">
           <div class="math-topic-row">
+            <span class="math-topic-name">Números</span>
+            <div class="math-topic-bar"><div class="math-topic-fill" style="width:0%;background:var(--accent)" data-w="80"></div></div>
+            <span class="math-topic-pct">80%</span>
+          </div>
+          <div class="math-topic-row">
             <span class="math-topic-name">Álgebra</span>
-            <div class="math-topic-bar"><div class="math-topic-fill" style="width:0%;background:var(--accent)" data-w="95"></div></div>
-            <span class="math-topic-pct">95%</span>
+            <div class="math-topic-bar"><div class="math-topic-fill" style="width:0%;background:var(--coral)" data-w="65"></div></div>
+            <span class="math-topic-pct">65%</span>
           </div>
           <div class="math-topic-row">
             <span class="math-topic-name">Geometría</span>
-            <div class="math-topic-bar"><div class="math-topic-fill" style="width:0%;background:var(--coral)" data-w="88"></div></div>
-            <span class="math-topic-pct">88%</span>
+            <div class="math-topic-bar"><div class="math-topic-fill" style="width:0%;background:var(--teal)" data-w="70"></div></div>
+            <span class="math-topic-pct">70%</span>
           </div>
           <div class="math-topic-row">
             <span class="math-topic-name">Probabilidad</span>
-            <div class="math-topic-bar"><div class="math-topic-fill" style="width:0%;background:var(--teal)" data-w="91"></div></div>
-            <span class="math-topic-pct">91%</span>
-          </div>
-          <div class="math-topic-row">
-            <span class="math-topic-name">Cálculo</span>
-            <div class="math-topic-bar"><div class="math-topic-fill" style="width:0%;background:var(--gold)" data-w="84"></div></div>
-            <span class="math-topic-pct">84%</span>
+            <div class="math-topic-bar"><div class="math-topic-fill" style="width:0%;background:var(--gold)" data-w="55"></div></div>
+            <span class="math-topic-pct">55%</span>
           </div>
         </div>
         <div class="math-floating">
           <div class="math-floating-icon">π</div>
           <div class="math-floating-text">
-            <strong>+700 máximos nacionales</strong>
-            <span>en Matemática M1</span>
+            <strong>Tutor IA 24/7</strong>
+            <span>Envía una foto de tu ejercicio</span>
           </div>
         </div>
       </div>
@@ -747,70 +746,70 @@ a { color: inherit; text-decoration: none; }
   <div class="container">
     <div class="stats-grid">
       <div class="stat-item">
-        <div class="stat-number" data-count="700">0</div>
-        <div class="stat-label">Puntajes máximos en Matemática M1</div>
+        <div class="stat-number" data-count="20">0</div>
+        <div class="stat-label">Temas con ejercicios disponibles</div>
       </div>
       <div class="stat-item">
-        <div class="stat-number" data-count="4800">0</div>
-        <div class="stat-label">Alumnos sobre 900 pts en Matemática</div>
+        <div class="stat-number" data-count="200">0</div>
+        <div class="stat-label">Preguntas con corrección inmediata</div>
       </div>
       <div class="stat-item">
-        <div class="stat-number" data-count="5200">0</div>
-        <div class="stat-label">Ejercicios resueltos en la plataforma</div>
+        <div class="stat-number" data-count="4">0</div>
+        <div class="stat-label">Ejes del temario PAES</div>
       </div>
       <div class="stat-item">
-        <div class="stat-number" data-count="120">0</div>
-        <div class="stat-label">Docentes especialistas en matemáticas</div>
+        <div class="stat-number" data-count="24">0</div>
+        <div class="stat-label">Horas al día de Tutor IA</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PROGRAMS -->
+<!-- WHAT'S INCLUDED -->
 <section class="programs" id="programas">
   <div class="container">
-    <div class="section-eyebrow">// Programas</div>
-    <h2 class="section-title">Tres caminos para dominar la Matemática PAES</h2>
-    <p class="section-desc">Cada programa se adapta a tu nivel actual, tu meta de puntaje y tus horarios. Todos incluyen acceso completo a la plataforma de ejercicios.</p>
+    <div class="section-eyebrow">// Qué incluye</div>
+    <h2 class="section-title">Todo lo que necesitas para practicar matemáticas</h2>
+    <p class="section-desc">Estudia el tema, practica con tiempo y resuelve tus dudas en el mismo lugar, desde el computador o el celular.</p>
     <div class="programs-grid">
       <div class="prog-card">
-        <div class="prog-tag">Intensivo</div>
-        <h3>PAES M1 + M2 Intensivo</h3>
-        <p>Preparación completa para ambas pruebas de matemática. Ideal para IV Medio y egresados que apuntan sobre 900 puntos.</p>
+        <div class="prog-tag">Practica</div>
+        <h3>Ejercicios por tema</h3>
+        <p>Ejercicios tipo PAES ordenados por eje y por Objetivo de Aprendizaje del currículum.</p>
         <ul class="prog-features">
-          <li>Clases en vivo 5 días por semana</li>
-          <li>Ensayos PAES M1 y M2 semanales</li>
-          <li>Resolución de problemas en tiempo real</li>
-          <li>Tutor matemático personal</li>
-          <li>Simulaciones tipo DEMRE</li>
+          <li>10 preguntas y 30 minutos por tema</li>
+          <li>Corrección inmediata al terminar</li>
+          <li>2 intentos por tema</li>
+          <li>Correctas, incorrectas y omitidas</li>
+          <li>Historial de resultados en tu perfil</li>
         </ul>
-        <a href="#" class="prog-link">Ver programa →</a>
+        <a href="/auth/register.html" class="prog-link">Crear cuenta →</a>
       </div>
       <div class="prog-card">
-        <div class="prog-tag">Refuerzo</div>
-        <h3>Matemáticas Sube Notas</h3>
-        <p>Refuerza tu NEM en matemáticas desde I a III Medio. Cada punto de NEM cuenta para tu ponderación final.</p>
+        <div class="prog-tag">Aprende</div>
+        <h3>Guías y Tutor IA</h3>
+        <p>Repasa antes de practicar y pregunta lo que no entiendas, a cualquier hora.</p>
         <ul class="prog-features">
-          <li>Alineado al currículum escolar</li>
-          <li>Guías y ejercicios por unidad</li>
-          <li>Sesiones 1 a 1 para dudas</li>
-          <li>Seguimiento de notas del colegio</li>
-          <li>Horarios flexibles a tu ritmo</li>
+          <li>Guía de estudio antes de los ejercicios</li>
+          <li>Guías descargables en PDF</li>
+          <li>Tutor IA con explicaciones paso a paso</li>
+          <li>Sube una foto de tu ejercicio</li>
+          <li>Fórmulas claras, como en un libro</li>
         </ul>
-        <a href="#" class="prog-link">Ver programa →</a>
+        <a href="/auth/register.html" class="prog-link">Crear cuenta →</a>
       </div>
       <div class="prog-card">
-        <div class="prog-tag">Flexible</div>
-        <h3>Mate On Demand</h3>
-        <p>Acceso ilimitado a clases grabadas, ejercicios interactivos y ensayos para practicar cuando tú quieras.</p>
+        <div class="prog-tag">Colegios</div>
+        <h3>Para colegios y preuniversitarios</h3>
+        <p>Inscribe a tus cursos y sigue el trabajo de cada estudiante.</p>
         <ul class="prog-features">
-          <li>+800 horas de clases de matemáticas</li>
-          <li>Ejercicios con resolución paso a paso</li>
-          <li>Ensayos M1 y M2 ilimitados</li>
-          <li>Foro de dudas con profes</li>
-          <li>App móvil para estudiar donde sea</li>
+          <li>Carga masiva de estudiantes desde Excel</li>
+          <li>Panel para profesores con materiales</li>
+          <li>Resultados de cada alumno por tema</li>
+          <li>Última conexión de cada estudiante</li>
+          <li>Control de secciones y permisos</li>
         </ul>
-        <a href="#" class="prog-link">Ver programa →</a>
+        <a href="#contacto" class="prog-link">Escríbenos →</a>
       </div>
     </div>
   </div>
@@ -820,49 +819,49 @@ a { color: inherit; text-decoration: none; }
 <section class="topics" id="contenidos">
   <div class="container">
     <div class="section-eyebrow">// Ejes temáticos</div>
-    <h2 class="section-title">Todo el temario PAES de Matemáticas, cubierto</h2>
-    <p class="section-desc">Nuestro programa abarca los 6 ejes temáticos del currículum de Competencia Matemática exigidos por DEMRE.</p>
+    <h2 class="section-title">Organizado según el temario oficial</h2>
+    <p class="section-desc">Los 4 ejes de Competencia Matemática del DEMRE para la PAES M1 y M2, y los Objetivos de Aprendizaje de 7° básico. Estamos sumando nuevos temas y guías.</p>
     <div class="topics-grid">
+      <div class="topic-card">
+        <div class="topic-icon">#</div>
+        <div class="topic-body">
+          <h4>Números</h4>
+          <p>Enteros y racionales, porcentaje, potencias y raíces. En M2 se suman números reales, matemática financiera y logaritmos.</p>
+        </div>
+      </div>
       <div class="topic-card">
         <div class="topic-icon">∑</div>
         <div class="topic-body">
           <h4>Álgebra y Funciones</h4>
-          <p>Expresiones algebraicas, ecuaciones, inecuaciones, sistemas de ecuaciones, funciones lineales, cuadráticas, exponenciales y logarítmicas.</p>
+          <p>Expresiones algebraicas, proporcionalidad, ecuaciones e inecuaciones, sistemas 2x2 y funciones lineal, afín y cuadrática.</p>
         </div>
       </div>
       <div class="topic-card">
         <div class="topic-icon">△</div>
         <div class="topic-body">
           <h4>Geometría</h4>
-          <p>Figuras planas, cuerpos geométricos, transformaciones isométricas, vectores, perímetro, área, volumen y geometría analítica.</p>
+          <p>Figuras y cuerpos geométricos, transformaciones isométricas, semejanza y proporcionalidad en figuras planas.</p>
         </div>
       </div>
       <div class="topic-card">
         <div class="topic-icon">%</div>
         <div class="topic-body">
           <h4>Probabilidad y Estadística</h4>
-          <p>Medidas de tendencia central y dispersión, distribuciones, probabilidades, combinatoria y variable aleatoria.</p>
+          <p>Tablas y gráficos, medidas de posición y reglas de las probabilidades.</p>
         </div>
       </div>
       <div class="topic-card">
-        <div class="topic-icon">∫</div>
+        <div class="topic-icon">M2</div>
         <div class="topic-body">
-          <h4>Cálculo (M2)</h4>
-          <p>Límites, derivadas, integrales, tasas de cambio, optimización y área bajo la curva. Exclusivo prueba M2.</p>
+          <h4>Lo que suma la M2</h4>
+          <p>Funciones potencia, exponencial, logarítmica y trigonométricas, homotecia, razones trigonométricas, circunferencia, dispersión y modelos binomial y normal.</p>
         </div>
       </div>
       <div class="topic-card">
-        <div class="topic-icon">#</div>
+        <div class="topic-icon">7°</div>
         <div class="topic-body">
-          <h4>Números</h4>
-          <p>Conjuntos numéricos, operatoria, potencias, raíces, logaritmos, proporcionalidad y porcentajes.</p>
-        </div>
-      </div>
-      <div class="topic-card">
-        <div class="topic-icon">⊿</div>
-        <div class="topic-body">
-          <h4>Trigonometría</h4>
-          <p>Razones trigonométricas, identidades, ecuaciones trigonométricas, funciones seno, coseno y tangente.</p>
+          <h4>7° básico</h4>
+          <p>La base de todo: enteros, fracciones y decimales, porcentaje, lenguaje algebraico, ecuaciones, geometría y estadística.</p>
         </div>
       </div>
     </div>
@@ -873,30 +872,30 @@ a { color: inherit; text-decoration: none; }
 <section class="method" id="metodo">
   <div class="container">
     <div class="method-header">
-      <div class="section-eyebrow">// Método</div>
-      <h2 class="section-title">Tu ruta a los 1.000 puntos en 4 etapas</h2>
-      <p class="section-desc">Un proceso probado, diseñado específicamente para la preparación matemática PAES.</p>
+      <div class="section-eyebrow">// Cómo funciona</div>
+      <h2 class="section-title">Aprende, practica y mejora en 4 pasos</h2>
+      <p class="section-desc">Así se trabaja cada tema dentro de la plataforma.</p>
     </div>
     <div class="method-steps">
       <div class="method-step">
         <div class="method-num">01</div>
-        <h4>Diagnóstico matemático</h4>
-        <p>Ensayo diagnóstico M1 y M2 para identificar tus ejes fuertes y débiles con precisión.</p>
+        <h4>Repasa la guía</h4>
+        <p>Cada tema trae una guía con explicaciones, ejemplos y errores frecuentes antes de practicar.</p>
       </div>
       <div class="method-step">
         <div class="method-num">02</div>
-        <h4>Plan de ataque</h4>
-        <p>Tu tutor diseña un plan que prioriza los ejes con mayor potencial de mejora en tu puntaje.</p>
+        <h4>Practica con tiempo</h4>
+        <p>10 preguntas en 30 minutos, como en una prueba. Tienes 2 intentos por tema.</p>
       </div>
       <div class="method-step">
         <div class="method-num">03</div>
-        <h4>Práctica masiva</h4>
-        <p>Cientos de ejercicios tipo PAES por eje, con resolución paso a paso y corrección inmediata.</p>
+        <h4>Resuelve tus dudas</h4>
+        <p>Pregúntale al Tutor IA o envíale una foto del ejercicio, y te lo explica paso a paso.</p>
       </div>
       <div class="method-step">
         <div class="method-num">04</div>
-        <h4>Simulación y resultado</h4>
-        <p>Ensayos cronometrados en condiciones reales. Llegas a la prueba seguro y entrenado.</p>
+        <h4>Revisa tu avance</h4>
+        <p>Mira tus resultados por tema y enfócate en lo que más te cuesta.</p>
       </div>
     </div>
   </div>
@@ -908,28 +907,28 @@ a { color: inherit; text-decoration: none; }
     <div class="paes-box">
       <div class="paes-content">
         <div class="section-eyebrow">PAES Matemáticas 2027</div>
-        <h2>Preparación que se traduce en puntaje real</h2>
-        <p>Nuestros alumnos logran en promedio 180 puntos más que su diagnóstico inicial en las pruebas M1 y M2. Los resultados son verificables.</p>
+        <h2>Pensada para la PAES de Competencia Matemática</h2>
+        <p>Los contenidos siguen el temario oficial del DEMRE. Practica tema por tema y llega a la prueba sabiendo dónde estás más fuerte y dónde reforzar.</p>
         <div class="paes-checklist">
           <div class="paes-check">
             <div class="paes-check-icon">M1</div>
             <div class="paes-check-text">
               Competencia Matemática M1
-              <span>Obligatoria — Álgebra, geometría, probabilidad</span>
+              <span>Obligatoria — Números, álgebra y funciones, geometría, probabilidad y estadística</span>
             </div>
           </div>
           <div class="paes-check">
             <div class="paes-check-icon">M2</div>
             <div class="paes-check-text">
               Competencia Matemática M2
-              <span>Electiva — Incluye cálculo y funciones avanzadas</span>
+              <span>Electiva — Profundiza la M1 con reales, logaritmos, funciones y modelos probabilísticos</span>
             </div>
           </div>
           <div class="paes-check">
-            <div class="paes-check-icon">⊞</div>
+            <div class="paes-check-icon">✓</div>
             <div class="paes-check-text">
-              +40 ensayos tipo DEMRE
-              <span>Con análisis detallado de respuestas y tiempos</span>
+              Corrección inmediata
+              <span>Correctas, incorrectas, omitidas y tiempo usado en cada intento</span>
             </div>
           </div>
         </div>
@@ -937,26 +936,26 @@ a { color: inherit; text-decoration: none; }
       <div class="paes-visual">
         <div class="paes-score-panel">
           <div class="psp-header">
-            <h4>Resultados promedio</h4>
-            <span>PAES 2026</span>
+            <h4>Así ves tu resultado</h4>
+            <span>Ejemplo</span>
           </div>
-          <div class="psp-big" id="paesScore">968<small> pts</small></div>
-          <div class="psp-label">Promedio alumnos PreuOnline Matemáticas</div>
+          <div class="psp-big">8<small> / 10</small></div>
+          <div class="psp-label">Adición y sustracción de números enteros</div>
           <div class="psp-breakdown">
             <div class="psp-row">
-              <span class="psp-row-label">M1</span>
-              <div class="psp-row-bar"><div class="psp-row-fill" style="width:0%;background:var(--accent)" data-w="97"></div></div>
-              <span class="psp-row-val">972</span>
-            </div>
-            <div class="psp-row">
-              <span class="psp-row-label">M2</span>
-              <div class="psp-row-bar"><div class="psp-row-fill" style="width:0%;background:var(--coral)" data-w="96"></div></div>
-              <span class="psp-row-val">964</span>
-            </div>
-            <div class="psp-row">
-              <span class="psp-row-label">Δ mejora</span>
+              <span class="psp-row-label">Correctas</span>
               <div class="psp-row-bar"><div class="psp-row-fill" style="width:0%;background:var(--teal)" data-w="80"></div></div>
-              <span class="psp-row-val">+180</span>
+              <span class="psp-row-val">8</span>
+            </div>
+            <div class="psp-row">
+              <span class="psp-row-label">Incorrectas</span>
+              <div class="psp-row-bar"><div class="psp-row-fill" style="width:0%;background:var(--coral)" data-w="10"></div></div>
+              <span class="psp-row-val">1</span>
+            </div>
+            <div class="psp-row">
+              <span class="psp-row-label">Omitidas</span>
+              <div class="psp-row-bar"><div class="psp-row-fill" style="width:0%;background:var(--gold)" data-w="10"></div></div>
+              <span class="psp-row-val">1</span>
             </div>
           </div>
         </div>
@@ -965,50 +964,38 @@ a { color: inherit; text-decoration: none; }
   </div>
 </section>
 
-<!-- TESTIMONIALS -->
-<section class="testimonials" id="testimonios">
+<!-- FAQ -->
+<section class="testimonials" id="preguntas">
   <div class="container">
     <div class="testimonials-header">
-      <div class="section-eyebrow">// Testimonios</div>
-      <h2 class="section-title">Ellos ya lograron su puntaje en Matemáticas</h2>
-      <p class="section-desc">Alumnos reales que mejoraron su rendimiento matemático con nuestro método de preparación.</p>
+      <div class="section-eyebrow">// Preguntas frecuentes</div>
+      <h2 class="section-title">Lo que más nos preguntan</h2>
+      <p class="section-desc">Si te queda alguna duda, escríbenos a contacto@aprendemate.com.</p>
     </div>
     <div class="test-grid">
-      <div class="test-card">
-        <div class="test-stars">★★★★★</div>
-        <blockquote>"Entré con 580 en matemáticas y saqué 1.000 en M1. La clave fueron los ensayos semanales y las tutorías donde me explicaban cada error."</blockquote>
-        <div class="test-author">
-          <div class="test-avatar" style="background:var(--accent)">SC</div>
-          <div class="test-meta">
-            <strong>Simón Calderón</strong>
-            <span>1.000 pts — Ingeniería, PUC</span>
-          </div>
-          <div class="test-score">1000</div>
-        </div>
+      <div class="test-card faq-card">
+        <h4>¿Para quién es AprendeMate?</h4>
+        <p>Para estudiantes que se preparan para la PAES de Matemática (M1 y M2) y para quienes necesitan reforzar la base desde 7° básico.</p>
       </div>
-      <div class="test-card">
-        <div class="test-stars">★★★★★</div>
-        <blockquote>"El programa Mate On Demand fue perfecto para mí porque estudio en región. Podía ver las clases a mi hora y practicar con los ejercicios interactivos."</blockquote>
-        <div class="test-author">
-          <div class="test-avatar" style="background:var(--teal)">CV</div>
-          <div class="test-meta">
-            <strong>Constanza Velásquez</strong>
-            <span>980 pts — Medicina, U. Chile</span>
-          </div>
-          <div class="test-score">980</div>
-        </div>
+      <div class="test-card faq-card">
+        <h4>¿Cómo funciona el Tutor IA?</h4>
+        <p>Le escribes tu duda o le envías una foto del ejercicio, y te responde con la resolución paso a paso. Solo responde preguntas de matemáticas.</p>
       </div>
-      <div class="test-card">
-        <div class="test-stars">★★★★★</div>
-        <blockquote>"En el colegio siempre me fue mal en mate. Acá me enseñaron desde cero y terminé con 945 en M1. Los profes hacen que todo se entienda."</blockquote>
-        <div class="test-author">
-          <div class="test-avatar" style="background:var(--gold)">FO</div>
-          <div class="test-meta">
-            <strong>Franco Ortega</strong>
-            <span>945 pts — Ing. Comercial, UAI</span>
-          </div>
-          <div class="test-score">945</div>
-        </div>
+      <div class="test-card faq-card">
+        <h4>¿Cuántas veces puedo hacer los ejercicios?</h4>
+        <p>Tienes 2 intentos por tema. Por eso cada tema trae una guía para repasar antes de comenzar.</p>
+      </div>
+      <div class="test-card faq-card">
+        <h4>¿Necesito instalar algo?</h4>
+        <p>No. Funciona en el navegador del computador o del celular. Solo necesitas crear tu cuenta.</p>
+      </div>
+      <div class="test-card faq-card">
+        <h4>¿Sirve para mi colegio o preuniversitario?</h4>
+        <p>Sí. Podemos cargar a todos tus estudiantes, darles acceso a los profesores y mostrarte los resultados de cada alumno.</p>
+      </div>
+      <div class="test-card faq-card">
+        <h4>¿Ya están todos los temas?</h4>
+        <p>Todavía no. 7° básico ya tiene sus 19 temas con ejercicios, y estamos sumando los temas de M1 y M2.</p>
       </div>
     </div>
   </div>
@@ -1019,20 +1006,20 @@ a { color: inherit; text-decoration: none; }
   <div class="container">
     <div class="cta-box">
       <h2>¿Listo para subir tu puntaje en Matemáticas?</h2>
-      <p>Inscríbete hoy y accede a una clase de prueba gratuita + un ensayo diagnóstico M1 con corrección detallada.</p>
-      <a href="#" class="btn-primary">Comenzar gratis →</a>
+      <p>Crea tu cuenta gratis y prueba la plataforma: guías de estudio, ejercicios por tema y Tutor IA.</p>
+      <a href="/auth/register.html" class="btn-primary">Crear cuenta gratis →</a>
       <div class="cta-checks">
         <span class="cta-check">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          Clase de prueba gratis
+          Sin tarjeta de crédito
         </span>
         <span class="cta-check">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          Ensayo diagnóstico incluido
+          Guías y ejercicios por tema
         </span>
         <span class="cta-check">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-          Soporte por WhatsApp
+          Tutor IA incluido
         </span>
       </div>
     </div>
@@ -1046,48 +1033,40 @@ a { color: inherit; text-decoration: none; }
       <div class="footer-brand">
         <a href="#" class="nav-logo" style="color:#fff">
           <div class="logo-icon">∑</div>
-          PreuOnline
-          <span class="logo-math" style="background:rgba(124,115,250,.15);color:#a5a0ff">Matemáticas</span>
+          AprendeMate
+          <span class="logo-math" style="background:rgba(124,115,250,.15);color:#a5a0ff">PAES</span>
         </a>
-        <p>El preuniversitario online especializado en Matemáticas PAES. Preparación de excelencia en M1 y M2 con los mejores docentes de Chile.</p>
-        <div class="footer-socials">
-          <a href="#" class="footer-social" aria-label="Instagram"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg></a>
-          <a href="#" class="footer-social" aria-label="YouTube"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="4"/><polygon points="10,8.5 16,12 10,15.5" fill="currentColor" stroke="none"/></svg></a>
-          <a href="#" class="footer-social" aria-label="TikTok"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg></a>
-          <a href="#" class="footer-social" aria-label="Facebook"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
-        </div>
+        <p>Plataforma online para aprender y practicar matemáticas: guías, ejercicios y Tutor IA para 7° básico y la PAES M1 y M2.</p>
       </div>
       <div class="footer-col">
-        <h5>Programas</h5>
+        <h5>Plataforma</h5>
         <ul>
-          <li><a href="#">PAES M1 + M2 Intensivo</a></li>
-          <li><a href="#">Mate Sube Notas</a></li>
-          <li><a href="#">Mate On Demand</a></li>
-          <li><a href="#">Tutorías individuales</a></li>
+          <li><a href="#programas">Ejercicios por tema</a></li>
+          <li><a href="#programas">Guías de estudio</a></li>
+          <li><a href="#programas">Tutor IA</a></li>
+          <li><a href="#programas">Para colegios</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h5>Recursos</h5>
         <ul>
-          <li><a href="#">Ensayos PAES M1</a></li>
-          <li><a href="#">Ensayos PAES M2</a></li>
-          <li><a href="#">Ejercicios por eje</a></li>
-          <li><a href="#">Blog de Matemáticas</a></li>
+          <li><a href="https://portaldemre.demre.cl/publicaciones/pdf/2026-25-03-20-temario-paes-regular-m1.pdf" target="_blank" rel="noopener">Temario oficial PAES M1</a></li>
+          <li><a href="https://portaldemre.demre.cl/publicaciones/pdf/2026-25-03-20-temario-paes-regular-m2.pdf" target="_blank" rel="noopener">Temario oficial PAES M2</a></li>
+          <li><a href="#contenidos">Ejes temáticos</a></li>
+          <li><a href="#preguntas">Preguntas frecuentes</a></li>
         </ul>
       </div>
-      <div class="footer-col">
+      <div class="footer-col" id="contacto">
         <h5>Contacto</h5>
         <ul>
-          <li><a href="#">600 123 4567</a></li>
-          <li><a href="#">mate@preuonline.cl</a></li>
-          <li><a href="#">WhatsApp</a></li>
-          <li><a href="#">Preguntas frecuentes</a></li>
+          <li><a href="mailto:contacto@aprendemate.com">contacto@aprendemate.com</a></li>
+          <li><a href="/auth/login.html">Iniciar sesión</a></li>
+          <li><a href="/auth/register.html">Crear cuenta</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2026 PreuOnline Matemáticas. Todos los derechos reservados.</p>
-      <div><a href="#">Políticas de privacidad</a> · <a href="#">Términos de uso</a></div>
+      <p>&copy; 2026 AprendeMate. Todos los derechos reservados.</p>
     </div>
   </div>
 </footer>
@@ -1112,7 +1091,7 @@ function animateCounters() {
     const target = parseInt(el.dataset.count);
     const duration = 2000;
     const start = performance.now();
-    const prefix = '+';
+    const prefix = el.dataset.prefix || '';
     function tick(now) {
       const p = Math.min((now - start) / duration, 1);
       const eased = 1 - Math.pow(1 - p, 3);
