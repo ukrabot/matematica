@@ -94,6 +94,7 @@ details.ex summary .n{ flex:none; width:28px; height:28px; border-radius:8px; ba
 details.ex summary .q{ flex:1; min-width:0 }
 details.ex summary .see{ flex:none; font-size:.8rem; color:var(--accent); font-weight:700 }
 details.ex[open] summary .see{ display:none }
+@media (max-width:520px){ details.ex summary .see{ font-size:0 } details.ex summary .see::after{ content:'▾'; font-size:1.1rem } }
 details.ex .sol{ padding:0 0 14px 40px; color:var(--fg) }
 .cta{ background:#0b0e2a; color:#fff; border-radius:18px; padding:26px 28px; margin:36px 0 }
 .cta h2{ color:#fff; margin:0 0 8px; font-size:1.4rem }
