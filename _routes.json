@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "include": [
+    "/api/*",
+    "/schema-admin.sql",
+    "/schema-update-activo.sql",
+    "/schema-update-admin-rut.sql",
+    "/schema-update-ejercicios.sql",
+    "/schema-update-foto.sql",
+    "/schema-update-permisos.sql",
+    "/schema-update-profesores.sql",
+    "/schema-update-rut-settings.sql",
+    "/schema.sql",
+    "/wrangler.toml"
+  ],
+  "exclude": []
+}

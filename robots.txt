@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /profesor/
+Disallow: /estudiante/
+Disallow: /api/
+Disallow: /auth/recuperar.html
+
+Sitemap: https://aprendemate.com/sitemap.xml
