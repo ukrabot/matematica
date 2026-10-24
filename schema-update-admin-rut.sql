@@ -3,4 +3,4 @@ ALTER TABLE admins ADD COLUMN email TEXT DEFAULT '';
 ALTER TABLE admins ADD COLUMN rut TEXT DEFAULT '';
 
 -- Set RUT for existing admin
-UPDATE admins SET rut = '150477484' WHERE username = 'admin';
+UPDATE admins SET rut = 'RUT_DEL_ADMIN' WHERE username = 'admin';
